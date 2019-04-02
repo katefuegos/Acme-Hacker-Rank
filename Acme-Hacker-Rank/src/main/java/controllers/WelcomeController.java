@@ -52,6 +52,12 @@ public class WelcomeController extends AbstractController {
 		result = new ModelAndView("welcome/index");
 		result.addObject("name", name);
 		result.addObject("moment", moment);
+		result.addObject("welomeMessage", configurationService.findAll()
+				.iterator().next().getWelcomeMessage().get(LocaleContextHolder.getLocale().toString().toUpperCase()));
+		result.addObject("banner", this.configurationService.findAll()
+				.iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll()
+				.iterator().next().getSystemName());
 
 		return result;
 	}
