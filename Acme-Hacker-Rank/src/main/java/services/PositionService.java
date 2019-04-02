@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -73,6 +74,11 @@ public class PositionService {
 	}
 
 	// Other Methods--------------------------------------------
+	public Collection<Position> findFinalMode() {
+		final Collection<Position> result = this.positionRepository.findFinalMode();
+
+		return result;
+	}
 
 	@SuppressWarnings("deprecation")
 	public String generateTicker() {
