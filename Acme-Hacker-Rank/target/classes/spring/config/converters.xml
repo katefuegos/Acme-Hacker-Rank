@@ -30,6 +30,9 @@
 
 		<bean class="converters.AuthorityToStringConverter" />
 		<bean class="converters.StringToAuthorityConverter" />
+		
+		<bean class="converters.ProblemToStringConverter" />
+		<bean class="converters.StringToProblemConverter" />
 
 	</util:list>
 

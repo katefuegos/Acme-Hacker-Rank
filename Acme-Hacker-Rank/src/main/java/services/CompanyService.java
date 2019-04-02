@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class CompanyService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private CompanyRepository companyRepository;
+	private CompanyRepository	companyRepository;
+
 
 	// Services-------------------------------------------------
 
@@ -72,13 +74,16 @@ public class CompanyService {
 	// Other Methods--------------------------------------------
 
 	public Company findCompanyByUseraccount(final UserAccount userAccount) {
-		return this.companyRepository.findCompanyByUserAccount(userAccount
-				.getId());
+		return this.companyRepository.findCompanyByUserAccount(userAccount.getId());
 
 	}
 
 	public Company findCompanyByUsername(final String username) {
 		return this.companyRepository.findCompanyByUsername(username);
+	}
+
+	public Company findCompanyByUseraccountId(final int id) {
+		return this.companyRepository.findCompanyByUserAccount(id);
 	}
 
 }
