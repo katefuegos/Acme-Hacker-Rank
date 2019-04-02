@@ -1,4 +1,3 @@
-
 package forms;
 
 import javax.persistence.Access;
@@ -20,32 +19,31 @@ public class ActorForm {
 
 	// Attributes------------------------------------------------------------------
 
-	private int			id;
-	private int			version;
+	private int id;
+	private int version;
 
-	private UserAccount	userAccount;
-	private boolean		checkTerms;
-	private String		auth;
+	private UserAccount userAccount;
+	private boolean checkTerms;
+	private String auth;
 
-	private String		name;
-	private String		surname;
-	private String		VATNumber;
-	private String		photo;
-	private String		email;
-	private String		phone;
-	private String		address;
+	private String name;
+	private String surname;
+	private String VATNumber;
+	private String photo;
+	private String email;
+	private String phone;
+	private String address;
 
 	// Creditcard
-	private String		holderName;
-	private String		brandName;
-	private String		number;
-	private int			expirationMonth;
-	private int			expirationYear;
-	private int			CVVCode;
+	private String holderName;
+	private String brandName;
+	private String number;
+	private int expirationMonth;
+	private int expirationYear;
+	private int CVVCode;
 
 	// Atributos necesarios para company
-	private String		comercialName;
-
+	private String comercialName;
 
 	// Constructor------------------------------------------------------------------
 
@@ -53,7 +51,8 @@ public class ActorForm {
 		super();
 	}
 
-	// Getter and Setters------------------------------------------------------------
+	// Getter and
+	// Setters------------------------------------------------------------
 
 	public String getAuth() {
 		return this.auth;
@@ -115,7 +114,7 @@ public class ActorForm {
 		this.surname = surname;
 	}
 
-	@NotNull
+	@NotBlank
 	public String getVATNumber() {
 		return this.VATNumber;
 	}
