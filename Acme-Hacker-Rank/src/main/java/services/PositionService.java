@@ -1,5 +1,7 @@
+
 package services;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -21,15 +23,16 @@ public class PositionService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private PositionRepository positionRepository;
+	private PositionRepository	positionRepository;
 
 	// Services-------------------------------------------------
 
 	@Autowired
-	private CompanyService companyService;
+	private CompanyService		companyService;
 
 	@Autowired
-	private ProblemService problemService;
+	private ProblemService		problemService;
+
 
 	// Constructor----------------------------------------------
 
@@ -44,8 +47,7 @@ public class PositionService {
 		final Position position = new Position();
 		position.setTicker(this.generateTicker());
 		position.setDraftmode(true);
-		position.setCompany(companyService
-				.findCompanyByUseraccount(LoginService.getPrincipal()));
+		position.setCompany(this.companyService.findCompanyByUseraccount(LoginService.getPrincipal()));
 
 		return position;
 	}
@@ -60,10 +62,8 @@ public class PositionService {
 
 	public Position save(final Position position) {
 		Assert.notNull(position);
-		if (position.isDraftmode() == false) {
-			Assert.isTrue(problemService.findByPositionId(position.getId())
-					.size() >= 2);
-		}
+		if (position.isDraftmode() == false)
+			Assert.isTrue(this.problemService.findByPositionId(position.getId()).size() >= 2);
 
 		final Position saved = this.positionRepository.save(position);
 		return saved;
@@ -74,6 +74,11 @@ public class PositionService {
 	}
 
 	// Other Methods--------------------------------------------
+	public Collection<Position> findFinalMode() {
+		final Collection<Position> result = this.positionRepository.findFinalMode();
+
+		return result;
+	}
 
 	@SuppressWarnings("deprecation")
 	public String generateTicker() {
