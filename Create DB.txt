@@ -1,0 +1,9 @@
+drop database if exists `Acme-Hacker-Rank`;
+create database `Acme-Hacker-Rank`;
+
+grant select, insert, update, delete
+on `Acme-Hacker-Rank`.* to 'acme-user'@'%';
+grant select, insert, update, delete, create, drop, references, index, alter,
+create temporary tables, lock tables, create view, create routine,
+alter routine, execute, trigger, show view
+on `Acme-Hacker-Rank`.* to 'acme-manager'@'%';
