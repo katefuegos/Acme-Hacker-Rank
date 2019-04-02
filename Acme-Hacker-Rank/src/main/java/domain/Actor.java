@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -16,85 +17,85 @@ import security.UserAccount;
 
 @Entity
 @Access(AccessType.PROPERTY)
-
 public class Actor extends DomainEntity {
 
 	// Identification ---------------------------------------------------------
-	private String name;
-	private String surnames;
-	private Double VATNumber;
-	private String photo;
-	private String email;
-	private String phone;
-	private String address;
-	
+	private String	name;
+	private String	surnames;
+	private String	VATNumber;
+	private String	photo;
+	private String	email;
+	private String	phone;
+	private String	address;
+
 
 	@NotBlank
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	@NotBlank
 	public String getSurnames() {
-		return surnames;
+		return this.surnames;
 	}
 
-	public void setSurnames(String surnames) {
+	public void setSurnames(final String surnames) {
 		this.surnames = surnames;
 	}
 
-	@NotNull
-	public Double getVATNumber() {
-		return VATNumber;
+	@NotBlank
+	public String getVATNumber() {
+		return this.VATNumber;
 	}
 
-	public void setVATNumber(Double vATNumber) {
-		VATNumber = vATNumber;
+	public void setVATNumber(final String vATNumber) {
+		this.VATNumber = vATNumber;
 	}
 
 	@URL
 	public String getPhoto() {
-		return photo;
+		return this.photo;
 	}
 
-	public void setPhoto(String photo) {
+	public void setPhoto(final String photo) {
 		this.photo = photo;
 	}
 
 	@NotBlank
 	@Email
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 
-	
 	public String getPhone() {
-		return phone;
+		return this.phone;
 	}
 
-	public void setPhone(String phone) {
+	public void setPhone(final String phone) {
 		this.phone = phone;
 	}
 
 	public String getAddress() {
-		return address;
+		return this.address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(final String address) {
 		this.address = address;
 	}
 
+
 	// Relationships ---------------------------------------------------------
-	private UserAccount userAccount;
-	private CreditCard creditCard;
+	private UserAccount	userAccount;
+	private CreditCard	creditCard;
+
 
 	@NotNull
 	@Valid
@@ -106,15 +107,15 @@ public class Actor extends DomainEntity {
 	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
 	}
-	
+
 	@NotNull
 	@Valid
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
 	public CreditCard getCreditCard() {
-		return creditCard;
+		return this.creditCard;
 	}
 
-	public void setCreditCard(CreditCard creditCard) {
+	public void setCreditCard(final CreditCard creditCard) {
 		this.creditCard = creditCard;
 	}
 

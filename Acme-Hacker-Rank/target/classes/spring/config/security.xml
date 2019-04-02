@@ -60,6 +60,12 @@
 		<security:intercept-url pattern="/profile/action-3.do"
 			access="isAuthenticated()" />
 
+		<!-- Register -->
+
+		<security:intercept-url pattern="/register/actor.do"
+			access="isAnonymous()" />
+		
+
 		<!-- MESSAGE -->
 
 		<!-- BOX -->

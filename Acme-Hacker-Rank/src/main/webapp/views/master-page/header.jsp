@@ -49,6 +49,24 @@
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
+			<li><a class="fNiv"><spring:message
+						code="master.page.register" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="register/actor.do?authority=HACKER"><spring:message
+								code="master.page.register.hacker" /></a></li>
+
+					<li><a href="register/actor.do?authority=COMPANY"><spring:message
+								code="master.page.register.company" /></a></li>
+
+					<security:authorize access="hasRole('ADMIN')">
+						<li><a
+							href="register/administrator/newActor.do?authority=ADMIN"><spring:message
+									code="master.page.register.admin" /></a></li>
+					</security:authorize>
+				</ul></li>
+			
+
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">

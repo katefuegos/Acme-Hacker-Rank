@@ -1,7 +1,23 @@
 #./src/main/resources/Entities.map
-#Tue Apr 02 02:51:40 CEST 2019
-notificationBoxA=9
-admin=7
-configuration1=10
-creditCard1=8
-userAccount1=6
+#Tue Apr 02 13:48:54 CEST 2019
+notificationBoxC2=41
+notificationBoxC1=40
+notificationBoxA=37
+hacker2=31
+hacker1=29
+admin=27
+creditCard5=36
+userAccount5=26
+creditCard4=34
+userAccount4=25
+creditCard3=32
+userAccount3=24
+creditCard2=30
+userAccount2=23
+userAccount1=22
+creditCard1=28
+company2=35
+company1=33
+configuration1=42
+notificationBoxH2=39
+notificationBoxH1=38
