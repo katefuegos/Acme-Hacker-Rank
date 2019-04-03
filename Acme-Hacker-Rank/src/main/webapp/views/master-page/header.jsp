@@ -45,8 +45,8 @@
 								code="master.page.customer.action.2" /></a></li>
 				</ul></li>
 		</security:authorize>
-		
-				<security:authorize access="hasRole('COMPANY')">
+
+		<security:authorize access="hasRole('COMPANY')">
 			<li><a class="fNiv"><spring:message
 						code="master.page.company" /></a>
 				<ul>
@@ -125,13 +125,13 @@
 
 		</security:authorize>
 
-		
-				<li class="arrow"></li>
-				<li><a href="position/list.do"><spring:message
-							code="master.page.position.list" /></a></li>
 
-
-
+		<li class="arrow"></li>
+		<li><a href="position/list.do"><spring:message
+					code="master.page.position.list" /></a></li>
+		<li class="arrow"></li>
+		<li><a href="company/list.do"><spring:message
+					code="master.page.company.list" /></a></li>
 
 
 	</ul>

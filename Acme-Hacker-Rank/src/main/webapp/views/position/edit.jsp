@@ -13,30 +13,44 @@
 
 <form:form action="position/company/edit.do"
 	modelAttribute="positionForm">
-<form:hidden path="id" />
+	<form:hidden path="id" />
 
+	<jstl:if test="${readonly==true }">
+		<acme:textbox code="position.ticker" path="ticker"
+			readonly="${readonly}" />
+	</jstl:if>
 
-<%-- 	<acme:textbox code="ticker" path="ticker" readonly="${readonly}"/>
- --%>	<acme:textbox code="position.title" path="title" readonly="${readonly}"/>
-	<acme:textbox code="position.description" path="description" readonly="${readonly}"/>
-	<acme:textbox code="position.deadline" path="deadline" readonly="${readonly}"/>
-	<acme:textbox code="position.skills" path="skills" readonly="${readonly}"/>
-	<acme:textbox code="position.profile" path="profile" readonly="${readonly}"/>
-	<acme:textbox code="position.tecnologies" path="tecnologies" readonly="${readonly}"/>
-	<acme:textbox code="position.salary" path="salary" readonly="${readonly}"/>
-	
-	<form:label path="draftmode">
-		<spring:message code="position.draftmode" />
-	</form:label>
-	<form:checkbox path="draftmode" readonly="true"/>
-	<form:errors path="draftmode" cssClass="error" />
-	<br />
-	<br />
+	<acme:textbox code="position.title" path="title" readonly="${readonly}" />
+	<acme:textbox code="position.description" path="description"
+		readonly="${readonly}" />
+	<acme:textbox code="position.deadline" path="deadline"
+		readonly="${readonly}" />
+	<acme:textbox code="position.skills" path="skills"
+		readonly="${readonly}" />
+	<acme:textbox code="position.profile" path="profile"
+		readonly="${readonly}" />
+	<acme:textbox code="position.tecnologies" path="tecnologies"
+		readonly="${readonly}" />
+	<acme:textbox code="position.salary" path="salary"
+		readonly="${readonly}" />
+	<jstl:if test="${readonly!=true }">
+		<form:label path="draftmode">
+			<spring:message code="position.draftmode" />
+		</form:label>
+		<form:checkbox path="draftmode" readonly="true" />
+		<form:errors path="draftmode" cssClass="error" />
+		<br />
+		<br />
+	</jstl:if>
+	<jstl:if test="${readonly!=true }">
 
-	
-	<acme:submit name="save" code="position.save"/>
-	<acme:cancel url="position/company/list.do" code="position.cancel"/>
-	<acme:delete confirmDelete="position.confirmDelete" name="delete" code="position.delete"/>
-		
+		<acme:submit name="save" code="position.save" />
+		<acme:cancel url="position/company/list.do" code="position.cancel" />
+		<acme:delete confirmDelete="position.confirmDelete" name="delete"
+			code="position.delete" />
+	</jstl:if>
+	<jstl:if test="${readonly==true }">
+		<acme:cancel url="position/list.do" code="position.back" />
+	</jstl:if>
 
 </form:form>

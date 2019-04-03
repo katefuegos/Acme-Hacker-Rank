@@ -16,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class PositionForm {
 
 	// Attributes------------------------------------------------------------------
+	private String	ticker;
 
 	private String	title;
 	private String	description;
@@ -28,6 +29,14 @@ public class PositionForm {
 
 	private int		id;
 
+
+	public String getTicker() {
+		return this.ticker;
+	}
+
+	public void setTicker(final String ticker) {
+		this.ticker = ticker;
+	}
 
 	public int getId() {
 		return this.id;

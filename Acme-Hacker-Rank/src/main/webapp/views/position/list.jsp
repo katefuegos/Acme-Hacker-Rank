@@ -34,7 +34,7 @@
 			<a href="position/display.do?positionId=${row.id}"><spring:message code="position.display" /> </a>
 		</display:column>
 		<display:column >
-			<a href="position/displayCompany.do?positionId=${row.id}"><spring:message code="position.display.company" /> </a>
+			<a href="company/display.do?companyId=${row.company.id}"><spring:message code="position.display.company" /> </a>
 		</display:column>
 
 </display:table>

@@ -3,7 +3,6 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -52,7 +51,7 @@ public class CompanyService {
 		return company;
 	}
 
-	public List<Company> findAll() {
+	public Collection<Company> findAll() {
 		return this.companyRepository.findAll();
 	}
 

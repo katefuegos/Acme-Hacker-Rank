@@ -59,17 +59,17 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/profile/action-3.do"
 			access="isAuthenticated()" />
-			
-		
+
+
 		<security:intercept-url pattern="/problem/company/create.do"
 			access="hasRole('COMPANY')" />
-			
+
 		<security:intercept-url pattern="/problem/company/edit.do"
 			access="hasRole('COMPANY')" />
-		
+
 		<security:intercept-url pattern="/problem/company/list.do"
 			access="hasRole('COMPANY')" />
-			
+
 		<security:intercept-url pattern="/problem/company/show.do"
 			access="hasRole('COMPANY')" />
 
@@ -90,8 +90,16 @@
 		<security:intercept-url pattern="/position/display.do"
 			access="permitAll" />
 		<security:intercept-url pattern="/position/search.do"
-			access="permitAll" />	
-			
+			access="permitAll" />
+		<security:intercept-url pattern="/position/listByCompany.do"
+			access="permitAll" />
+
+		<!-- Company -->
+		<security:intercept-url pattern="/company/list.do"
+			access="permitAll" />
+		<security:intercept-url pattern="/company/display.do"
+			access="permitAll" />
+
 
 		<!-- MESSAGE -->
 
