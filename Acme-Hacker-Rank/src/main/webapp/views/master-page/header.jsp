@@ -39,11 +39,7 @@
 					<li><a href="register/actor.do?authority=COMPANY"><spring:message
 								code="master.page.register.company" /></a></li>
 
-					<security:authorize access="hasRole('ADMIN')">
-						<li><a
-							href="register/administrator/newActor.do?authority=ADMIN"><spring:message
-									code="master.page.register.admin" /></a></li>
-					</security:authorize>
+
 					<li class="arrow"></li>
 					<li><a href="position/list.do"><spring:message
 								code="master.page.position.list" /></a></li>
@@ -79,6 +75,13 @@
 		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv"><spring:message
 						code="master.page.administrator" /></a>
+				<ul>
+
+					<li><a
+						href="register/administrator/actor.do?authority=ADMIN"><spring:message
+								code="master.page.register.admin" /></a></li>
+
+				</ul></li>
 		</security:authorize>
 
 		<!-- COMPANY -->

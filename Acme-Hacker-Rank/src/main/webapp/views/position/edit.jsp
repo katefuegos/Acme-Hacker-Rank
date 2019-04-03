@@ -46,8 +46,10 @@
 
 		<acme:submit name="save" code="position.save" />
 		<acme:cancel url="position/company/list.do" code="position.cancel" />
+		<jstl:if test="${positionForm.id!=0 }">
 		<acme:delete confirmDelete="position.confirmDelete" name="delete"
 			code="position.delete" />
+			</jstl:if>
 	</jstl:if>
 	<jstl:if test="${readonly==true }">
 		<acme:cancel url="position/list.do" code="position.back" />
