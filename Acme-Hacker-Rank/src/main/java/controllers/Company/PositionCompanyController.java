@@ -91,8 +91,10 @@ public class PositionCompanyController extends AbstractController {
 				result = new ModelAndView("redirect:/position/company/list.do");
 
 			} catch (final Throwable oops) {
-
-				result = this.createModelAndView(positionForm, "commit.error");
+				if (oops.getMessage() == "position.error.deadline")
+					result = this.createModelAndView(positionForm, oops.getMessage());
+				else
+					result = this.createModelAndView(positionForm, "commit.error");
 			}
 		return result;
 	}
@@ -164,6 +166,8 @@ public class PositionCompanyController extends AbstractController {
 				if (oops.getMessage() == "position.error.used")
 					result = this.editModelAndView(positionForm, oops.getMessage());
 				else if (oops.getMessage() == "position.error.noProblem")
+					result = this.editModelAndView(positionForm, oops.getMessage());
+				else if (oops.getMessage() == "position.error.deadline")
 					result = this.editModelAndView(positionForm, oops.getMessage());
 				else
 					result = this.editModelAndView(positionForm, "commit.error");

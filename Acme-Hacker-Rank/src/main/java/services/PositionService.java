@@ -15,6 +15,7 @@ import repositories.PositionRepository;
 import security.LoginService;
 import domain.Company;
 import domain.Position;
+import domain.Problem;
 
 @Service
 @Transactional
@@ -67,12 +68,18 @@ public class PositionService {
 		Assert.notNull(position);
 		if (position.isDraftmode() == false)
 			Assert.isTrue(this.problemService.findByPositionId(position.getId()).size() >= 2, "position.error.noProblem");
+		Assert.isTrue(position.getDeadline().getTime() > System.currentTimeMillis() + 1, "position.error.deadline");
 
 		final Position saved = this.positionRepository.save(position);
 		return saved;
 	}
 
 	public void delete(final Position position) {
+
+		final Collection<Problem> collection = this.problemService.findByPositionId(position.getId());
+
+		for (final Problem problem : collection)
+			this.problemService.delete(problem);
 
 		this.positionRepository.delete(position);
 	}
@@ -141,6 +148,11 @@ public class PositionService {
 		number = sb.toString();
 
 		return initials + "-" + number;
+	}
+
+	public Position findByCompanyIdSingle(final int companyId) {
+		Assert.notNull(companyId);
+		return this.positionRepository.findByCompanyIdSingle(companyId);
 	}
 
 }

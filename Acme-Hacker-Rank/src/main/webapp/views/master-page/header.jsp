@@ -76,6 +76,13 @@
 		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv"><spring:message
 						code="master.page.administrator" /></a>
+				<ul>
+
+					<li><a
+						href="register/administrator/actor.do?authority=ADMIN"><spring:message
+								code="master.page.register.admin" /></a></li>
+
+				</ul></li>
 		</security:authorize>
 
 		<!-- COMPANY -->

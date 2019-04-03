@@ -38,6 +38,16 @@ public class ProblemService {
 		final Problem problem = new Problem();
 		problem.setDraftmode(true);
 
+		final String title = "";
+		final String statement = "";
+		final String hint = "";
+		final String attachments = "";
+
+		problem.setTitle(title);
+		problem.setStatement(statement);
+		problem.setHint(hint);
+		problem.setAttachments(attachments);
+
 		return problem;
 	}
 

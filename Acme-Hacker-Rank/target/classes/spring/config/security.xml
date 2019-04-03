@@ -77,6 +77,8 @@
 
 		<security:intercept-url pattern="/register/actor.do"
 			access="isAnonymous()" />
+		<security:intercept-url pattern="/register/administrator/actor.do"
+			access="hasRole('ADMIN')"/>
 
 		<!-- Position -->
 		<security:intercept-url pattern="/position/company/list.do"

@@ -25,4 +25,7 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	@Query("select f from Position f where (f.title like %:keyword% or f.description like %:keyword% or f.skills like %:keyword% or f.profile like %:keyword% or f.tecnologies like %:keyword% or f.company.comercialName like %:keyword%) and f.draftmode=false")
 	Collection<Position> search(@Param("keyword") String keyword);
 
+	@Query("select p from Position p where p.company.userAccount.id =?1")
+	Position findByCompanyIdSingle(int companyId);
+
 }
