@@ -1,29 +1,22 @@
 
-package domain;
+package forms;
 
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
 @Access(AccessType.PROPERTY)
-public class Position extends DomainEntity {
+public class PositionForm {
 
-	// Identification ---------------------------------------------------------
-	// ATRIBUTOS
-	private String	ticker;
+	// Attributes------------------------------------------------------------------
+
 	private String	title;
 	private String	description;
 	private Date	deadline;
@@ -33,18 +26,15 @@ public class Position extends DomainEntity {
 	private Double	salary;
 	private boolean	draftmode;
 
-	private Boolean	cancelled;
+	private int		id;
 
 
-	@Column(unique = true)
-	@NotBlank
-	@Pattern(regexp = "^\\w{4}-\\d{4}$")
-	public String getTicker() {
-		return this.ticker;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setTicker(final String ticker) {
-		this.ticker = ticker;
+	public void setId(final int id) {
+		this.id = id;
 	}
 
 	@NotBlank
@@ -121,28 +111,4 @@ public class Position extends DomainEntity {
 		this.draftmode = draftmode;
 	}
 
-
-	public Boolean getCancelled() {
-		return cancelled;
-	}
-
-	public void setCancelled(Boolean cancelled) {
-		this.cancelled = cancelled;
-	}
-
-
-	// Relationships ---------------------------------------------------------
-	private Company	company;
-
-
-	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
-	public Company getCompany() {
-		return this.company;
-	}
-
-	public void setCompany(final Company company) {
-		this.company = company;
-	}
 }

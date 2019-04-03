@@ -46,6 +46,8 @@
 				</ul></li>
 		</security:authorize>
 
+
+
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
@@ -65,7 +67,8 @@
 									code="master.page.register.admin" /></a></li>
 					</security:authorize>
 				</ul></li>
-			
+
+
 
 		</security:authorize>
 
@@ -95,6 +98,32 @@
 			<li><a class="fNiv" href="welcome/terms.do"><spring:message
 						code="master.page.privacyPolicy" /></a></li>
 		</security:authorize>
+
+
+
+		<security:authorize access="hasRole('COMPANY')">
+			<li><a class="fNiv"><spring:message
+						code="master.page.position.manage" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="position/company/list.do"><spring:message
+								code="master.page.position.list" /></a></li>
+					<li><a href="position/company/create.do"><spring:message
+								code="master.page.position.create" /></a></li>
+				</ul></li>
+
+
+		</security:authorize>
+
+		
+				<li class="arrow"></li>
+				<li><a href="position/list.do"><spring:message
+							code="master.page.position.list" /></a></li>
+
+
+
+
+
 	</ul>
 </div>
 

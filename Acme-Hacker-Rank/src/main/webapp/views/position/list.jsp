@@ -15,23 +15,26 @@
 <form:form action="position/search.do"
 	modelAttribute="searchForm">
 	
-	<acme:textbox code="position.keyword" path="keyword"/>
+	<acme:textbox code="position.search" path="keyword"/>
 <acme:submit name="save" code="position.search"/>
 	
 </form:form>
 
 <display:table name="positions" id="row" requestURI="${requestURI}"
-	pagesize="5" class="displaytag">
+	pagesize="15" class="displaytag">
 	
-		<display:column property="ticker" titleKey="ticker" />
-		<display:column property="title" titleKey="ticker" />
-		<display:column property="skills" titleKey="ticker" />
-		<display:column property="profile" titleKey="ticker" />
-		<display:column property="tecnologies" titleKey="ticker" />
-		<display:column property="salary" titleKey="ticker" />
+		<display:column property="ticker" titleKey="position.ticker" />
+		<display:column property="title" titleKey="position.title" />
+		<display:column property="skills" titleKey="position.skills" />
+		<display:column property="profile" titleKey="position.profile" />
+		<display:column property="tecnologies" titleKey="position.tecnologies" />
+		<display:column property="salary" titleKey="position.salary" />
 		
 		<display:column >
 			<a href="position/display.do?positionId=${row.id}"><spring:message code="position.display" /> </a>
+		</display:column>
+		<display:column >
+			<a href="position/displayCompany.do?positionId=${row.id}"><spring:message code="position.display.company" /> </a>
 		</display:column>
 
 </display:table>

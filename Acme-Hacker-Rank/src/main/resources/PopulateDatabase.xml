@@ -270,6 +270,7 @@
 		<property name="tecnologies" value="tecnologies1" />
 		<property name="salary" value="1230.0" />
 		<property name="draftmode" value="false" />
+		<property name="cancelled" value="false" />
 		<property name="company" ref="company1" />
 	</bean>
 
@@ -283,6 +284,8 @@
 		<property name="tecnologies" value="tecnologies2" />
 		<property name="salary" value="1450.0" />
 		<property name="draftmode" value="true" />
+		<property name="cancelled" value="false" />
+	
 		<property name="company" ref="company1" />
 	</bean>
 
@@ -296,6 +299,7 @@
 		<property name="tecnologies" value="tecnologies3" />
 		<property name="salary" value="2587.5" />
 		<property name="draftmode" value="false" />
+		<property name="cancelled" value="false" />
 		<property name="company" ref="company2" />
 	</bean>
 

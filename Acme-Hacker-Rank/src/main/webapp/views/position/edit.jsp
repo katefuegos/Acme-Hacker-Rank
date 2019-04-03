@@ -12,22 +12,24 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <form:form action="position/company/edit.do"
-	modelAttribute="position">
+	modelAttribute="positionForm">
+<form:hidden path="id" />
 
-	<acme:textbox code="ticker" path="ticker" readonly="${readonly}"/>
-	<acme:textbox code="title" path="title" readonly="${readonly}"/>
-	<acme:textbox code="description" path="description" readonly="${readonly}"/>
-	<acme:textbox code="deadline" path="deadline" readonly="${readonly}"/>
-	<acme:textbox code="skills" path="skills" readonly="${readonly}"/>
-	<acme:textbox code="profile" path="profile" readonly="${readonly}"/>
-	<acme:textbox code="tecnologies" path="tecnologies" readonly="${readonly}"/>
-	<acme:textbox code="salary" path="salary" readonly="${readonly}"/>
+
+<%-- 	<acme:textbox code="ticker" path="ticker" readonly="${readonly}"/>
+ --%>	<acme:textbox code="position.title" path="title" readonly="${readonly}"/>
+	<acme:textbox code="position.description" path="description" readonly="${readonly}"/>
+	<acme:textbox code="position.deadline" path="deadline" readonly="${readonly}"/>
+	<acme:textbox code="position.skills" path="skills" readonly="${readonly}"/>
+	<acme:textbox code="position.profile" path="profile" readonly="${readonly}"/>
+	<acme:textbox code="position.tecnologies" path="tecnologies" readonly="${readonly}"/>
+	<acme:textbox code="position.salary" path="salary" readonly="${readonly}"/>
 	
-	<form:label path="draftMode">
-		<spring:message code="position.draftMode" />
+	<form:label path="draftmode">
+		<spring:message code="position.draftmode" />
 	</form:label>
-	<form:checkbox path="draftMode" readonly="true"/>
-	<form:errors path="draftMode" cssClass="error" />
+	<form:checkbox path="draftmode" readonly="true"/>
+	<form:errors path="draftmode" cssClass="error" />
 	<br />
 	<br />
 

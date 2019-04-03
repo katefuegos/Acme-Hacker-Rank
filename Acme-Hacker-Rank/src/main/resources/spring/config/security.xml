@@ -64,7 +64,21 @@
 
 		<security:intercept-url pattern="/register/actor.do"
 			access="isAnonymous()" />
-		
+
+		<!-- Position -->
+		<security:intercept-url pattern="/position/company/list.do"
+			access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/position/company/create.do"
+			access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/position/company/edit.do"
+			access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/position/list.do"
+			access="permitAll" />
+		<security:intercept-url pattern="/position/display.do"
+			access="permitAll" />
+		<security:intercept-url pattern="/position/search.do"
+			access="permitAll" />	
+			
 
 		<!-- MESSAGE -->
 

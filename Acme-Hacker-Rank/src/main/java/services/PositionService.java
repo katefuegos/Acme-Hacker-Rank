@@ -2,7 +2,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -14,6 +13,7 @@ import org.springframework.util.Assert;
 
 import repositories.PositionRepository;
 import security.LoginService;
+import domain.Company;
 import domain.Position;
 
 @Service
@@ -45,9 +45,12 @@ public class PositionService {
 
 	public Position create() {
 		final Position position = new Position();
-		position.setTicker(this.generateTicker());
+
+		final domain.Company company = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
+
+		position.setTicker(this.generateTicker(company));
 		position.setDraftmode(true);
-		position.setCompany(this.companyService.findCompanyByUseraccount(LoginService.getPrincipal()));
+		position.setCompany(company);
 
 		return position;
 	}
@@ -63,47 +66,68 @@ public class PositionService {
 	public Position save(final Position position) {
 		Assert.notNull(position);
 		if (position.isDraftmode() == false)
-			Assert.isTrue(this.problemService.findByPositionId(position.getId()).size() >= 2);
+			Assert.isTrue(this.problemService.findByPositionId(position.getId()).size() >= 2, "position.error.noProblem");
 
 		final Position saved = this.positionRepository.save(position);
 		return saved;
 	}
 
 	public void delete(final Position position) {
+
 		this.positionRepository.delete(position);
 	}
 
 	// Other Methods--------------------------------------------
+	public Collection<Position> search(final String keyword) {
+		final Collection<Position> result = this.positionRepository.search(keyword);
+
+		return result;
+	}
+
 	public Collection<Position> findFinalMode() {
 		final Collection<Position> result = this.positionRepository.findFinalMode();
 
 		return result;
 	}
 
-	@SuppressWarnings("deprecation")
-	public String generateTicker() {
-		final Date date = new Date();
-		final Integer s1 = date.getDate();
-		String day = s1.toString();
-		if (day.length() == 1)
-			day = "0" + day;
-		final Integer s2 = date.getMonth() + 1;
-		String month = s2.toString();
-		if (month.length() == 1)
-			month = "0" + month;
-		final Integer s3 = date.getYear();
-		final String year = s3.toString().substring(1);
+	public Collection<Position> findFinalByCompany(final Company company) {
+		Assert.notNull(company);
 
-		return year + month + day + "-" + this.generateStringAux();
+		return this.positionRepository.findFinalByCompany(company.getId());
+
 	}
 
-	private String generateStringAux() {
-		final int length = 5;
-		final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	public Collection<Position> findDraftByCompany(final Company company) {
+		Assert.notNull(company);
+
+		return this.positionRepository.findDraftByCompany(company.getId());
+	}
+
+	public Position reconstruct(final Position position, final forms.PositionForm positionForm) {
+
+		position.setDeadline(positionForm.getDeadline());
+		position.setDescription(positionForm.getDescription());
+		position.setDraftmode(positionForm.isDraftmode());
+		position.setProfile(positionForm.getProfile());
+		position.setSalary(positionForm.getSalary());
+		position.setSkills(positionForm.getSkills());
+		position.setTecnologies(positionForm.getTecnologies());
+		position.setTitle(positionForm.getTitle());
+
+		return position;
+	}
+
+	public String generateTicker(final Company company) {
+		final String initials = company.getComercialName().substring(0, 4);
+		String number;
+
 		final Random rng = new Random();
-		final char[] text = new char[length];
-		for (int i = 0; i < 5; i++)
-			text[i] = characters.charAt(rng.nextInt(characters.length()));
-		return new String(text);
+		final StringBuilder sb = new StringBuilder();
+		while (sb.length() < 4)
+			sb.append(rng.nextInt(10));
+		number = sb.toString();
+
+		return initials + "-" + number;
 	}
+
 }
