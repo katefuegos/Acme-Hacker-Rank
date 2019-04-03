@@ -59,6 +59,19 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/profile/action-3.do"
 			access="isAuthenticated()" />
+			
+		
+		<security:intercept-url pattern="/problem/company/create.do"
+			access="hasRole('COMPANY')" />
+			
+		<security:intercept-url pattern="/problem/company/edit.do"
+			access="hasRole('COMPANY')" />
+		
+		<security:intercept-url pattern="/problem/company/list.do"
+			access="hasRole('COMPANY')" />
+			
+		<security:intercept-url pattern="/problem/company/show.do"
+			access="hasRole('COMPANY')" />
 
 		<!-- Register -->
 

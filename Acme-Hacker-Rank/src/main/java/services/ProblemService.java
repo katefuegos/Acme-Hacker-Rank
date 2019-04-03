@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -19,7 +20,8 @@ public class ProblemService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private ProblemRepository problemRepository;
+	private ProblemRepository	problemRepository;
+
 
 	// Services-------------------------------------------------
 
@@ -60,8 +62,13 @@ public class ProblemService {
 
 	// Other Methods--------------------------------------------
 
-	public Collection<Problem> findByPositionId(int positionId) {
+	public Collection<Problem> findByPositionId(final int positionId) {
 		Assert.notNull(positionId);
-		return problemRepository.findByPositionId(positionId);
+		return this.problemRepository.findByPositionId(positionId);
+	}
+
+	public Collection<Problem> findByCompanyId(final int companyId) {
+		Assert.notNull(companyId);
+		return this.problemRepository.findByCompanyId(companyId);
 	}
 }
