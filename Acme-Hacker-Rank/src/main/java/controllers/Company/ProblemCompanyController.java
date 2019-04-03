@@ -1,5 +1,5 @@
 
-package controllers;
+package controllers.Company;
 
 import java.util.Collection;
 
@@ -17,7 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import security.LoginService;
 import services.CompanyService;
 import services.ConfigurationService;
+import services.PositionService;
 import services.ProblemService;
+import controllers.AbstractController;
 import domain.Company;
 import domain.Problem;
 import forms.ProblemForm;
@@ -35,6 +37,9 @@ public class ProblemCompanyController extends AbstractController {
 
 	@Autowired
 	private ConfigurationService	configurationService;
+
+	@Autowired
+	private PositionService			positionService;
 
 
 	// Constructor---------------------------------------------------------
@@ -74,6 +79,12 @@ public class ProblemCompanyController extends AbstractController {
 		final ProblemForm problemForm = new ProblemForm();
 		problemForm.setId(0);
 
+		final Company b = this.companyService.findCompanyByUsername(LoginService.getPrincipal().getUsername());
+		Assert.notNull(b);
+		final Position position = this.positionService.findByCompanyIdSingle(b.getId());
+		Assert.notNull(position);
+		problemForm.setPosition(position);
+
 		result = this.createModelAndView(problemForm);
 		return result;
 	}
@@ -92,7 +103,7 @@ public class ProblemCompanyController extends AbstractController {
 				problem.setHint(problemForm.getHint());
 				problem.setAttachments(problemForm.getAttachments());
 				problem.setDraftmode(problemForm.isDraftMode());
-				//problem.setPosition(problemForm.getPosition());
+				problem.setPosition(problemForm.getPosition());
 
 				this.problemService.save(problem);
 
@@ -102,7 +113,6 @@ public class ProblemCompanyController extends AbstractController {
 			}
 		return result;
 	}
-
 	// EDIT
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(final int problemId, final RedirectAttributes redirectAttrs) {
@@ -122,6 +132,7 @@ public class ProblemCompanyController extends AbstractController {
 			problemForm.setHint(problem.getHint());
 			problemForm.setAttachments(problem.getAttachments());
 			problemForm.setDraftMode(problem.isDraftmode());
+			problemForm.setPosition(problem.getPosition());
 
 			result = this.editModelAndView(problemForm);
 

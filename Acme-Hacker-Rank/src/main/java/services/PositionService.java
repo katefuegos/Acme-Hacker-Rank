@@ -143,4 +143,9 @@ public class PositionService {
 		return initials + "-" + number;
 	}
 
+	public Position findByCompanyIdSingle(final int companyId) {
+		Assert.notNull(companyId);
+		return this.positionRepository.findByCompanyIdSingle(companyId);
+	}
+
 }

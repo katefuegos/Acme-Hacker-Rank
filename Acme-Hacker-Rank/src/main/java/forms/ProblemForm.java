@@ -86,12 +86,12 @@ public class ProblemForm {
 		this.id = id;
 	}
 
-	//	public Position getPosition() {
-	//		return this.position;
-	//	}
-	//	public void setPosition(final Position position) {
-	//		this.position = position;
-	//
-	//	}
+	public Position getPosition() {
+		return this.position;
+	}
+	public void setPosition(final Position position) {
+		this.position = position;
+
+	}
 
 }

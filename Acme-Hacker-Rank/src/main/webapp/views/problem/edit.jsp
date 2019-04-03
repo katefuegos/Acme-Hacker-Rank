@@ -13,6 +13,7 @@
 
 <form:form action="${requestURI}" modelAttribute="problemForm">
 	<form:hidden path="id" />
+	<form:hidden path="position" />
 	
 	<acme:textbox code="problem.title" path="title"/>
 	<acme:textbox code="problem.statement" path="statement"/>
