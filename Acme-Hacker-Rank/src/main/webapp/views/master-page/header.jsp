@@ -44,13 +44,11 @@
 							href="register/administrator/newActor.do?authority=ADMIN"><spring:message
 									code="master.page.register.admin" /></a></li>
 					</security:authorize>
-					<li class="arrow"></li>
-					<li><a href="position/list.do"><spring:message
-								code="master.page.position.list" /></a></li>
-					<li class="arrow"></li>
-					<li><a href="company/list.do"><spring:message
-								code="master.page.company.list" /></a></li>
 				</ul></li>
+			<li><a href="position/list.do"><spring:message
+						code="master.page.position.list" /></a></li>
+			<li><a href="company/list.do"><spring:message
+						code="master.page.company.list" /></a></li>
 		</security:authorize>
 
 		<!-- AUTHENTICATED -->
@@ -64,13 +62,12 @@
 					<li class="arrow"></li>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
-					<li class="arrow"></li>
-					<li><a href="position/list.do"><spring:message
-								code="master.page.position.list" /></a></li>
-					<li class="arrow"></li>
-					<li><a href="company/list.do"><spring:message
-								code="master.page.company.list" /></a></li>
 				</ul></li>
+			<li><a href="position/list.do"><spring:message
+						code="master.page.position.list" /></a></li>
+			<li class="arrow"></li>
+			<li><a href="company/list.do"><spring:message
+						code="master.page.company.list" /></a></li>
 		</security:authorize>
 
 
@@ -106,6 +103,8 @@
 
 		<security:authorize access="hasRole('HACKER')">
 			<li><a class="fNiv" href="application/company/list.do"><spring:message
+						code="master.page.application.list" /></a></li>
+			<li><a class="fNiv" href="application/hacker/list.do"><spring:message
 						code="master.page.application.list" /></a></li>
 		</security:authorize>
 

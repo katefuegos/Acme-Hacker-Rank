@@ -11,12 +11,12 @@
 <tiles-definitions>
 
 	<definition name="application/listCompany" extends="master.page">
-		<put-attribute name="title" value="List of applications" />
+		<put-attribute name="title" value="My applications" />
 		<put-attribute name="body" value="/views/application/listCompany.jsp" />
 	</definition>
 	
 	<definition name="application/listHacker" extends="master.page">
-		<put-attribute name="title" value="List of applications" />
+		<put-attribute name="title" value="My applications" />
 		<put-attribute name="body" value="/views/application/listHacker.jsp" />
 	</definition>
 

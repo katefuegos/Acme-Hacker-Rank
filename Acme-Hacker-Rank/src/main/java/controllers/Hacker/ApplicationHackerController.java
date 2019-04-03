@@ -1,4 +1,4 @@
-package controllers.Company;
+package controllers.Hacker;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,14 +13,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import security.LoginService;
 import services.ApplicationService;
-import services.CompanyService;
 import services.ConfigurationService;
+import services.HackerService;
 import controllers.AbstractController;
 import domain.Application;
 
 @Controller
-@RequestMapping("/application/company")
-public class ApplicationCompanyController extends AbstractController {
+@RequestMapping("/application/hacker")
+public class ApplicationHackerController extends AbstractController {
 
 	// Services-----------------------------------------------------------
 
@@ -28,14 +28,14 @@ public class ApplicationCompanyController extends AbstractController {
 	private ApplicationService applicationService;
 
 	@Autowired
-	private CompanyService companyService;
+	private HackerService hackerService;
 
 	@Autowired
 	private ConfigurationService configurationService;
 
 	// Constructor---------------------------------------------------------
 
-	public ApplicationCompanyController() {
+	public ApplicationHackerController() {
 		super();
 	}
 
@@ -45,12 +45,12 @@ public class ApplicationCompanyController extends AbstractController {
 		ModelAndView result;
 
 		try {
-			int companyId = companyService.findCompanyByUseraccountId(
-					LoginService.getPrincipal().getId()).getId();
-			Assert.notNull(companyService.findOne(companyId));
+			int hackerId = hackerService.findHackerByUseraccount(
+					LoginService.getPrincipal()).getId();
+			Assert.notNull(hackerService.findOne(hackerId));
 
 			Collection<Application> applications = applicationService
-					.findByCompanyId(companyId);
+					.findByHackerId(hackerId);
 
 			Collection<Application> applicationsPending = new ArrayList<Application>();
 			Collection<Application> applicationsRejected = new ArrayList<Application>();
@@ -69,12 +69,12 @@ public class ApplicationCompanyController extends AbstractController {
 				}
 			}
 
-			result = new ModelAndView("application/listCompany");
+			result = new ModelAndView("application/listHacker");
 			result.addObject("applicationsPending", applicationsPending);
 			result.addObject("applicationsRejected", applicationsRejected);
 			result.addObject("applicationsAccepted", applicationsAccepted);
 			result.addObject("applicationsSubmitted", applicationsSubmitted);
-			result.addObject("requestURI", "application/company/list.do");
+			result.addObject("requestURI", "application/hacker/list.do");
 			result.addObject("banner", this.configurationService.findAll()
 					.iterator().next().getBanner());
 			result.addObject("systemName", this.configurationService.findAll()
