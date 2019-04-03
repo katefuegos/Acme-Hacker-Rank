@@ -21,6 +21,7 @@ import services.PositionService;
 import services.ProblemService;
 import controllers.AbstractController;
 import domain.Company;
+import domain.Position;
 import domain.Problem;
 import forms.ProblemForm;
 
