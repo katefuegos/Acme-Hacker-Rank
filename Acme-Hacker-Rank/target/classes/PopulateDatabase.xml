@@ -285,7 +285,7 @@
 		<property name="salary" value="1450.0" />
 		<property name="draftmode" value="true" />
 		<property name="cancelled" value="false" />
-	
+
 		<property name="company" ref="company1" />
 	</bean>
 
@@ -437,5 +437,31 @@
 		<property name="endDate" value="2019/03/21 12:00" />
 		<property name="curricula" ref="curricula2" />
 	</bean>
+
+	<!-- APPLICATION -->
+	<bean id="application1" class="domain.Application">
+		<property name="linkAnswer" value="http://www.linkAnswer1.com" />
+		<property name="textAnswer" value="text1" />
+		<property name="status" value="PENDING" />
+		<property name="publicationMoment" value="2018/03/23 12:00" />
+		<property name="submissionMoment" value="2019/01/23 12:00" />
+		<property name="curricula" ref="curricula1" />
+		<property name="problem" ref="problem1" />
+		<property name="position" ref="position1" />
+		<property name="hacker" ref="hacker1" />
+	</bean>
+
+	<bean id="application2" class="domain.Application">
+		<property name="linkAnswer" value="http://www.linkAnswer2.com" />
+		<property name="textAnswer" value="text2" />
+		<property name="status" value="SUBMITTED" />
+		<property name="publicationMoment" value="2018/05/11 12:00" />
+		<property name="submissionMoment" value="2019/02/12 12:00" />
+		<property name="curricula" ref="curricula1" />
+		<property name="problem" ref="problem2" />
+		<property name="position" ref="position1" />
+		<property name="hacker" ref="hacker1" />
+	</bean>
+
 
 </beans>

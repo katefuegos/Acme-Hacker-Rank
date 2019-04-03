@@ -22,41 +22,9 @@
 <div>
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
-		<security:authorize access="hasRole('ADMIN')">
-			<li><a class="fNiv"><spring:message
-						code="master.page.administrator" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message
-								code="master.page.administrator.action.1" /></a></li>
-					<li><a href="administrator/action-2.do"><spring:message
-								code="master.page.administrator.action.2" /></a></li>
-				</ul></li>
-		</security:authorize>
-
-		<security:authorize access="hasRole('CUSTOMER')">
-			<li><a class="fNiv"><spring:message
-						code="master.page.customer" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="customer/action-1.do"><spring:message
-								code="master.page.customer.action.1" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message
-								code="master.page.customer.action.2" /></a></li>
-				</ul></li>
-		</security:authorize>
-
-		<security:authorize access="hasRole('COMPANY')">
-			<li><a class="fNiv"><spring:message
-						code="master.page.company" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="problem/company/list.do"><spring:message
-								code="master.page.company.listProblems" /></a></li>
-				</ul></li>
-		</security:authorize>
 
 
+		<!-- ANONYMOUS -->
 
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message
@@ -76,11 +44,16 @@
 							href="register/administrator/newActor.do?authority=ADMIN"><spring:message
 									code="master.page.register.admin" /></a></li>
 					</security:authorize>
+					<li class="arrow"></li>
+					<li><a href="position/list.do"><spring:message
+								code="master.page.position.list" /></a></li>
+					<li class="arrow"></li>
+					<li><a href="company/list.do"><spring:message
+								code="master.page.company.list" /></a></li>
 				</ul></li>
-
-
-
 		</security:authorize>
+
+		<!-- AUTHENTICATED -->
 
 		<security:authorize access="isAuthenticated()">
 			<li><a class="fNiv"> <spring:message
@@ -89,27 +62,26 @@
 			</a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="profile/action-1.do"><spring:message
-								code="master.page.profile.action.1" /></a></li>
-					<li><a href="profile/action-2.do"><spring:message
-								code="master.page.profile.action.2" /></a></li>
-					<li><a href="profile/action-3.do"><spring:message
-								code="master.page.profile.action.3" /></a></li>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
+					<li class="arrow"></li>
+					<li><a href="position/list.do"><spring:message
+								code="master.page.position.list" /></a></li>
+					<li class="arrow"></li>
+					<li><a href="company/list.do"><spring:message
+								code="master.page.company.list" /></a></li>
 				</ul></li>
 		</security:authorize>
 
-		<security:authorize access="isAuthenticated()">
-			<li><a class="fNiv" href="welcome/terms.do"><spring:message
-						code="master.page.privacyPolicy" /></a></li>
-		</security:authorize>
-		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="welcome/terms.do"><spring:message
-						code="master.page.privacyPolicy" /></a></li>
+
+		<!-- ADMIN -->
+
+		<security:authorize access="hasRole('ADMIN')">
+			<li><a class="fNiv"><spring:message
+						code="master.page.administrator" /></a>
 		</security:authorize>
 
-
+		<!-- COMPANY -->
 
 		<security:authorize access="hasRole('COMPANY')">
 			<li><a class="fNiv"><spring:message
@@ -122,18 +94,32 @@
 								code="master.page.position.create" /></a></li>
 				</ul></li>
 
+			<li><a href="problem/company/list.do"><spring:message
+						code="master.page.company.listProblems" /></a></li>
 
+			<li><a class="fNiv" href="application/company/list.do"><spring:message
+						code="master.page.application.list" /></a></li>
 		</security:authorize>
 
 
-		<li class="arrow"></li>
-		<li><a href="position/list.do"><spring:message
-					code="master.page.position.list" /></a></li>
-		<li class="arrow"></li>
-		<li><a href="company/list.do"><spring:message
-					code="master.page.company.list" /></a></li>
+		<!-- HACKER -->
+
+		<security:authorize access="hasRole('HACKER')">
+			<li><a class="fNiv" href="application/company/list.do"><spring:message
+						code="master.page.application.list" /></a></li>
+		</security:authorize>
 
 
+		<!-- PRIVACY POLICY -->
+
+		<security:authorize access="isAuthenticated()">
+			<li><a class="fNiv" href="welcome/terms.do"><spring:message
+						code="master.page.privacyPolicy" /></a></li>
+		</security:authorize>
+		<security:authorize access="isAnonymous()">
+			<li><a class="fNiv" href="welcome/terms.do"><spring:message
+						code="master.page.privacyPolicy" /></a></li>
+		</security:authorize>
 	</ul>
 </div>
 
