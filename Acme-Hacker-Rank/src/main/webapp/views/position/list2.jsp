@@ -17,23 +17,47 @@
 </h3> --%>
 <display:table name="positionsFinal" id="row" requestURI="${requestURI}"
 	pagesize="5" class="displaytag">
+	<jstl:if test="${row.cancelled==true }">
+		<display:column property="ticker" titleKey="position.ticker"
+			class="GREY" />
+		<display:column property="title" titleKey="position.title"
+			class="GREY" />
+		<display:column property="skills" titleKey="position.skills"
+			class="GREY" />
+		<display:column property="profile" titleKey="position.profile"
+			class="GREY" />
+		<display:column property="tecnologies" titleKey="position.tecnologies"
+			class="GREY" />
+		<display:column property="salary" titleKey="position.salary"
+			class="GREY" />
 
-	<display:column property="ticker" titleKey="position.ticker" />
-	<display:column property="title" titleKey="position.title" />
-	<display:column property="skills" titleKey="position.skills" />
-	<display:column property="profile" titleKey="position.profile" />
-	<display:column property="tecnologies" titleKey="position.tecnologies" />
-	<display:column property="salary" titleKey="position.salary" />
+
+		<display:column property="cancelled" titleKey="position.cancel"
+			class="GREY" />
+	</jstl:if>
+	<jstl:if test="${row.cancelled==false }">
+		<display:column property="ticker" titleKey="position.ticker" />
+		<display:column property="title" titleKey="position.title" />
+		<display:column property="skills" titleKey="position.skills" />
+		<display:column property="profile" titleKey="position.profile" />
+		<display:column property="tecnologies" titleKey="position.tecnologies" />
+		<display:column property="salary" titleKey="position.salary" />
+
+		<display:column property="cancelled" titleKey="position.cancel" />
+	</jstl:if>
+
 
 	<display:column>
 		<a href="position/display.do?positionId=${row.id}"><spring:message
 				code="position.display" /> </a>
 	</display:column>
-	<display:column>
-		<a href="position/company/cancel.do?positionId=${row.id}"><spring:message
-				code="position.cancel" /> </a>
-	</display:column>
 
+	<display:column>
+		<jstl:if test="${row.cancelled==false }">
+			<a href="position/company/cancel.do?positionId=${row.id}"><spring:message
+					code="position.cancel" /> </a>
+		</jstl:if>
+	</display:column>
 
 </display:table>
 

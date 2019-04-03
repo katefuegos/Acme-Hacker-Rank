@@ -78,6 +78,19 @@ public class PositionService {
 	}
 
 	// Other Methods--------------------------------------------
+	public Position cancel(final Position position) {
+		Assert.notNull(position);
+		final Company company = this.companyService.findCompanyByUseraccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(company);
+		Assert.isTrue(position.getCompany().getId() == company.getId());
+		Assert.isTrue(!position.isDraftmode(), "position.error.draftmode");
+
+		position.setCancelled(true);
+
+		final Position saved = this.positionRepository.save(position);
+		return saved;
+	}
+
 	public Collection<Position> search(final String keyword) {
 		final Collection<Position> result = this.positionRepository.search(keyword);
 

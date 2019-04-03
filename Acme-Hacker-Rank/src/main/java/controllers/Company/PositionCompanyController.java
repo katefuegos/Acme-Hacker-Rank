@@ -189,6 +189,27 @@ public class PositionCompanyController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	public ModelAndView cancel(final int positionId, final RedirectAttributes redirectAttrs) {
+		ModelAndView result;
+
+		try {
+			final domain.Position position = this.positionService.findOne(positionId);
+			this.positionService.cancel(position);
+
+			result = new ModelAndView("redirect:/position/company/list.do");
+
+		} catch (final Throwable e) {
+
+			result = new ModelAndView("redirect:/position/list.do");
+			if (e.getMessage() == "position.error.draftmode")
+				redirectAttrs.addFlashAttribute("message", "position.error.draftmode");
+			else
+				redirectAttrs.addFlashAttribute("message", "commit.error");
+		}
+		return result;
+	}
+
 	// AUXILIARY METHODS
 
 	protected ModelAndView createModelAndView(final PositionForm positionForm) {
