@@ -37,7 +37,7 @@ public class ApplicationService {
 
 	@Autowired
 	private HackerService hackerService;
-	
+
 	@Autowired
 	private CurriculaService curriculaService;
 
@@ -108,5 +108,15 @@ public class ApplicationService {
 		Random rnd = new Random();
 		int i = rnd.nextInt(problems.size());
 		return problems.toArray()[i];
+	}
+
+	public Collection<Application> findByCompanyId(int companyId) {
+		Assert.notNull(companyId);
+		return applicationRepository.findByCompanyId(companyId);
+	}
+
+	public Collection<Application> findByHackerId(int hackerId) {
+		Assert.notNull(hackerId);
+		return applicationRepository.findByHackerId(hackerId);
 	}
 }

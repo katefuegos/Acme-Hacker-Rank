@@ -100,6 +100,15 @@
 		<security:intercept-url pattern="/company/display.do"
 			access="permitAll" />
 
+		<!-- APPLICATION -->
+		<security:intercept-url pattern="/application/company/list.do"
+			access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/application/company/acccept.do"
+			access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/application/company/reject.do"
+			access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/application/hacker/list.do"
+			access="hasRole('HACKER')" />
 
 		<!-- MESSAGE -->
 
