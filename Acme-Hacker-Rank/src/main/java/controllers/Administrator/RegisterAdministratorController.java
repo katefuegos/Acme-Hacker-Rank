@@ -1,5 +1,5 @@
 
-package controllers;
+package controllers.Administrator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,12 +20,13 @@ import security.Authority;
 import security.UserAccount;
 import services.ActorService;
 import services.ConfigurationService;
+import controllers.AbstractController;
 import domain.Actor;
 import forms.ActorForm;
 
 @Controller
-@RequestMapping("/register")
-public class RegisterController extends AbstractController {
+@RequestMapping("/register/administrator")
+public class RegisterAdministratorController extends AbstractController {
 
 	// Services-----------------------------------------------------------
 
@@ -50,14 +51,10 @@ public class RegisterController extends AbstractController {
 
 		try {
 			switch (authority) {
-			case "HACKER":
-				a.setAuthority(Authority.HACKER);
-				actorForm.setAuth("HACKER");
+			case "ADMIN":
+				a.setAuthority(Authority.ADMIN);
+				actorForm.setAuth("ADMIN");
 				actorForm.setComercialName("---");
-				break;
-			case "COMPANY":
-				a.setAuthority(Authority.COMPANY);
-				actorForm.setAuth("COMPANY");
 				break;
 			default:
 				throw new NullPointerException();
@@ -125,15 +122,11 @@ public class RegisterController extends AbstractController {
 
 		// TODO faltan actores
 		final Collection<Authority> authorities = actorForm.getUserAccount().getAuthorities();
-		final Authority company = new Authority();
-		company.setAuthority("COMPANY");
-		final Authority hacker = new Authority();
-		hacker.setAuthority("HACKER");
+		final Authority admin = new Authority();
+		admin.setAuthority("ADMIN");
 
-		if (authorities.contains(company))
-			result = new ModelAndView("register/company");
-		else if (authorities.contains(hacker))
-			result = new ModelAndView("register/hacker");
+		if (authorities.contains(admin))
+			result = new ModelAndView("register/admin");
 		else
 			throw new NullPointerException();
 
@@ -141,7 +134,7 @@ public class RegisterController extends AbstractController {
 
 		result.addObject("message", message);
 		result.addObject("isRead", false);
-		result.addObject("requestURI", "register/actor.do");
+		result.addObject("requestURI", "register/administrator/actor.do");
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;

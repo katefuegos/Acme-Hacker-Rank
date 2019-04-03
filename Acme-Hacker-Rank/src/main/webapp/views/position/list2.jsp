@@ -12,9 +12,9 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<%-- <h3>
+ <h3>
 	<spring:message code="position.final" />
-</h3> --%>
+</h3>
 <display:table name="positionsFinal" id="row" requestURI="${requestURI}"
 	pagesize="5" class="displaytag">
 	<jstl:if test="${row.cancelled==true }">
@@ -61,9 +61,9 @@
 
 </display:table>
 
-<%-- <h3>
+<h3>
 	<spring:message code="position.draft" />
-</h3> --%>
+</h3> 
 <display:table name="positionsDraft" id="row" requestURI="${requestURI}"
 	pagesize="5" class="displaytag">
 
@@ -84,7 +84,7 @@
 	</display:column>
 
 </display:table>
-
+<br>
 <a href="position/company/create.do"> <spring:message
 		code="master.page.position.create" />
 </a>
