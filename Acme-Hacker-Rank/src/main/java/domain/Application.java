@@ -59,7 +59,6 @@ public class Application extends DomainEntity {
 		this.status = status;
 	}
 
-	@NotBlank
 	public String getTextAnswer() {
 		return textAnswer;
 	}
@@ -68,7 +67,6 @@ public class Application extends DomainEntity {
 		this.textAnswer = textAnswer;
 	}
 
-	@NotBlank
 	@URL
 	public String getLinkAnswer() {
 		return linkAnswer;

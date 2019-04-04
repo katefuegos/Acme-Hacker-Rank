@@ -37,7 +37,12 @@
 	<acme:textbox code="actor.VATnumber" path="VATNumber" />
 	<acme:textbox code="actor.photo" path="photo" />
 	<acme:textbox code="actor.email" path="email" />
-	<acme:textbox code="actor.phone" path="phone" />
+	<form:label path="phone">
+		<spring:message code="actor.phone" />
+	</form:label>
+	<form:input path="phone" id="tlf" readonly="${isRead}" />
+	<form:errors path="phone" cssClass="error" />
+	<br />
 	<acme:textbox code="actor.address" path="address" />
 
 	<jstl:if test="${actorForm.auth != 'COMPANY'}">
@@ -86,9 +91,10 @@
 		}
 	</script>
 
-		<acme:submit name="save" code="actor.save" />
-
-
+<input type="submit" name="save"
+			value='<spring:message code="actor.save"/>'
+			onclick="javascript: return isValid();">
+	
 	<acme:cancel url="welcome/index.do" code="message.cancel" />
 
 </form:form>

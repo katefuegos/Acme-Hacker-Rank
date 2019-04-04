@@ -70,7 +70,7 @@ public class MiscellaneousDataService {
 		miscellaneousDataCopy
 				.setAttachments(miscellaneousData.getAttachments());
 
-		return this.save(miscellaneousDataCopy);
+		return miscellaneousDataCopy;
 	}
 	
 	public Collection<MiscellaneousData> findByCurriculaId(int curriculaId){

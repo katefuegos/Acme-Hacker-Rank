@@ -71,7 +71,7 @@ public class PositionDataService {
 		positionDataCopy.setStartDate(positionData.getStartDate());
 		positionDataCopy.setTitle(positionData.getTitle());
 
-		return this.save(positionDataCopy);
+		return positionDataCopy;
 	}
 	
 	public Collection<PositionData> findByCurriculaId(int curriculaId){

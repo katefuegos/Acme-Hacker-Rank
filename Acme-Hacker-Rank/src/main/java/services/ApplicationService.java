@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 import repositories.ApplicationRepository;
 import security.LoginService;
 import domain.Application;
+import domain.Company;
 import domain.Curricula;
 import domain.Position;
 import domain.Problem;
@@ -59,16 +60,15 @@ public class ApplicationService {
 
 		application.setPosition(position);
 
-		Collection<Problem> problems = problemService.findByPositionId(position
-				.getId());
+		Collection<Problem> problems = problemService
+				.findByPositionIdAndFinal(position.getId());
 		Problem problem = (Problem) getRandomObject(problems);
 		application.setProblem(problem);
 
 		Assert.notNull(positionId);
 		Curricula curricula = curriculaService.findOne(curriculaId);
 		Assert.notNull(curricula);
-		Curricula copy = curriculaService.copy(curricula.getId());
-		application.setCurricula(copy);
+		application.setCurricula(curricula);
 
 		application.setStatus("PENDING");
 
@@ -91,8 +91,25 @@ public class ApplicationService {
 		if (application.getId() == 0) {
 			application.setPublicationMoment(new Date(System
 					.currentTimeMillis() - 1000));
-			Assert.isTrue(application.getCurricula().isCopy() == true);
+			Curricula copy = curriculaService.copy(application.getCurricula()
+					.getId());
+			application.setCurricula(copy);
 		}
+
+		if ((application.getStatus().equals("PENDING"))
+				&& (application.getTextAnswer() != null)
+				&& (application.getLinkAnswer() != null)
+				&& (application.getTextAnswer().trim().length() > 0)
+				&& (application.getLinkAnswer().trim().length() > 0)) {
+			application.setStatus("SUBMITTED");
+		}
+
+		if (application.getStatus() == "SUBMITTED") {
+			application.setSubmissionMoment(new Date(
+					System.currentTimeMillis() - 1000));
+		}
+
+		Assert.isTrue(application.getCurricula().isCopy() == true);
 
 		final Application saved = this.applicationRepository.save(application);
 		return saved;
@@ -118,5 +135,23 @@ public class ApplicationService {
 	public Collection<Application> findByHackerId(int hackerId) {
 		Assert.notNull(hackerId);
 		return applicationRepository.findByHackerId(hackerId);
+	}
+
+	public void reject(Application application, Company company) {
+		Assert.notNull(company);
+		Assert.notNull(application);
+		Assert.isTrue(application.getPosition().getCompany().equals(company));
+		Assert.isTrue(application.getStatus().equals("SUBMITTED"));
+		application.setStatus("REJECTED");
+		this.save(application);
+	}
+	
+	public void accept(Application application, Company company) {
+		Assert.notNull(company);
+		Assert.notNull(application);
+		Assert.isTrue(application.getPosition().getCompany().equals(company));
+		Assert.isTrue(application.getStatus().equals("SUBMITTED"));
+		application.setStatus("ACCEPTED");
+		this.save(application);
 	}
 }

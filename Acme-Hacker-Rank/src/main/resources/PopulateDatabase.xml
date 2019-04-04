@@ -119,8 +119,22 @@
 		<property name="address" value="C/Calle, 53" />
 		<property name="creditCard" ref="creditCard3" />
 		<property name="userAccount" ref="userAccount3" />
+		<property name="finder" ref="finder1" />
 	</bean>
 
+	<!-- Finder -->
+
+	<bean id="finder1" class="domain.Finder">
+		<property name="keyword" value="" />
+		<property name="minSalary" value="100" />
+		<property name="deadlineMin" value="2018/09/09 09:13" />
+		<property name="deadlineMax" value="2029/09/09 09:13" />
+		<property name="lastUpdate" value="2019/04/04 09:13" />
+		<property name="positions">
+			<list>
+			</list>
+		</property>
+	</bean>
 
 
 	<!-- Companies -->
@@ -379,6 +393,16 @@
 		<property name="copy" value="false" />
 		<property name="hacker" ref="hacker2" />
 	</bean>
+	
+	<bean id="curricula3" class="domain.Curricula">
+		<property name="fullName" value="fullname1" />
+		<property name="statement" value="statement1" />
+		<property name="phoneNumber" value="666666666" />
+		<property name="githubProfile" value="http://www.github1.com" />
+		<property name="linkedinprofile" value="http://www.linkedin1.com" />
+		<property name="copy" value="true" />
+		<property name="hacker" ref="hacker1" />
+	</bean>
 
 	<!-- POSITION DATA -->
 
@@ -396,6 +420,14 @@
 		<property name="startDate" value="2018/03/23 12:00" />
 		<property name="endDate" value="2019/10/25 12:00" />
 		<property name="curricula" ref="curricula2" />
+	</bean>
+	
+	<bean id="positionData3" class="domain.PositionData">
+		<property name="title" value="title1" />
+		<property name="description" value="description1" />
+		<property name="startDate" value="2018/01/23 12:00" />
+		<property name="endDate" value="2019/10/23 12:00" />
+		<property name="curricula" ref="curricula3" />
 	</bean>
 
 	<!-- MISCELLANEOUS DATA -->
@@ -417,6 +449,18 @@
 		<property name="attachments" value="http://www.attachment3.com" />
 		<property name="curricula" ref="curricula2" />
 	</bean>
+	
+	<bean id="miscellaneousData4" class="domain.MiscellaneousData">
+		<property name="text" value="text1" />
+		<property name="attachments" value="http://www.attachment1.com" />
+		<property name="curricula" ref="curricula3" />
+	</bean>
+
+	<bean id="miscellaneousData5" class="domain.MiscellaneousData">
+		<property name="text" value="text2" />
+		<property name="attachments" value="http://www.attachment2.com" />
+		<property name="curricula" ref="curricula3" />
+	</bean>
 
 	<!-- EDUCATION DATA -->
 
@@ -437,15 +481,21 @@
 		<property name="endDate" value="2019/03/21 12:00" />
 		<property name="curricula" ref="curricula2" />
 	</bean>
+	
+	<bean id="educationData3" class="domain.EducationData">
+		<property name="degree" value="degree1" />
+		<property name="institution" value="institution1" />
+		<property name="mark" value="23" />
+		<property name="startDate" value="2018/03/23 12:00" />
+		<property name="endDate" value="2019/03/23 12:00" />
+		<property name="curricula" ref="curricula3" />
+	</bean>
 
 	<!-- APPLICATION -->
 	<bean id="application1" class="domain.Application">
-		<property name="linkAnswer" value="http://www.linkAnswer1.com" />
-		<property name="textAnswer" value="text1" />
 		<property name="status" value="PENDING" />
 		<property name="publicationMoment" value="2018/03/23 12:00" />
-		<property name="submissionMoment" value="2019/01/23 12:00" />
-		<property name="curricula" ref="curricula1" />
+		<property name="curricula" ref="curricula3" />
 		<property name="problem" ref="problem1" />
 		<property name="position" ref="position1" />
 		<property name="hacker" ref="hacker1" />
@@ -457,7 +507,7 @@
 		<property name="status" value="SUBMITTED" />
 		<property name="publicationMoment" value="2018/05/11 12:00" />
 		<property name="submissionMoment" value="2019/02/12 12:00" />
-		<property name="curricula" ref="curricula1" />
+		<property name="curricula" ref="curricula3" />
 		<property name="problem" ref="problem2" />
 		<property name="position" ref="position1" />
 		<property name="hacker" ref="hacker1" />

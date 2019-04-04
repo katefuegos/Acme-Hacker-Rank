@@ -51,6 +51,7 @@ public class PositionService {
 
 		position.setTicker(this.generateTicker(company));
 		position.setDraftmode(true);
+		position.setCancelled(false);
 		position.setCompany(company);
 
 		return position;
@@ -153,6 +154,10 @@ public class PositionService {
 	public Position findByCompanyIdSingle(final int companyId) {
 		Assert.notNull(companyId);
 		return this.positionRepository.findByCompanyIdSingle(companyId);
+	}
+
+	public Collection<Position> findFinalNotCancelled() {
+		return this.positionRepository.findFinalNotCancelled();
 	}
 
 }
