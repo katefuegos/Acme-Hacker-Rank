@@ -72,7 +72,7 @@ public class EducationDataService {
 		educationDataCopy.setInstitution(educationData.getInstitution());
 		educationDataCopy.setMark(educationData.getMark());
 
-		return this.save(educationDataCopy);
+		return educationDataCopy;
 	}
 	
 	public Collection<EducationData> findByCurriculaId(int curriculaId){

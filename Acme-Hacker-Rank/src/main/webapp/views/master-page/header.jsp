@@ -109,8 +109,6 @@
 		<!-- HACKER -->
 
 		<security:authorize access="hasRole('HACKER')">
-			<li><a class="fNiv" href="application/company/list.do"><spring:message
-						code="master.page.application.list" /></a></li>
 			<li><a class="fNiv" href="application/hacker/list.do"><spring:message
 						code="master.page.application.list" /></a></li>
 		</security:authorize>

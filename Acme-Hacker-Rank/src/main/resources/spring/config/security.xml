@@ -78,7 +78,7 @@
 		<security:intercept-url pattern="/register/actor.do"
 			access="isAnonymous()" />
 		<security:intercept-url pattern="/register/administrator/actor.do"
-			access="hasRole('ADMIN')"/>
+			access="hasRole('ADMIN')" />
 
 		<!-- Position -->
 		<security:intercept-url pattern="/position/company/list.do"
@@ -107,11 +107,19 @@
 		<!-- APPLICATION -->
 		<security:intercept-url pattern="/application/company/list.do"
 			access="hasRole('COMPANY')" />
-		<security:intercept-url pattern="/application/company/acccept.do"
+		<security:intercept-url pattern="/application/company/display.do"
+			access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/application/company/accept.do"
 			access="hasRole('COMPANY')" />
 		<security:intercept-url pattern="/application/company/reject.do"
 			access="hasRole('COMPANY')" />
 		<security:intercept-url pattern="/application/hacker/list.do"
+			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/application/hacker/create.do"
+			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/application/hacker/edit.do"
+			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/application/hacker/display.do"
 			access="hasRole('HACKER')" />
 
 		<!-- MESSAGE -->

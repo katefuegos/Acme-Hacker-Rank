@@ -1,11 +1,9 @@
-package domain;
+package forms;
 
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -16,17 +14,57 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
-@Access(AccessType.PROPERTY)
-public class Application extends DomainEntity {
+import domain.Company;
+import domain.Curricula;
+import domain.Hacker;
+import domain.Position;
+import domain.Problem;
 
-	// Identification ---------------------------------------------------------
-	// ATRIBUTOS
+@Access(AccessType.PROPERTY)
+public class ApplicationForm2 {
+
+	// Attributes------------------------------------------------------------------
+	private int id;
+	private String textAnswer;
+	private String linkAnswer;
+	private Position position;
+	private Curricula curricula;
+	private Hacker hacker;
+	private Company company;
+	private Problem problem;
 	private Date publicationMoment;
 	private Date submissionMoment;
 	private String status;
-	private String textAnswer;
-	private String linkAnswer;
+
+	@Valid
+	@NotNull
+	public Hacker getHacker() {
+		return hacker;
+	}
+
+	public void setHacker(Hacker hacker) {
+		this.hacker = hacker;
+	}
+
+	@Valid
+	@NotNull
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	@Valid
+	@NotNull
+	public Problem getProblem() {
+		return problem;
+	}
+
+	public void setProblem(Problem problem) {
+		this.problem = problem;
+	}
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
@@ -39,6 +77,7 @@ public class Application extends DomainEntity {
 		this.publicationMoment = publicationMoment;
 	}
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	public Date getSubmissionMoment() {
@@ -59,6 +98,15 @@ public class Application extends DomainEntity {
 		this.status = status;
 	}
 
+	@NotNull
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getTextAnswer() {
 		return textAnswer;
 	}
@@ -76,26 +124,8 @@ public class Application extends DomainEntity {
 		this.linkAnswer = linkAnswer;
 	}
 
-	// Relationships ---------------------------------------------------------
-	private Problem problem;
-	private Position position;
-	private Curricula curricula;
-	private Hacker hacker;
-
 	@NotNull
 	@Valid
-	@ManyToOne(optional = false)
-	public Problem getProblem() {
-		return problem;
-	}
-
-	public void setProblem(Problem problem) {
-		this.problem = problem;
-	}
-
-	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
 	public Position getPosition() {
 		return position;
 	}
@@ -106,24 +136,12 @@ public class Application extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@ManyToOne(optional = false)
 	public Curricula getCurricula() {
 		return curricula;
 	}
 
 	public void setCurricula(Curricula curricula) {
 		this.curricula = curricula;
-	}
-
-	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
-	public Hacker getHacker() {
-		return hacker;
-	}
-
-	public void setHacker(Hacker hacker) {
-		this.hacker = hacker;
 	}
 
 }

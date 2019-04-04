@@ -85,35 +85,44 @@ public class CurriculaService {
 		curriculaCopy.setLinkedinprofile(curricula.getLinkedinprofile());
 		curriculaCopy.setPhoneNumber(curricula.getPhoneNumber());
 		curriculaCopy.setStatement(curricula.getStatement());
-		curriculaCopy = this.save(curriculaCopy);
-		
-		Collection<EducationData> educationDataList = educationDataService.findByCurriculaId(curriculaId);
-		if(!educationDataList.isEmpty()){
-			for(EducationData e: educationDataList){
+		Curricula result = this.save(curriculaCopy);
+
+		Collection<EducationData> educationDataList = educationDataService
+				.findByCurriculaId(curriculaId);
+		if (!educationDataList.isEmpty()) {
+			for (EducationData e : educationDataList) {
 				EducationData copy = educationDataService.copy(e.getId());
-				copy.setCurricula(curriculaCopy);
+				copy.setCurricula(result);
 				educationDataService.save(copy);
 			}
 		}
-		
-		Collection<PositionData> positionDataList = positionDataService.findByCurriculaId(curriculaId);
-		if(!positionDataList.isEmpty()){
-			for(PositionData e: positionDataList){
+
+		Collection<PositionData> positionDataList = positionDataService
+				.findByCurriculaId(curriculaId);
+		if (!positionDataList.isEmpty()) {
+			for (PositionData e : positionDataList) {
 				PositionData copy = positionDataService.copy(e.getId());
-				copy.setCurricula(curriculaCopy);
+				copy.setCurricula(result);
 				positionDataService.save(copy);
 			}
 		}
-		
-		Collection<MiscellaneousData> miscellaneousDataList = miscellaneousDataService.findByCurriculaId(curriculaId);
-		if(!miscellaneousDataList.isEmpty()){
-			for(MiscellaneousData e: miscellaneousDataList){
-				MiscellaneousData copy = miscellaneousDataService.copy(e.getId());
-				copy.setCurricula(curriculaCopy);
+
+		Collection<MiscellaneousData> miscellaneousDataList = miscellaneousDataService
+				.findByCurriculaId(curriculaId);
+		if (!miscellaneousDataList.isEmpty()) {
+			for (MiscellaneousData e : miscellaneousDataList) {
+				MiscellaneousData copy = miscellaneousDataService.copy(e
+						.getId());
+				copy.setCurricula(result);
 				miscellaneousDataService.save(copy);
 			}
 		}
-		
-		return curriculaCopy;
+
+		return result;
+	}
+
+	public Collection<Curricula> findByHackerId(int hackerId) {
+		Assert.notNull(hackerId);
+		return curriculaRepository.findByHackerId(hackerId);
 	}
 }

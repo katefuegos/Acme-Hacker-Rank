@@ -81,4 +81,9 @@ public class ProblemService {
 		Assert.notNull(companyId);
 		return this.problemRepository.findByCompanyId(companyId);
 	}
+	
+	public Collection<Problem> findByPositionIdAndFinal(int positionId){
+		Assert.notNull(positionId);
+		return this.problemRepository.findByPositionIdAndFinal(positionId);
+	}
 }

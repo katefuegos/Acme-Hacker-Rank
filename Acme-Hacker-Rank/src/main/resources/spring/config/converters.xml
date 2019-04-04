@@ -36,6 +36,12 @@
 		
 		<bean class="converters.CompanyToStringConverter" />
 		<bean class="converters.StringToCompanyConverter" />
+		
+		<bean class="converters.CurriculaToStringConverter" />
+		<bean class="converters.StringToCurriculaConverter" />
+		
+		<bean class="converters.PositionToStringConverter" />
+		<bean class="converters.StringToPositionConverter" />
 
 	</util:list>
 

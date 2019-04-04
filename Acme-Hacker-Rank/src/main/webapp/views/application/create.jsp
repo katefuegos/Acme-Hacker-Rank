@@ -13,11 +13,28 @@
 
 <form:form action="${requestURI}" modelAttribute="applicationForm">
 	<form:hidden path="id" />
-	<form:hidden path="position" />
-	<form:hidden path="curricula" />
 
 	<acme:textbox code="application.textAnswer" path="textAnswer" />
 	<acme:textbox code="application.linkAnswer" path="linkAnswer" />
+
+	<form:label path="curricula">
+		<spring:message code="application.curricula" />:
+			</form:label>
+	<form:select id="curriculas" path="curricula">
+		<form:options items="${curriculas}" itemValue="id"
+			itemLabel="fullName" />
+	</form:select>
+	<form:errors cssClass="error" path="curricula" />
+	<br>
+
+	<form:label path="position">
+		<spring:message code="application.position" />:
+			</form:label>
+	<form:select id="positions" path="position">
+		<form:options items="${positions}" itemValue="id" itemLabel="title" />
+	</form:select>
+	<form:errors cssClass="error" path="position" />
+	<br>
 
 	<jstl:if test="${isRead == false}">
 		<acme:submit name="save" code="application.save" />
