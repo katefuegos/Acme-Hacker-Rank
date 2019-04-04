@@ -79,6 +79,10 @@
 			access="isAnonymous()" />
 		<security:intercept-url pattern="/register/administrator/actor.do"
 			access="hasRole('ADMIN')" />
+			
+		<!--  Edit personal data -->	
+		<security:intercept-url pattern="/actor/edit.do"
+			access="isAuthenticated()" />
 
 		<!-- Position -->
 		<security:intercept-url pattern="/position/company/list.do"

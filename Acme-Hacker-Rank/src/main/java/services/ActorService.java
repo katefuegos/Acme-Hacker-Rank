@@ -219,7 +219,11 @@ public class ActorService {
 	}
 
 	private domain.CreditCard saveCreditCard(final ActorForm f) {
-		final CreditCard creditCard = this.creditCardService.create();
+		final CreditCard creditCard;
+		if (f.getId() != 0)
+			creditCard = this.findOne(f.getId()).getCreditCard();
+		else
+			creditCard = this.creditCardService.create();
 
 		creditCard.setHolderName(f.getHolderName());
 		creditCard.setBrandName(f.getBrandName());

@@ -30,46 +30,45 @@
 	<form:hidden path="version" />
 	<form:hidden path="userAccount" />
 	<form:hidden path="auth" />
-	<form:hidden path="area" />
 
-
-
-	<jstl:if test="${isRead==true}">
-
-
-		<img src="${actorForm.photo}" height="200px" width="200px" />
-		<br />
-	</jstl:if>
 
 	<acme:textbox code="actor.name" path="name" />
-	<acme:textbox code="actor.middleName" path="middleName" />
-	<acme:textbox code="actor.surname" path="surname" />
+	<acme:textbox code="actor.surnames" path="surname" />
+	<acme:textbox code="actor.VATnumber" path="VATNumber" />
 
-	<jstl:if test="${isRead == false}">
-		<acme:textbox code="actor.photo" path="photo" />
-	</jstl:if>
-
+	<acme:textbox code="actor.photo" path="photo" />
 	<acme:textbox code="actor.email" path="email" />
-
-	<acme:textbox code="actor.address" path="address" />
-
-	<jstl:if test="${isRead == true}">
-		<jstl:if test="${title != null}">
-			<h3>
-				<spring:message code="actor.title" />
-				:
-				<jstl:out value="${title}" />
-			</h3>
-		</jstl:if>
-	</jstl:if>
-
-
 	<form:label path="phone">
 		<spring:message code="actor.phone" />
 	</form:label>
 	<form:input path="phone" id="tlf" readonly="${isRead}" />
 	<form:errors path="phone" cssClass="error" />
 	<br />
+	<acme:textbox code="actor.address" path="address" />
+	
+	
+	<jstl:if test="${actorForm.auth != 'COMPANY'}">
+		<form:hidden path="comercialName" />
+
+	</jstl:if>
+
+	<jstl:if test="${actorForm.auth == 'COMPANY' }">
+		<acme:textbox code="actor.comercialName" path="comercialName" />
+	</jstl:if>
+
+<br>
+	<h5>
+	<spring:message code="actor.add.creditcard" />
+	</h5>
+	<acme:textbox code="actor.holderName" path="holderName" />
+	<acme:textbox code="actor.brandName" path="brandName" />
+	<acme:textbox code="actor.number" path="number" />
+	<acme:textbox code="actor.expirationMonth" path="expirationMonth" />
+	<acme:textbox code="actor.expirationYear" path="expirationYear" />
+	<acme:textbox code="actor.CVVCode" path="CVVCode" />
+
+
+
 
 	<script type="text/javascript">
 		function isValid() {
@@ -84,50 +83,19 @@
 		}
 	</script>
 
-	<jstl:if test="${isRead == true}">
-		<jstl:if test="${establishmentDate != null}">
-			<h3>
-				<spring:message code="actor.establishmentDate" />
-				:
-				<jstl:out value="${establishmentDate}" />
-			</h3>
-		</jstl:if>
-	</jstl:if>
 
-	<jstl:if
-		test="${actorForm.auth != 'BROTHERHOOD' && actorForm.auth != 'CHAPTER' }">
-		<form:hidden path="title" />
-		<form:hidden path="pictures" />
-
-	</jstl:if>
-	<jstl:if test="${actorForm.auth == 'CHAPTER'}">
-		<form:hidden path="pictures" />
-		<acme:textbox code="actor.title" path="title" />
-	</jstl:if>
-
-	<jstl:if test="${actorForm.auth == 'BROTHERHOOD'}">
-
-		<acme:textbox code="actor.title" path="title" />
-
-		<acme:textbox code="actor.pictures" path="pictures" />
-
-
-
-	</jstl:if>
 
 
 	<jstl:if test="${isRead == false}">
 		<br />
-		<acme:submit name="save" code="actor.save" />
-
+		<input type="submit" name="save"
+			value='<spring:message code="actor.save"/>'
+			onclick=" javascript: return isValid();">
+	
 		<acme:cancel url="welcome/index.do" code="actor.back" />
 		<br />
 	</jstl:if>
 
-	<jstl:if test="${isRead == true}">
-		<acme:cancel url="welcome/index.do" code="actor.back" />
-
-	</jstl:if>
 
 </form:form>
 
