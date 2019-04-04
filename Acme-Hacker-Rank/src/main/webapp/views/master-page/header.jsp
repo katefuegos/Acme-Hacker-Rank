@@ -113,6 +113,8 @@
 		<security:authorize access="hasRole('HACKER')">
 			<li><a class="fNiv" href="application/hacker/list.do"><spring:message
 						code="master.page.application.list" /></a></li>
+			<li><a class="fNiv" href="finder/hacker/listPositions.do"><spring:message
+						code="master.page.finder" /></a></li>
 		</security:authorize>
 
 

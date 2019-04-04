@@ -42,6 +42,9 @@
 		
 		<bean class="converters.PositionToStringConverter" />
 		<bean class="converters.StringToPositionConverter" />
+		
+		<bean class="converters.FinderToStringConverter" />
+		<bean class="converters.StringToFinderConverter" />
 
 	</util:list>
 

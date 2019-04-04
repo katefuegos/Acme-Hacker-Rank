@@ -107,7 +107,14 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/company/display.do"
 			access="permitAll" />
-
+	
+		<!-- Finder -->
+		<security:intercept-url pattern="/finder/hacker/update.do"
+			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/finder/hacker/listPositions.do"
+			access="hasRole('HACKER')" />
+		
+		
 		<!-- APPLICATION -->
 		<security:intercept-url pattern="/application/company/list.do"
 			access="hasRole('COMPANY')" />

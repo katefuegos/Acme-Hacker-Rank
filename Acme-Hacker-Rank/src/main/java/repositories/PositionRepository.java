@@ -28,4 +28,7 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	@Query("select p from Position p where p.company.userAccount.id =?1")
 	Position findByCompanyIdSingle(int companyId);
 
+	@Query("select p from Position p where p.draftmode=false and p.cancelled <> true")
+	Collection<Position> findFinalNotCancelled();
+
 }

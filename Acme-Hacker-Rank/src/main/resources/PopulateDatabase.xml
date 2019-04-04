@@ -119,8 +119,22 @@
 		<property name="address" value="C/Calle, 53" />
 		<property name="creditCard" ref="creditCard3" />
 		<property name="userAccount" ref="userAccount3" />
+		<property name="finder" ref="finder1" />
 	</bean>
 
+	<!-- Finder -->
+
+	<bean id="finder1" class="domain.Finder">
+		<property name="keyword" value="" />
+		<property name="minSalary" value="100" />
+		<property name="deadlineMin" value="2018/09/09 09:13" />
+		<property name="deadlineMax" value="2029/09/09 09:13" />
+		<property name="lastUpdate" value="2019/04/04 09:13" />
+		<property name="positions">
+			<list>
+			</list>
+		</property>
+	</bean>
 
 
 	<!-- Companies -->
