@@ -67,7 +67,34 @@ public class CurriculaService {
 	}
 
 	public void delete(final Curricula curricula) {
-		this.curriculaRepository.delete(curricula);
+		if (curricula.isCopy() == false) {
+
+			Collection<EducationData> educationdatas = educationDataService
+					.findByCurriculaId(curricula.getId());
+			Collection<MiscellaneousData> miscellaneousdatas = miscellaneousDataService
+					.findByCurriculaId(curricula.getId());
+			Collection<PositionData> positiondatas = positionDataService
+					.findByCurriculaId(curricula.getId());
+
+			if (!educationdatas.isEmpty()) {
+				for (EducationData e : educationdatas) {
+					educationDataService.delete(e);
+				}
+			}
+
+			if (!miscellaneousdatas.isEmpty()) {
+				for (MiscellaneousData m : miscellaneousdatas) {
+					miscellaneousDataService.delete(m);
+				}
+			}
+
+			if (!positiondatas.isEmpty()) {
+				for (PositionData p : positiondatas) {
+					positionDataService.delete(p);
+				}
+			}
+			this.curriculaRepository.delete(curricula);
+		}
 	}
 
 	// Other Methods--------------------------------------------

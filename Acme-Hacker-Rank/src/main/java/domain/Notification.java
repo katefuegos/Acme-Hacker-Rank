@@ -1,4 +1,3 @@
-
 package domain;
 
 import java.util.Date;
@@ -18,14 +17,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Message extends DomainEntity {
+public class Notification extends DomainEntity {
 
 	// Identification ---------------------------------------------------------
-	//ATRIBUTOS
-	private String	subject;
-	private String	body;
-	private Date	moment;
-
+	// ATRIBUTOS
+	private String subject;
+	private String body;
+	private Date moment;
 
 	@NotBlank
 	public String getSubject() {
@@ -57,42 +55,17 @@ public class Message extends DomainEntity {
 		this.moment = moment;
 	}
 
-
 	// Relationships ---------------------------------------------------------
-	private Box		box;
-	private Actor	sender;
-	private Actor	recipient;
-
+	private Actor actor;
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	public Box getBox() {
-		return this.box;
+	public Actor getActor() {
+		return this.actor;
 	}
 
-	public void setBox(final Box box) {
-		this.box = box;
-	}
-
-	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
-	public Actor getSender() {
-		return this.sender;
-	}
-
-	public void setSender(final Actor sender) {
-		this.sender = sender;
-	}
-	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
-	public Actor getRecipient() {
-		return this.recipient;
-	}
-
-	public void setRecipient(final Actor recipient) {
-		this.recipient = recipient;
+	public void setActor(final Actor actor) {
+		this.actor = actor;
 	}
 }

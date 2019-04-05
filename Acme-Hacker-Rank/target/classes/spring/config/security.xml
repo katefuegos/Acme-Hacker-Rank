@@ -79,8 +79,8 @@
 			access="isAnonymous()" />
 		<security:intercept-url pattern="/register/administrator/actor.do"
 			access="hasRole('ADMIN')" />
-			
-		<!--  Edit personal data -->	
+
+		<!-- Edit personal data -->
 		<security:intercept-url pattern="/actor/edit.do"
 			access="isAuthenticated()" />
 
@@ -107,14 +107,14 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/company/display.do"
 			access="permitAll" />
-	
+
 		<!-- Finder -->
 		<security:intercept-url pattern="/finder/hacker/update.do"
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/finder/hacker/listPositions.do"
 			access="hasRole('HACKER')" />
-		
-		
+
+
 		<!-- APPLICATION -->
 		<security:intercept-url pattern="/application/company/list.do"
 			access="hasRole('COMPANY')" />
@@ -133,13 +133,27 @@
 		<security:intercept-url pattern="/application/hacker/display.do"
 			access="hasRole('HACKER')" />
 
-		<!-- MESSAGE -->
-
-		<!-- BOX -->
+		<!-- NOTIFICATION -->
+		<security:intercept-url pattern="/notification/administrator/notifyBreach.do"
+			access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/notification/administrator/notifyBreachHackers.do"
+			access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/notification/administrator/notifyBreachCompanies.do"
+			access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/notification/actor/list.do"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/notification/actor/display.do"
+			access="isAuthenticated()" />
 
 		<!-- OTHERS -->
 		<security:intercept-url pattern="/welcome/terms.do"
 			access="permitAll" />
+		<security:intercept-url pattern="/data/list.do"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/data/downloadPersonalData.do"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/data/deletePersonalData.do"
+			access="isAuthenticated()" />
 
 		<security:intercept-url pattern="/**"
 			access="hasRole('NONE')" />

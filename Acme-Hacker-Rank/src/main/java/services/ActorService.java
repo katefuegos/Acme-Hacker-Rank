@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -27,33 +26,24 @@ public class ActorService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private ActorRepository			actorRepository;
+	private ActorRepository actorRepository;
 
 	// Services-------------------------------------------------
-	@Autowired
-	private MessageService			messageService;
 
 	@Autowired
-	private ConfigurationService	configurationService;
+	private HackerService hackerService;
 
 	@Autowired
-	private HackerService			hackerService;
+	private CompanyService companyService;
 
 	@Autowired
-	private CompanyService			companyService;
+	private AdministratorService administratorService;
 
 	@Autowired
-	private BoxService				boxService;
+	private ServiceUtils serviceUtils;
 
 	@Autowired
-	private AdministratorService	administratorService;
-
-	@Autowired
-	private ServiceUtils			serviceUtils;
-
-	@Autowired
-	private CreditCardService		creditCardService;
-
+	private CreditCardService creditCardService;
 
 	// Constructor----------------------------------------------
 
@@ -105,10 +95,12 @@ public class ActorService {
 	public Actor findByUserAccount(final UserAccount userAccount) {
 		return this.actorRepository.findByUserAccountId(userAccount.getId());
 	}
+
 	public Actor findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
 		return this.actorRepository.findByUserAccountId(userAccount.getId());
 	}
+
 	public Actor findByUserAccountId(final int id) {
 		return this.actorRepository.findByUserAccountId(id);
 	}
@@ -117,7 +109,8 @@ public class ActorService {
 
 		Assert.notNull(actorform);
 
-		final Collection<Authority> authorities = actorform.getUserAccount().getAuthorities();
+		final Collection<Authority> authorities = actorform.getUserAccount()
+				.getAuthorities();
 		final Authority hacker = new Authority();
 		hacker.setAuthority(Authority.HACKER);
 		final Authority company = new Authority();
@@ -133,7 +126,7 @@ public class ActorService {
 			else {
 				hack = this.hackerService.create();
 				hack.setUserAccount(actorform.getUserAccount());
-				//Assert.isTrue(LoginService.getPrincipal() == null);
+				// Assert.isTrue(LoginService.getPrincipal() == null);
 				Assert.isTrue(this.serviceUtils.checkAuthorityBoolean(null));
 			}
 			hack.setId(actorform.getId());
@@ -150,9 +143,7 @@ public class ActorService {
 
 			hack.setCreditCard(creditCard);
 
-			final Actor actor1 = this.hackerService.save(hack);
-			// TODO addSystemBox
-			// this.boxService.addSystemBox(actor1);
+			this.hackerService.save(hack);
 
 		} else if (authorities.contains(company)) {
 			domain.Company compa = null;
@@ -161,7 +152,7 @@ public class ActorService {
 			else {
 				compa = this.companyService.create();
 				compa.setUserAccount(actorform.getUserAccount());
-				//Assert.isTrue(LoginService.getPrincipal() == null);
+				// Assert.isTrue(LoginService.getPrincipal() == null);
 				Assert.isTrue(this.serviceUtils.checkAuthorityBoolean(null));
 			}
 
@@ -180,9 +171,7 @@ public class ActorService {
 			final domain.CreditCard creditCard = this.saveCreditCard(actorform);
 			compa.setCreditCard(creditCard);
 
-			final Actor actor1 = this.companyService.save(compa);
-			// TODO addSystemBox
-			//this.boxService.addSystemBox(actor1);
+			this.companyService.save(compa);
 
 		} else if (authorities.contains(admin)) {
 			Administrator administrator = null;
@@ -190,7 +179,8 @@ public class ActorService {
 			Assert.isTrue(this.serviceUtils.checkAuthorityBoolean("ADMIN"));
 
 			if (actorform.getId() != 0)
-				administrator = this.administratorService.findOne(actorform.getId());
+				administrator = this.administratorService.findOne(actorform
+						.getId());
 			else {
 				administrator = this.administratorService.create();
 				administrator.setUserAccount(actorform.getUserAccount());
@@ -210,10 +200,8 @@ public class ActorService {
 			final domain.CreditCard creditCard = this.saveCreditCard(actorform);
 			administrator.setCreditCard(creditCard);
 
-			final Actor actor1 = this.administratorService.save(administrator);
+			this.administratorService.save(administrator);
 
-			// TODO addSystemBox
-			//this.boxService.addSystemBox(actor1);
 		}
 
 	}

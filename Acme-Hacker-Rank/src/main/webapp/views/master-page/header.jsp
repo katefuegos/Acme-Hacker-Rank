@@ -62,6 +62,8 @@
 					<li class="arrow"></li>
 					<li><a href="actor/edit.do"><spring:message
 								code="master.page.actor.edit" /> </a></li>
+					<li><a href="data/list.do"><spring:message
+								code="master.page.data" /> </a></li>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
 				</ul></li>
@@ -70,6 +72,8 @@
 			<li class="arrow"></li>
 			<li><a href="company/list.do"><spring:message
 						code="master.page.company.list" /></a></li>
+			<li><a href="notification/actor/list.do"><spring:message
+						code="master.page.notification.list" /></a></li>
 		</security:authorize>
 
 
@@ -80,9 +84,21 @@
 						code="master.page.administrator" /></a>
 				<ul>
 
-					<li><a
-						href="register/administrator/actor.do?authority=ADMIN"><spring:message
+					<li><a href="register/administrator/actor.do?authority=ADMIN"><spring:message
 								code="master.page.register.admin" /></a></li>
+
+				</ul></li>
+			<li><a class="fNiv"><spring:message
+						code="master.page.securityBreach" /></a>
+				<ul>
+
+					<li><a href="notification/administrator/notifyBreach.do"><spring:message
+								code="master.page.broadcast" /></a></li>
+					<li><a href="notification/administrator/notifyBreachHackers.do"><spring:message
+								code="master.page.broadcastHackers" /></a></li>
+					<li><a
+						href="notification/administrator/notifyBreachCompanies.do"><spring:message
+								code="master.page.broadcastCompanies" /></a></li>
 
 				</ul></li>
 		</security:authorize>

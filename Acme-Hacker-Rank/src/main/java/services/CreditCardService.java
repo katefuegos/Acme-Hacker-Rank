@@ -57,6 +57,7 @@ public class CreditCardService {
 		@SuppressWarnings("deprecation")
 		final int year = currentDate.getYear() + 1900;
 
+		@SuppressWarnings("unused")
 		final boolean b = (creditCard.getExpirationYear() > year) || (creditCard.getExpirationYear() == year && creditCard.getExpirationMonth() > month);
 		Assert.isTrue((creditCard.getExpirationYear() > year) || (creditCard.getExpirationYear() == year && creditCard.getExpirationMonth() > month), "actor.creditcard.error.date.invalid");
 

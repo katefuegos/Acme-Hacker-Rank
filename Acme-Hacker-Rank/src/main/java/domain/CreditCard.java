@@ -3,6 +3,7 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
@@ -32,6 +33,7 @@ public class CreditCard extends DomainEntity {
 	}
 
 	@Pattern(regexp = "^(VISA|MASTER|DINNERS|AMEX)$")
+	@NotBlank
 	public String getBrandName() {
 		return this.brandName;
 	}
@@ -51,6 +53,7 @@ public class CreditCard extends DomainEntity {
 	}
 
 	@Range(min = 1, max = 12)
+	@NotNull
 	public int getExpirationMonth() {
 		return this.expirationMonth;
 	}
@@ -60,6 +63,7 @@ public class CreditCard extends DomainEntity {
 	}
 
 	@Range(min = 2019, max = 3000)
+	@NotNull
 	public int getExpirationYear() {
 		return this.expirationYear;
 	}
@@ -69,6 +73,7 @@ public class CreditCard extends DomainEntity {
 	}
 
 	@Range(min = 100, max = 999)
+	@NotNull
 	public int getCVVCode() {
 		return this.CVVCode;
 	}

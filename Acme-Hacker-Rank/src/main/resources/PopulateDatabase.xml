@@ -167,34 +167,6 @@
 		<property name="userAccount" ref="userAccount5" />
 	</bean>
 
-
-	<!-- BOX -->
-
-	<bean id="notificationBoxA" class="domain.Box">
-		<property name="name" value="notification box" />
-		<property name="actor" ref="admin" />
-	</bean>
-
-	<bean id="notificationBoxH1" class="domain.Box">
-		<property name="name" value="notification box" />
-		<property name="actor" ref="hacker1" />
-	</bean>
-
-	<bean id="notificationBoxH2" class="domain.Box">
-		<property name="name" value="notification box" />
-		<property name="actor" ref="hacker2" />
-	</bean>
-
-	<bean id="notificationBoxC1" class="domain.Box">
-		<property name="name" value="notification box" />
-		<property name="actor" ref="company1" />
-	</bean>
-
-	<bean id="notificationBoxC2" class="domain.Box">
-		<property name="name" value="notification box" />
-		<property name="actor" ref="company2" />
-	</bean>
-
 	<!-- CONFIGURATION -->
 	<bean id="configuration1" class="domain.Configuration">
 		<property name="countryCode" value="+34" />
@@ -393,7 +365,7 @@
 		<property name="copy" value="false" />
 		<property name="hacker" ref="hacker2" />
 	</bean>
-	
+
 	<bean id="curricula3" class="domain.Curricula">
 		<property name="fullName" value="fullname1" />
 		<property name="statement" value="statement1" />
@@ -421,7 +393,7 @@
 		<property name="endDate" value="2019/10/25 12:00" />
 		<property name="curricula" ref="curricula2" />
 	</bean>
-	
+
 	<bean id="positionData3" class="domain.PositionData">
 		<property name="title" value="title1" />
 		<property name="description" value="description1" />
@@ -449,7 +421,7 @@
 		<property name="attachments" value="http://www.attachment3.com" />
 		<property name="curricula" ref="curricula2" />
 	</bean>
-	
+
 	<bean id="miscellaneousData4" class="domain.MiscellaneousData">
 		<property name="text" value="text1" />
 		<property name="attachments" value="http://www.attachment1.com" />
@@ -481,7 +453,7 @@
 		<property name="endDate" value="2019/03/21 12:00" />
 		<property name="curricula" ref="curricula2" />
 	</bean>
-	
+
 	<bean id="educationData3" class="domain.EducationData">
 		<property name="degree" value="degree1" />
 		<property name="institution" value="institution1" />
@@ -511,6 +483,49 @@
 		<property name="problem" ref="problem2" />
 		<property name="position" ref="position1" />
 		<property name="hacker" ref="hacker1" />
+	</bean>
+
+	<!-- NOTIFICATION -->
+	<bean id="notification1" class="domain.Notification">
+		<property name="subject"
+			value="Brecha de seguridad hackers / Security breach hackers" />
+		<property name="moment" value="2019/01/23 12:00" />
+		<property name="body"
+			value="Se ha detectado una brecha de seguridad que afecta a los hackers / We have detected a security breach who affects hackers" />
+		<property name="actor" ref="hacker1" />
+	</bean>
+
+	<bean id="notification2" class="domain.Notification">
+		<property name="subject" value="Brecha de seguridad / Security breach" />
+		<property name="moment" value="2019/01/24 13:00" />
+		<property name="body"
+			value="Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users" />
+		<property name="actor" ref="hacker1" />
+	</bean>
+
+	<bean id="notification3" class="domain.Notification">
+		<property name="subject"
+			value="Brecha de seguridad empresas / Security breach companies" />
+		<property name="moment" value="2019/01/23 12:00" />
+		<property name="body"
+			value="Se ha detectado una brecha de seguridad que afecta a las empresas / We have detected a security breach who affects companies" />
+		<property name="actor" ref="company1" />
+	</bean>
+	
+	<bean id="notification4" class="domain.Notification">
+		<property name="subject" value="Brecha de seguridad / Security breach" />
+		<property name="moment" value="2019/01/24 13:00" />
+		<property name="body"
+			value="Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users" />
+		<property name="actor" ref="company1" />
+	</bean>
+	
+	<bean id="notification5" class="domain.Notification">
+		<property name="subject" value="Brecha de seguridad / Security breach" />
+		<property name="moment" value="2019/01/24 13:00" />
+		<property name="body"
+			value="Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users" />
+		<property name="actor" ref="admin" />
 	</bean>
 
 

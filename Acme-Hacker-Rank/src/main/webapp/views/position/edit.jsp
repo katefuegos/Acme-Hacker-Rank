@@ -11,9 +11,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}"
-	modelAttribute="positionForm">
+<form:form action="${requestURI}" modelAttribute="positionForm">
 	<form:hidden path="id" />
+	<form:hidden path="draftmode" />
 
 	<jstl:if test="${readonly==true }">
 		<acme:textbox code="position.ticker" path="ticker"
@@ -34,22 +34,24 @@
 	<acme:textbox code="position.salary" path="salary"
 		readonly="${readonly}" />
 	<jstl:if test="${readonly!=true }">
-		<form:label path="draftmode">
-			<spring:message code="position.draftmode" />
-		</form:label>
-		<form:checkbox path="draftmode" readonly="true" />
-		<form:errors path="draftmode" cssClass="error" />
-		<br />
-		<br />
+		<jstl:if test="${idPosition!=0 }">
+			<form:label path="draftmode">
+				<spring:message code="position.draftmode" />
+			</form:label>
+			<form:checkbox path="draftmode" readonly="true" />
+			<form:errors path="draftmode" cssClass="error" />
+			<br />
+			<br />
+		</jstl:if>
 	</jstl:if>
 	<jstl:if test="${readonly!=true }">
 
 		<acme:submit name="save" code="position.save" />
 		<acme:cancel url="position/company/list.do" code="position.cancel" />
 		<jstl:if test="${positionForm.id!=0 }">
-		<acme:delete confirmDelete="position.confirmDelete" name="delete"
-			code="position.delete" />
-			</jstl:if>
+			<acme:delete confirmDelete="position.confirmDelete" name="delete"
+				code="position.delete" />
+		</jstl:if>
 	</jstl:if>
 	<jstl:if test="${readonly==true }">
 		<acme:cancel url="position/list.do" code="position.back" />

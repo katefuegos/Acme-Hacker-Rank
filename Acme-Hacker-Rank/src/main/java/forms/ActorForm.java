@@ -177,6 +177,7 @@ public class ActorForm {
 	}
 
 	@Pattern(regexp = "^(VISA|MASTER|DINNERS|AMEX)$")
+	@NotBlank
 	public String getBrandName() {
 		return this.brandName;
 	}
@@ -196,6 +197,7 @@ public class ActorForm {
 	}
 
 	@Range(min = 1, max = 12)
+	@NotNull
 	public int getExpirationMonth() {
 		return this.expirationMonth;
 	}
@@ -205,6 +207,7 @@ public class ActorForm {
 	}
 
 	@Range(min = 2019, max = 3000)
+	@NotNull
 	public int getExpirationYear() {
 		return this.expirationYear;
 	}
@@ -213,6 +216,7 @@ public class ActorForm {
 		this.expirationYear = expirationYear;
 	}
 
+	@NotNull
 	@Range(min = 100, max = 999)
 	public int getCVVCode() {
 		return this.CVVCode;

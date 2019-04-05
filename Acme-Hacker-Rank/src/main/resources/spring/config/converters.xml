@@ -13,12 +13,6 @@
 
 	<util:list id="converters">
 
-		<bean class="converters.BoxToStringConverter" />
-		<bean class="converters.StringToBoxConverter" />
-
-		<bean class="converters.MessageToStringConverter" />
-		<bean class="converters.StringToMessageConverter" />
-
 		<bean class="converters.ConfigurationToStringConverter" />
 		<bean class="converters.StringToConfigurationConverter" />
 
@@ -45,6 +39,9 @@
 		
 		<bean class="converters.FinderToStringConverter" />
 		<bean class="converters.StringToFinderConverter" />
+		
+		<bean class="converters.NotificationToStringConverter" />
+		<bean class="converters.StringToNotificationConverter" />
 
 	</util:list>
 

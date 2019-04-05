@@ -15,29 +15,25 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.BoxRepository;
-import domain.Box;
+import repositories.NotificationRepository;
+import domain.Notification;
 
 @Component
 @Transactional
-public class StringToBoxConverter implements Converter<String, Box> {
+public class StringToNotificationConverter implements Converter<String, Notification> {
 
 	@Autowired
-	BoxRepository	boxRepository;
+	NotificationRepository	notificationRepository;
 
 
 	@Override
-	public Box convert(final String text) {
-		Box result;
+	public Notification convert(final String text) {
+		Notification result;
 		int id;
 
 		try {
-			if (text == "")
-				result = null;
-			else {
-				id = Integer.valueOf(text);
-				result = this.boxRepository.findOne(id);
-			}
+			id = Integer.valueOf(text);
+			result = this.notificationRepository.findOne(id);
 		} catch (final Exception oops) {
 			throw new IllegalArgumentException(oops);
 		}

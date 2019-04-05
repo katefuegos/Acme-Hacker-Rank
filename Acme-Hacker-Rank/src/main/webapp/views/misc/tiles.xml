@@ -26,4 +26,8 @@
 		<put-attribute name="body" value="/views/misc/terms.jsp" />
 	</definition>
 
+	<definition name="misc/data" extends="master.page">
+		<put-attribute name="title" value="Work with personal data" />
+		<put-attribute name="body" value="/views/misc/data.jsp" />
+	</definition>
 </tiles-definitions>
