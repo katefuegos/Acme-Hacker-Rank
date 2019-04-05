@@ -131,6 +131,8 @@
 						code="master.page.application.list" /></a></li>
 			<li><a class="fNiv" href="finder/hacker/listPositions.do"><spring:message
 						code="master.page.finder" /></a></li>
+			<li><a class="fNiv" href="curricula/hacker/list.do"><spring:message
+						code="master.page.curricula.list" /></a></li>
 		</security:authorize>
 
 

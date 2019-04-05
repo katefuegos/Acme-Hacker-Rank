@@ -35,6 +35,12 @@
 		<value>/views/problem/tiles.xml</value>
 		<value>/views/application/tiles.xml</value>
 		<value>/views/notification/tiles.xml</value>
+		
+		<value>/views/curricula/tiles.xml</value>
+		<value>/views/positionData/tiles.xml</value>
+		<value>/views/educationData/tiles.xml</value>
+		<value>/views/miscellaneousData/tiles.xml</value>
+		
 	</util:list>
 
 </beans>

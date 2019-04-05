@@ -42,6 +42,18 @@
 		
 		<bean class="converters.NotificationToStringConverter" />
 		<bean class="converters.StringToNotificationConverter" />
+		
+		<bean class="converters.CurriculaToStringConverter" />
+		<bean class="converters.StringToCurriculaConverter" />
+		
+		<bean class="converters.PositionDataToStringConverter" />
+		<bean class="converters.StringToPositionDataConverter" />
+		
+		<bean class="converters.EducationDataToStringConverter" />
+		<bean class="converters.StringToEducationDataConverter" />
+		
+		<bean class="converters.MiscellaneousDataToStringConverter" />
+		<bean class="converters.StringToMiscellaneousDataConverter" />
 
 	</util:list>
 
