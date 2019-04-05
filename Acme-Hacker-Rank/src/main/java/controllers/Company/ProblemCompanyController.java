@@ -80,10 +80,9 @@ public class ProblemCompanyController extends AbstractController {
 		final ProblemForm problemForm = new ProblemForm();
 		problemForm.setId(0);
 
-		final Company b = this.companyService.findCompanyByUsername(LoginService.getPrincipal().getUsername());
-		Assert.notNull(b);
+		final Company b = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
+		System.out.println(b.getId());
 		final Position position = this.positionService.findByCompanyIdSingle(b.getId());
-		Assert.notNull(position);
 		problemForm.setPosition(position);
 
 		result = this.createModelAndView(problemForm);
