@@ -82,10 +82,10 @@ public class ProblemCompanyController extends AbstractController {
 
 		final Company b = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
 		System.out.println(b.getId());
-		final Position position = this.positionService.findByCompanyIdSingle(b.getId());
-		problemForm.setPosition(position);
+		final Collection<Position> positions = this.positionService.findByCompanyIdSingle(b.getId());
 
 		result = this.createModelAndView(problemForm);
+		result.addObject("positions", positions);
 		return result;
 	}
 

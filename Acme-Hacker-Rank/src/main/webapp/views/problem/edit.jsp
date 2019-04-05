@@ -13,12 +13,13 @@
 
 <form:form action="${requestURI}" modelAttribute="problemForm">
 	<form:hidden path="id" />
-	<form:hidden path="position" />
+	
 	
 	<acme:textbox code="problem.title" path="title"/>
 	<acme:textbox code="problem.statement" path="statement"/>
 	<acme:textbox code="problem.hint" path="hint"/>
 	<acme:textbox code="problem.attachments" path="attachments"/>
+	<acme:selectCollection items="${positions}" itemLabel="title" code="problem.position" path="position"/>
 
 
 	<form:label path="draftMode">

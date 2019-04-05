@@ -1,6 +1,6 @@
+
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -24,15 +24,16 @@ public class PositionService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private PositionRepository positionRepository;
+	private PositionRepository	positionRepository;
 
 	// Services-------------------------------------------------
 
 	@Autowired
-	private CompanyService companyService;
+	private CompanyService		companyService;
 
 	@Autowired
-	private ProblemService problemService;
+	private ProblemService		problemService;
+
 
 	// Constructor----------------------------------------------
 
@@ -46,12 +47,10 @@ public class PositionService {
 	public Position create() {
 		final Position position = new Position();
 
-		final domain.Company company = this.companyService
-				.findCompanyByUseraccount(LoginService.getPrincipal());
+		final domain.Company company = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
 
 		position.setTicker(this.generateTicker(company));
 		position.setDraftmode(true);
-		position.setCancelled(false);
 		position.setCompany(company);
 
 		return position;
@@ -67,24 +66,9 @@ public class PositionService {
 
 	public Position save(final Position position) {
 		Assert.notNull(position);
-		if (position.isDraftmode() == false) {
-			Collection<Problem> problems = problemService
-					.findByPositionId(position.getId());
-			Collection<Problem> problemsNoDraft = new ArrayList<Problem>();
-			if (!problems.isEmpty()) {
-				for (Problem p : problems) {
-					if (p.isDraftmode() == false) {
-						problemsNoDraft.add(p);
-					}
-				}
-			}
-			Assert.isTrue(problemsNoDraft.size() >= 2,
-					"position.error.noProblem");
-		}
-
-		Assert.isTrue(
-				position.getDeadline().getTime() > System.currentTimeMillis() + 1,
-				"position.error.deadline");
+		if (position.isDraftmode() == false)
+			Assert.isTrue(this.problemService.findByPositionId(position.getId()).size() >= 2, "position.error.noProblem");
+		Assert.isTrue(position.getDeadline().getTime() > System.currentTimeMillis() + 1, "position.error.deadline");
 
 		final Position saved = this.positionRepository.save(position);
 		return saved;
@@ -92,8 +76,7 @@ public class PositionService {
 
 	public void delete(final Position position) {
 
-		final Collection<Problem> collection = this.problemService
-				.findByPositionId(position.getId());
+		final Collection<Problem> collection = this.problemService.findByPositionId(position.getId());
 
 		for (final Problem problem : collection)
 			this.problemService.delete(problem);
@@ -104,8 +87,7 @@ public class PositionService {
 	// Other Methods--------------------------------------------
 	public Position cancel(final Position position) {
 		Assert.notNull(position);
-		final Company company = this.companyService
-				.findCompanyByUseraccountId(LoginService.getPrincipal().getId());
+		final Company company = this.companyService.findCompanyByUseraccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(company);
 		Assert.isTrue(position.getCompany().getId() == company.getId());
 		Assert.isTrue(!position.isDraftmode(), "position.error.draftmode");
@@ -117,15 +99,13 @@ public class PositionService {
 	}
 
 	public Collection<Position> search(final String keyword) {
-		final Collection<Position> result = this.positionRepository
-				.search(keyword);
+		final Collection<Position> result = this.positionRepository.search(keyword);
 
 		return result;
 	}
 
 	public Collection<Position> findFinalMode() {
-		final Collection<Position> result = this.positionRepository
-				.findFinalMode();
+		final Collection<Position> result = this.positionRepository.findFinalMode();
 
 		return result;
 	}
@@ -143,8 +123,7 @@ public class PositionService {
 		return this.positionRepository.findDraftByCompany(company.getId());
 	}
 
-	public Position reconstruct(final Position position,
-			final forms.PositionForm positionForm) {
+	public Position reconstruct(final Position position, final forms.PositionForm positionForm) {
 
 		position.setDeadline(positionForm.getDeadline());
 		position.setDescription(positionForm.getDescription());
@@ -171,13 +150,11 @@ public class PositionService {
 		return initials + "-" + number;
 	}
 
-	public Position findByCompanyIdSingle(final int companyId) {
+	public Collection<Position> findByCompanyIdSingle(final int companyId) {
 		Assert.notNull(companyId);
-		return this.positionRepository.findByCompanyIdSingle(companyId);
-	}
+		final Collection<Position> positions = this.positionRepository.findByCompanyIdSingle(companyId);
+		return positions;
 
-	public Collection<Position> findFinalNotCancelled() {
-		return this.positionRepository.findFinalNotCancelled();
 	}
 
 }
