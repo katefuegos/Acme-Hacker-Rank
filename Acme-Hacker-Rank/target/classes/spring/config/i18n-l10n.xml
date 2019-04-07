@@ -36,6 +36,7 @@
 		<value>/views/positionData/messages</value>
 		<value>/views/educationData/messages</value>
 		<value>/views/miscellaneousData/messages</value>
+		<value>/views/configuration/messages</value>
 		
 	</util:list>
 

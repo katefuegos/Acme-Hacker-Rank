@@ -86,6 +86,8 @@
 
 					<li><a href="register/administrator/actor.do?authority=ADMIN"><spring:message
 								code="master.page.register.admin" /></a></li>
+					<li><a href="configuration/administrator/list.do"><spring:message
+								code="master.page.administrator.configuration" /></a></li>
 
 				</ul></li>
 			<li><a class="fNiv"><spring:message
@@ -94,7 +96,8 @@
 
 					<li><a href="notification/administrator/notifyBreach.do"><spring:message
 								code="master.page.broadcast" /></a></li>
-					<li><a href="notification/administrator/notifyBreachHackers.do"><spring:message
+					<li><a
+						href="notification/administrator/notifyBreachHackers.do"><spring:message
 								code="master.page.broadcastHackers" /></a></li>
 					<li><a
 						href="notification/administrator/notifyBreachCompanies.do"><spring:message

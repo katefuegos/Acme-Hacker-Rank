@@ -136,17 +136,18 @@
 		<!-- NOTIFICATION -->
 		<security:intercept-url pattern="/notification/administrator/notifyBreach.do"
 			access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/notification/administrator/notifyBreachHackers.do"
-			access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/notification/administrator/notifyBreachCompanies.do"
+		<security:intercept-url
+			pattern="/notification/administrator/notifyBreachHackers.do" access="hasRole('ADMIN')" />
+		<security:intercept-url
+			pattern="/notification/administrator/notifyBreachCompanies.do"
 			access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/notification/actor/list.do"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/notification/actor/display.do"
 			access="isAuthenticated()" />
-			
+
 		<!-- CURRICULA -->
-		
+
 		<security:intercept-url pattern="/curricula/hacker/list.do"
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/curricula/hacker/listData.do"
@@ -157,10 +158,10 @@
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/curricula/hacker/show.do"
 			access="hasRole('HACKER')" />
-		
-		
+
+
 		<!-- POSITION DATA -->
-		
+
 		<security:intercept-url pattern="/positionData/hacker/list.do"
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/positionData/hacker/create.do"
@@ -169,9 +170,9 @@
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/positionData/hacker/display.do"
 			access="hasRole('HACKER')" />
-		
+
 		<!-- EDUCATION DATA -->
-		
+
 		<security:intercept-url pattern="/educationData/hacker/list.do"
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/educationData/hacker/create.do"
@@ -180,9 +181,9 @@
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/educationData/hacker/display.do"
 			access="hasRole('HACKER')" />
-		
+
 		<!-- MISCELLANEOUS DATA -->
-		
+
 		<security:intercept-url pattern="/miscellaneousData/hacker/list.do"
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/miscellaneousData/hacker/create.do"
@@ -191,7 +192,14 @@
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/miscellaneousData/hacker/display.do"
 			access="hasRole('HACKER')" />
-		
+
+		<!-- CONFIGURATION -->
+		<security:intercept-url pattern="/configuration/administrator/list.do"
+			access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/configuration/administrator/edit.do"
+			access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/configuration/administrator/show.do"
+			access="hasRole('ADMIN')" />
 
 		<!-- OTHERS -->
 		<security:intercept-url pattern="/welcome/terms.do"
