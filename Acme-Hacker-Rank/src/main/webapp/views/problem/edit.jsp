@@ -13,14 +13,16 @@
 
 <form:form action="${requestURI}" modelAttribute="problemForm">
 	<form:hidden path="id" />
-	
-	
-	<acme:textbox code="problem.title" path="title"/>
-	<acme:textbox code="problem.statement" path="statement"/>
-	<acme:textbox code="problem.hint" path="hint"/>
-	<acme:textbox code="problem.attachments" path="attachments"/>
-	<acme:selectCollection items="${positions}" itemLabel="title" code="problem.position" path="position"/>
 
+
+	<acme:textbox code="problem.title" path="title" />
+	<acme:textbox code="problem.statement" path="statement" />
+	<acme:textbox code="problem.hint" path="hint" />
+	<acme:textbox code="problem.attachments" path="attachments" />
+	<jstl:if test="${id == 0}">
+		<acme:selectCollection items="${positions}" itemLabel="title"
+			code="problem.position" path="position" />
+	</jstl:if>
 
 	<form:label path="draftMode">
 		<spring:message code="problem.draftMode" />
@@ -31,17 +33,18 @@
 
 
 	<jstl:if test="${isRead == false}">
-			<acme:submit name="save" code="problem.save"/>
+		<acme:submit name="save" code="problem.save" />
 		<jstl:if test="${id != 0}">
-			<acme:delete confirmDelete="problem.confirmDelete" name="delete" code="problem.delete"/>
-		
+			<acme:delete confirmDelete="problem.confirmDelete" name="delete"
+				code="problem.delete" />
+
 		</jstl:if>
-		<acme:cancel url="problem/company/list.do" code="problem.cancel"/>
+		<acme:cancel url="problem/company/list.do" code="problem.cancel" />
 	</jstl:if>
 
 
 	<jstl:if test="${isRead == true}">
-		<acme:cancel url="problem/company/list.do" code="problem.cancel"/>
+		<acme:cancel url="problem/company/list.do" code="problem.cancel" />
 
 	</jstl:if>
 

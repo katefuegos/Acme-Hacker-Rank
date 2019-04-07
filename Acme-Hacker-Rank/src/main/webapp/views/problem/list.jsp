@@ -13,35 +13,37 @@
 	pagesize="5" class="displaytag">
 
 
-<security:authorize access="hasRole('COMPANY')">
+	<security:authorize access="hasRole('COMPANY')">
 
-	<display:column>
-	<a href="problem/company/show.do?problemId=${row.id}"> <spring:message
+		<display:column>
+			<a href="problem/company/show.do?problemId=${row.id}"> <spring:message
 					code="problem.show" />
 			</a>
-	</display:column>
-	
-	<display:column>
-	<a href="problem/company/edit.do?problemId=${row.id}"> <spring:message
-					code="problem.edit" />
-			</a>
-	</display:column>
-	
-</security:authorize>
-	<display:column property="title" titleKey="problem.title" />
-	
-	<display:column property="statement" titleKey="problem.statement" />
-	
-	<display:column property="position.title" titleKey="problem.position" />
-	
-	<display:column property="hint" titleKey="problem.hint" />
-	
-	<display:column property="attachments" titleKey="problem.attachments" />
-	
-</display:table>
+		</display:column>
+		<display:column>
+			<jstl:if test="${row.draftmode == true}">
+				<a href="problem/company/edit.do?problemId=${row.id}"> <spring:message
+						code="problem.edit" />
+				</a>
+			</jstl:if>
+		</display:column>
 
+
+	</security:authorize>
+	<display:column property="title" titleKey="problem.title" />
+
+	<display:column property="statement" titleKey="problem.statement" />
+
+	<display:column property="position.title" titleKey="problem.position" />
+
+	<display:column property="hint" titleKey="problem.hint" />
+
+	<display:column property="attachments" titleKey="problem.attachments" />
+
+</display:table>
+<br>
 <security:authorize access="hasRole('COMPANY')">
 	<a href="problem/company/create.do"> <spring:message
-					code="problem.create" />
-			</a>
+			code="problem.create" />
+	</a>
 </security:authorize>
