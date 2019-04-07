@@ -104,7 +104,7 @@ public class MiscellaneousDataController extends AbstractController {
 
 				this.miscellaneousDataService.save(miscellaneousData);
 
-				result = new ModelAndView("redirect:/miscellaneousData/hacker/list.do");
+				result = new ModelAndView("redirect:/curricula/hacker/listData.do?curriculaId=" + miscellaneousData.getCurricula().getId());
 			} catch (final Throwable oops) {
 				result = this.createModelAndView(miscellaneousDataForm, "miscellaneousData.commit.error");
 			}
@@ -116,6 +116,7 @@ public class MiscellaneousDataController extends AbstractController {
 		ModelAndView result;
 		MiscellaneousData miscellaneousData;
 		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
 		try {
 			miscellaneousData = this.miscellaneousDataService.findOne(miscellaneousDataId);
 			Assert.notNull(miscellaneousData);
@@ -128,6 +129,7 @@ public class MiscellaneousDataController extends AbstractController {
 			miscellaneousDataForm.setCurricula(miscellaneousData.getCurricula());
 
 			result = this.editModelAndView(miscellaneousDataForm);
+			result.addObject("curriculas", curriculas);
 
 		} catch (final Throwable e) {
 
@@ -156,7 +158,7 @@ public class MiscellaneousDataController extends AbstractController {
 
 				this.miscellaneousDataService.save(miscellaneousData);
 
-				result = new ModelAndView("redirect:/miscellaneousData/hacker/list.do");
+				result = new ModelAndView("redirect:/curricula/hacker/listData.do?curriculaId=" + miscellaneousData.getCurricula().getId());
 			} catch (final Throwable oops) {
 				result = this.editModelAndView(miscellaneousDataForm, "miscellaneousData.commit.error");
 			}
@@ -176,7 +178,7 @@ public class MiscellaneousDataController extends AbstractController {
 
 				this.miscellaneousDataService.delete(this.miscellaneousDataService.findOne(miscellaneousDataForm.getId()));
 
-				result = new ModelAndView("redirect:/miscellaneousData/hacker/list.do");
+				result = new ModelAndView("redirect:/curricula/hacker/listData.do?curriculaId=" + miscellaneousData.getCurricula().getId());
 			} catch (final Throwable oops) {
 
 				result = this.editModelAndView(miscellaneousDataForm, "miscellaneousData.commit.error");
@@ -190,6 +192,7 @@ public class MiscellaneousDataController extends AbstractController {
 		ModelAndView result;
 		MiscellaneousData miscellaneousData = null;
 		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
 		try {
 			miscellaneousData = this.miscellaneousDataService.findOne(miscellaneousDataId);
 			Assert.notNull(miscellaneousData);
@@ -201,6 +204,7 @@ public class MiscellaneousDataController extends AbstractController {
 			miscellaneousDataForm.setAttachments(miscellaneousData.getAttachments());
 
 			result = this.ShowModelAndView(miscellaneousDataForm);
+			result.addObject("curriculas", curriculas);
 
 		} catch (final Throwable e) {
 

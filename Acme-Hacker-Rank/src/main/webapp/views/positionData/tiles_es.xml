@@ -10,35 +10,24 @@
 
 <tiles-definitions>
 
-	<definition name="educationData/list" extends="master.page">
-		<put-attribute name="title" value="Lista de educationDataas" />
-		<put-attribute name="body" value="/views/educationData/list.jsp" />
+	<definition name="positionData/list" extends="master.page">
+		<put-attribute name="title" value="Lista de posicion" />
+		<put-attribute name="body" value="/views/positionData/list.jsp" />
 	</definition>
 	
-	<definition name="educationData/list2" extends="master.page">
-		<put-attribute name="title" value="Mis educationDataas" />
-		<put-attribute name="body" value="/views/educationData/list2.jsp" />
+	<definition name="positionData/create" extends="master.page">
+		<put-attribute name="title" value="Crear datos de posicion" />
+		<put-attribute name="body" value="/views/positionData/edit.jsp" />
 	</definition>
 	
-	<definition name="educationData/chapter/list" extends="master.page">
-		<put-attribute name="title" value="Mis Datos de educacion" />
-		<put-attribute name="body" value="/views/educationData/listChapter.jsp" />
+	<definition name="positionData/edit" extends="master.page">
+		<put-attribute name="title" value="Editar datos de posicion" />
+		<put-attribute name="body" value="/views/positionData/edit.jsp" />
 	</definition>
 	
-	
-	<definition name="educationData/create" extends="master.page">
-		<put-attribute name="title" value="Crear datos de educacion" />
-		<put-attribute name="body" value="/views/educationData/edit.jsp" />
-	</definition>
-	
-	<definition name="educationData/edit" extends="master.page">
-		<put-attribute name="title" value="Editar datos de educacion" />
-		<put-attribute name="body" value="/views/educationData/edit.jsp" />
-	</definition>
-	
-	<definition name="educationData/show" extends="master.page">
-		<put-attribute name="title" value="Ver datos de educacion" />
-		<put-attribute name="body" value="/views/educationData/edit.jsp" />
+	<definition name="positionData/show" extends="master.page">
+		<put-attribute name="title" value="Ver datos de posision" />
+		<put-attribute name="body" value="/views/positionData/edit.jsp" />
 	</definition>
 	
 </tiles-definitions>

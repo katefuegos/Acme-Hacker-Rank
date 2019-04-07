@@ -107,7 +107,7 @@ public class EducationDataController extends AbstractController {
 
 				this.educationDataService.save(educationData);
 
-				result = new ModelAndView("redirect:/educationData/hacker/list.do");
+				result = new ModelAndView("redirect:/curricula/hacker/listData.do?curriculaId=" + educationData.getCurricula().getId());
 			} catch (final Throwable oops) {
 				result = this.createModelAndView(educationDataForm, "educationData.commit.error");
 			}
@@ -119,6 +119,7 @@ public class EducationDataController extends AbstractController {
 		ModelAndView result;
 		EducationData educationData;
 		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
 		try {
 			educationData = this.educationDataService.findOne(educationDataId);
 			Assert.notNull(educationData);
@@ -134,6 +135,7 @@ public class EducationDataController extends AbstractController {
 			educationDataForm.setCurricula(educationData.getCurricula());
 
 			result = this.editModelAndView(educationDataForm);
+			result.addObject("curriculas", curriculas);
 
 		} catch (final Throwable e) {
 
@@ -165,7 +167,7 @@ public class EducationDataController extends AbstractController {
 
 				this.educationDataService.save(educationData);
 
-				result = new ModelAndView("redirect:/educationData/hacker/list.do");
+				result = new ModelAndView("redirect:/curricula/hacker/listData.do?curriculaId=" + educationData.getCurricula().getId());
 			} catch (final Throwable oops) {
 				result = this.editModelAndView(educationDataForm, "educationData.commit.error");
 			}
@@ -185,7 +187,7 @@ public class EducationDataController extends AbstractController {
 
 				this.educationDataService.delete(this.educationDataService.findOne(educationDataForm.getId()));
 
-				result = new ModelAndView("redirect:/educationData/hacker/list.do");
+				result = new ModelAndView("redirect:/curricula/hacker/listData.do?curriculaId=" + educationData.getCurricula().getId());
 			} catch (final Throwable oops) {
 
 				result = this.editModelAndView(educationDataForm, "educationData.commit.error");
@@ -199,6 +201,7 @@ public class EducationDataController extends AbstractController {
 		ModelAndView result;
 		EducationData educationData = null;
 		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
 		try {
 			educationData = this.educationDataService.findOne(educationDataId);
 			Assert.notNull(educationData);
@@ -213,6 +216,7 @@ public class EducationDataController extends AbstractController {
 			educationDataForm.setEndDate(educationData.getEndDate());
 
 			result = this.ShowModelAndView(educationDataForm);
+			result.addObject("curriculas", curriculas);
 
 		} catch (final Throwable e) {
 

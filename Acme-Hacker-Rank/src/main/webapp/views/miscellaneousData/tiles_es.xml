@@ -15,24 +15,8 @@
 		<put-attribute name="body" value="/views/miscellaneousData/list.jsp" />
 	</definition>
 	
-	<definition name="miscellaneousData/list2" extends="master.page">
-		<put-attribute name="title" value="Mis miscellaneousDataas" />
-		<put-attribute name="body" value="/views/miscellaneousData/list2.jsp" />
-	</definition>
-	
-	<definition name="miscellaneousData/chapter/list" extends="master.page">
-		<put-attribute name="title" value="Mis Datos de educacion" />
-		<put-attribute name="body" value="/views/miscellaneousData/listChapter.jsp" />
-	</definition>
-	
-	
 	<definition name="miscellaneousData/create" extends="master.page">
 		<put-attribute name="title" value="Crear datos de miscelaneo" />
-		<put-attribute name="body" value="/views/miscellaneousData/edit.jsp" />
-	</definition>
-	
-	<definition name="miscellaneousData/edit" extends="master.page">
-		<put-attribute name="title" value="Editar datos de miscelanea" />
 		<put-attribute name="body" value="/views/miscellaneousData/edit.jsp" />
 	</definition>
 	

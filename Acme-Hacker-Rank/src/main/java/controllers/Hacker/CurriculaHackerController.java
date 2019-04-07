@@ -91,7 +91,7 @@ public class CurriculaHackerController extends AbstractController {
 			final Collection<PositionData> positiondatas = this.positionDataService.findByCurriculaId(curriculaId);
 			final Collection<EducationData> educationdatas = this.educationDataService.findByCurriculaId(curriculaId);
 			final Collection<MiscellaneousData> miscellaneousdatas = this.miscellaneousDataService.findByCurriculaId(curriculaId);
-			result = new ModelAndView("curricula/list");
+			result = new ModelAndView("curricula/listData");
 			result.addObject("positiondatas", positiondatas);
 			result.addObject("educationdatas", educationdatas);
 			result.addObject("miscellaneousdatas", miscellaneousdatas);

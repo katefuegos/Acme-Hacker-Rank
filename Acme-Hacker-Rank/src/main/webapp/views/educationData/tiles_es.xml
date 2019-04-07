@@ -15,17 +15,6 @@
 		<put-attribute name="body" value="/views/educationData/list.jsp" />
 	</definition>
 	
-	<definition name="educationData/list2" extends="master.page">
-		<put-attribute name="title" value="Mis educationDataas" />
-		<put-attribute name="body" value="/views/educationData/list2.jsp" />
-	</definition>
-	
-	<definition name="educationData/chapter/list" extends="master.page">
-		<put-attribute name="title" value="Mis Datos de educacion" />
-		<put-attribute name="body" value="/views/educationData/listChapter.jsp" />
-	</definition>
-	
-	
 	<definition name="educationData/create" extends="master.page">
 		<put-attribute name="title" value="Crear datos de educacion" />
 		<put-attribute name="body" value="/views/educationData/edit.jsp" />

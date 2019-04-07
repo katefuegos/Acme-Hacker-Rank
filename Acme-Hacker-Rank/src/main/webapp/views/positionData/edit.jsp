@@ -19,7 +19,7 @@
 	<acme:textbox code="positionData.description" path="description"/>
 	<acme:textbox code="positionData.startDate" path="startDate"/>
 	<acme:textbox code="positionData.endDate" path="endDate"/>
-	<acme:selectCollection items="${positions}" itemLabel="title" code="positionData.position" path="position"/>
+	<acme:selectCollection items="${curriculas}" itemLabel="fullName" code="positionData.curricula" path="curricula"/>
 
 
 	<jstl:if test="${isRead == false}">
@@ -28,12 +28,12 @@
 			<acme:delete confirmDelete="positionData.confirmDelete" name="delete" code="positionData.delete"/>
 		
 		</jstl:if>
-		<acme:cancel url="positionData/hacker/list.do" code="positionData.cancel"/>
+		<acme:cancel url="curricula/hacker/listData.do?curriculaId=" code="positionData.cancel"/>
 	</jstl:if>
 
 
 	<jstl:if test="${isRead == true}">
-		<acme:cancel url="positionData/hacker/list.do" code="positionData.cancel"/>
+		<acme:cancel url="curricula/hacker/listData.do?curriculaId=" code="positionData.cancel"/>
 
 	</jstl:if>
 

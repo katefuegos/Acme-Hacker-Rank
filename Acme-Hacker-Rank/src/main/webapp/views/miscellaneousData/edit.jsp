@@ -11,13 +11,13 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}" modelAttribute="miscellaneousDataForm">
+<form:form action="${requestURI}" id="row" modelAttribute="miscellaneousDataForm">
 	<form:hidden path="id" />
 	
 	
 	<acme:textbox code="miscellaneousData.text" path="text"/>
-	<acme:textbox code="miscellaneousData.attachments" path="institution"/>
-	<acme:selectCollection items="${positions}" itemLabel="title" code="miscellaneousData.position" path="position"/>
+	<acme:textbox code="miscellaneousData.attachments" path="attachments"/>
+	<acme:selectCollection items="${curriculas}" itemLabel="fullName" code="miscellaneousData.curricula" path="curricula"/>
 
 
 	<jstl:if test="${isRead == false}">
@@ -26,12 +26,12 @@
 			<acme:delete confirmDelete="miscellaneousData.confirmDelete" name="delete" code="miscellaneousData.delete"/>
 		
 		</jstl:if>
-		<acme:cancel url="miscellaneousData/hacker/list.do" code="miscellaneousData.cancel"/>
+		<acme:cancel url="curricula/hacker/listData.do?curriculaId=${curricula.id}" code="miscellaneousData.cancel"/>
 	</jstl:if>
 
 
 	<jstl:if test="${isRead == true}">
-		<acme:cancel url="miscellaneousData/hacker/list.do" code="miscellaneousData.cancel"/>
+		<acme:cancel url="curricula/hacker/listData.do?curriculaId=${curricula.id}" code="miscellaneousData.cancel"/>
 
 	</jstl:if>
 

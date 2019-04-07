@@ -170,6 +170,8 @@
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/positionData/hacker/display.do"
 			access="hasRole('HACKER')" />
+			<security:intercept-url pattern="/positionData/hacker/show.do"
+			access="hasRole('HACKER')" />
 
 		<!-- EDUCATION DATA -->
 
@@ -181,6 +183,8 @@
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/educationData/hacker/display.do"
 			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/educationData/hacker/show.do"
+			access="hasRole('HACKER')" />
 
 		<!-- MISCELLANEOUS DATA -->
 
@@ -191,6 +195,8 @@
 		<security:intercept-url pattern="/miscellaneousData/hacker/edit.do"
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/miscellaneousData/hacker/display.do"
+			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/miscellaneousData/hacker/show.do"
 			access="hasRole('HACKER')" />
 
 		<!-- CONFIGURATION -->
