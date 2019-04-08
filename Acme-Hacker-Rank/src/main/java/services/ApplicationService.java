@@ -42,6 +42,9 @@ public class ApplicationService {
 	@Autowired
 	private CurriculaService curriculaService;
 
+	@Autowired
+	private CompanyService companyService;
+
 	// Constructor----------------------------------------------
 
 	public ApplicationService() {
@@ -52,8 +55,11 @@ public class ApplicationService {
 	// Simple CRUD----------------------------------------------
 
 	public Application create(int positionId, int curriculaId) {
-		final Application application = new Application();
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
+				.contains("HACKER"));
 		Assert.notNull(positionId);
+		Assert.notNull(curriculaId);
+		final Application application = new Application();
 		Position position = positionService.findOne(positionId);
 		Assert.notNull(position);
 		Assert.isTrue(position.isDraftmode() == false);
@@ -65,7 +71,6 @@ public class ApplicationService {
 		Problem problem = (Problem) getRandomObject(problems);
 		application.setProblem(problem);
 
-		Assert.notNull(positionId);
 		Curricula curricula = curriculaService.findOne(curriculaId);
 		Assert.notNull(curricula);
 		application.setCurricula(curricula);
@@ -88,6 +93,23 @@ public class ApplicationService {
 
 	public Application save(final Application application) {
 		Assert.notNull(application);
+		if (LoginService.getPrincipal().getAuthorities().toString()
+				.contains("HACKER")) {
+			Assert.isTrue(application.getHacker().equals(
+					hackerService.findHackerByUseraccount(LoginService
+							.getPrincipal())));
+			Assert.isTrue(application.getPosition().isDraftmode() == false);
+		} else {
+			Assert.isTrue(LoginService.getPrincipal().getAuthorities()
+					.toString().contains("COMPANY"));
+			Assert.isTrue(application
+					.getPosition()
+					.getCompany()
+					.equals(companyService
+							.findCompanyByUseraccount(LoginService
+									.getPrincipal())));
+		}
+
 		if (application.getId() == 0) {
 			application.setPublicationMoment(new Date(System
 					.currentTimeMillis() - 1000));
@@ -119,6 +141,10 @@ public class ApplicationService {
 		this.applicationRepository.delete(application);
 	}
 
+	public void flush() {
+		this.applicationRepository.flush();
+	}
+
 	// Other Methods--------------------------------------------
 
 	private Object getRandomObject(Collection<Problem> problems) {
@@ -138,6 +164,8 @@ public class ApplicationService {
 	}
 
 	public void reject(Application application, Company company) {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
+				.contains("COMPANY"));
 		Assert.notNull(company);
 		Assert.notNull(application);
 		Assert.isTrue(application.getPosition().getCompany().equals(company));
@@ -145,8 +173,10 @@ public class ApplicationService {
 		application.setStatus("REJECTED");
 		this.save(application);
 	}
-	
+
 	public void accept(Application application, Company company) {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
+				.contains("COMPANY"));
 		Assert.notNull(company);
 		Assert.notNull(application);
 		Assert.isTrue(application.getPosition().getCompany().equals(company));

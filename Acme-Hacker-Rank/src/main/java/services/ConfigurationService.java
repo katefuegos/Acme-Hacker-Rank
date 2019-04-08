@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.ConfigurationRepository;
+import security.LoginService;
 import domain.Configuration;
 
 @Service
@@ -23,8 +23,7 @@ public class ConfigurationService {
 	// Repository-------------------------------------------------------------------------
 
 	@Autowired
-	private ConfigurationRepository	configurationRepository;
-
+	private ConfigurationRepository configurationRepository;
 
 	// Services---------------------------------------------------------------------------
 
@@ -69,7 +68,11 @@ public class ConfigurationService {
 	}
 
 	public Configuration save(final Configuration configuration) {
-		final Configuration saved = this.configurationRepository.save(configuration);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
+				.contains("ADMIN"));
+		Assert.notNull(configuration);
+		final Configuration saved = this.configurationRepository
+				.save(configuration);
 		return saved;
 	}
 
@@ -78,11 +81,17 @@ public class ConfigurationService {
 
 	}
 
+	public void flush() {
+		this.configurationRepository.flush();
+
+	}
+
 	// Other
 
 	// Methods---------------------------------------------------------------------------
 
-	public Collection<String> internacionalizcionListas(final Map<String, Collection<String>> words) {
+	public Collection<String> internacionalizcionListas(
+			final Map<String, Collection<String>> words) {
 
 		final String laungage = LocaleContextHolder.getLocale().getLanguage();
 		final Collection<String> res = words.get(laungage.toUpperCase());

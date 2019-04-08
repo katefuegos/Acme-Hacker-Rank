@@ -30,13 +30,13 @@ public class NotificationService {
 
 	@Autowired
 	ActorService actorService;
-	
+
 	@Autowired
 	HackerService hackerService;
-	
+
 	@Autowired
 	CompanyService companyService;
-	
+
 	// Constructor------------------------------------------------------------------------
 
 	public NotificationService() {
@@ -84,13 +84,20 @@ public class NotificationService {
 		this.notificationRepository.delete(notification);
 
 	}
-	
+
+	public void flush() {
+
+		this.notificationRepository.flush();
+
+	}
+
 	public void broadcast(final Notification notification) {
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("ADMIN"));
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
+				.contains("ADMIN"));
 		Assert.notNull(notification);
 		Collection<Actor> actors = actorService.findAll();
-		if(!actors.isEmpty()){
-			for(Actor a : actors){
+		if (!actors.isEmpty()) {
+			for (Actor a : actors) {
 				Notification n = this.create();
 				n.setActor(a);
 				n.setBody(notification.getBody());
@@ -99,13 +106,14 @@ public class NotificationService {
 			}
 		}
 	}
-	
+
 	public void broadcastHackers(final Notification notification) {
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("ADMIN"));
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
+				.contains("ADMIN"));
 		Assert.notNull(notification);
 		Collection<Hacker> hackers = hackerService.findAll();
-		if(!hackers.isEmpty()){
-			for(Hacker h : hackers){
+		if (!hackers.isEmpty()) {
+			for (Hacker h : hackers) {
 				Notification n = this.create();
 				n.setActor(h);
 				n.setBody(notification.getBody());
@@ -114,13 +122,14 @@ public class NotificationService {
 			}
 		}
 	}
-	
+
 	public void broadcastCompanies(final Notification notification) {
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("ADMIN"));
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
+				.contains("ADMIN"));
 		Assert.notNull(notification);
 		Collection<Company> companys = companyService.findAll();
-		if(!companys.isEmpty()){
-			for(Company c : companys){
+		if (!companys.isEmpty()) {
+			for (Company c : companys) {
 				Notification n = this.create();
 				n.setActor(c);
 				n.setBody(notification.getBody());
