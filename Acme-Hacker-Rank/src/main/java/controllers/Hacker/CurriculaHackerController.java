@@ -194,7 +194,7 @@ public class CurriculaHackerController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save2(@Valid final CurriculaForm curriculaForm, final BindingResult binding) {
 		ModelAndView result;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		//final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
 		if (binding.hasErrors())
 			result = this.editModelAndView(curriculaForm, "curricula.commit.error");
 		else
@@ -207,6 +207,7 @@ public class CurriculaHackerController extends AbstractController {
 				curricula.setGithubProfile(curriculaForm.getGithubProfile());
 				curricula.setLinkedinprofile(curriculaForm.getLinkedInProfile());
 				curricula.setHacker(curriculaForm.getHacker());
+				System.out.println(curricula.getHacker() + "," + curriculaForm.getHacker());
 
 				this.curriculaService.save(curricula);
 

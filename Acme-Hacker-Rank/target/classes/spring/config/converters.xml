@@ -43,8 +43,9 @@
 		<bean class="converters.NotificationToStringConverter" />
 		<bean class="converters.StringToNotificationConverter" />
 		
-		<bean class="converters.CurriculaToStringConverter" />
-		<bean class="converters.StringToCurriculaConverter" />
+		<bean class="converters.HackerToStringConverter" />
+		<bean class="converters.StringToHackerConverter" />
+
 		
 		<bean class="converters.PositionDataToStringConverter" />
 		<bean class="converters.StringToPositionDataConverter" />
