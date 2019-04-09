@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -22,18 +23,19 @@ public class CurriculaService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private CurriculaRepository curriculaRepository;
+	private CurriculaRepository			curriculaRepository;
 
 	// Services-------------------------------------------------
 
 	@Autowired
-	private PositionDataService positionDataService;
+	private PositionDataService			positionDataService;
 
 	@Autowired
-	private EducationDataService educationDataService;
+	private EducationDataService		educationDataService;
 
 	@Autowired
-	private MiscellaneousDataService miscellaneousDataService;
+	private MiscellaneousDataService	miscellaneousDataService;
+
 
 	// Constructor----------------------------------------------
 
@@ -69,42 +71,33 @@ public class CurriculaService {
 	public void delete(final Curricula curricula) {
 		if (curricula.isCopy() == false) {
 
-			Collection<EducationData> educationdatas = educationDataService
-					.findByCurriculaId(curricula.getId());
-			Collection<MiscellaneousData> miscellaneousdatas = miscellaneousDataService
-					.findByCurriculaId(curricula.getId());
-			Collection<PositionData> positiondatas = positionDataService
-					.findByCurriculaId(curricula.getId());
+			final Collection<EducationData> educationdatas = this.educationDataService.findByCurriculaId(curricula.getId());
+			final Collection<MiscellaneousData> miscellaneousdatas = this.miscellaneousDataService.findByCurriculaId(curricula.getId());
+			final Collection<PositionData> positiondatas = this.positionDataService.findByCurriculaId(curricula.getId());
 
-			if (!educationdatas.isEmpty()) {
-				for (EducationData e : educationdatas) {
-					educationDataService.delete(e);
-				}
-			}
+			if (!educationdatas.isEmpty())
+				for (final EducationData e : educationdatas)
+					this.educationDataService.delete(e);
 
-			if (!miscellaneousdatas.isEmpty()) {
-				for (MiscellaneousData m : miscellaneousdatas) {
-					miscellaneousDataService.delete(m);
-				}
-			}
+			if (!miscellaneousdatas.isEmpty())
+				for (final MiscellaneousData m : miscellaneousdatas)
+					this.miscellaneousDataService.delete(m);
 
-			if (!positiondatas.isEmpty()) {
-				for (PositionData p : positiondatas) {
-					positionDataService.delete(p);
-				}
-			}
+			if (!positiondatas.isEmpty())
+				for (final PositionData p : positiondatas)
+					this.positionDataService.delete(p);
 			this.curriculaRepository.delete(curricula);
 		}
 	}
 
 	// Other Methods--------------------------------------------
 
-	public Curricula copy(int curriculaId) {
+	public Curricula copy(final int curriculaId) {
 		Assert.notNull(curriculaId);
-		Curricula curricula = this.findOne(curriculaId);
+		final Curricula curricula = this.findOne(curriculaId);
 		Assert.notNull(curricula);
 
-		Curricula curriculaCopy = new Curricula();
+		final Curricula curriculaCopy = new Curricula();
 		curriculaCopy.setCopy(true);
 		curriculaCopy.setFullName(curricula.getFullName());
 		curriculaCopy.setGithubProfile(curricula.getGithubProfile());
@@ -112,44 +105,42 @@ public class CurriculaService {
 		curriculaCopy.setLinkedinprofile(curricula.getLinkedinprofile());
 		curriculaCopy.setPhoneNumber(curricula.getPhoneNumber());
 		curriculaCopy.setStatement(curricula.getStatement());
-		Curricula result = this.save(curriculaCopy);
+		final Curricula result = this.save(curriculaCopy);
 
-		Collection<EducationData> educationDataList = educationDataService
-				.findByCurriculaId(curriculaId);
-		if (!educationDataList.isEmpty()) {
-			for (EducationData e : educationDataList) {
-				EducationData copy = educationDataService.copy(e.getId());
+		final Collection<EducationData> educationDataList = this.educationDataService.findByCurriculaId(curriculaId);
+		if (!educationDataList.isEmpty())
+			for (final EducationData e : educationDataList) {
+				final EducationData copy = this.educationDataService.copy(e.getId());
 				copy.setCurricula(result);
-				educationDataService.save(copy);
+				this.educationDataService.save(copy);
 			}
-		}
 
-		Collection<PositionData> positionDataList = positionDataService
-				.findByCurriculaId(curriculaId);
-		if (!positionDataList.isEmpty()) {
-			for (PositionData e : positionDataList) {
-				PositionData copy = positionDataService.copy(e.getId());
+		final Collection<PositionData> positionDataList = this.positionDataService.findByCurriculaId(curriculaId);
+		if (!positionDataList.isEmpty())
+			for (final PositionData e : positionDataList) {
+				final PositionData copy = this.positionDataService.copy(e.getId());
 				copy.setCurricula(result);
-				positionDataService.save(copy);
+				this.positionDataService.save(copy);
 			}
-		}
 
-		Collection<MiscellaneousData> miscellaneousDataList = miscellaneousDataService
-				.findByCurriculaId(curriculaId);
-		if (!miscellaneousDataList.isEmpty()) {
-			for (MiscellaneousData e : miscellaneousDataList) {
-				MiscellaneousData copy = miscellaneousDataService.copy(e
-						.getId());
+		final Collection<MiscellaneousData> miscellaneousDataList = this.miscellaneousDataService.findByCurriculaId(curriculaId);
+		if (!miscellaneousDataList.isEmpty())
+			for (final MiscellaneousData e : miscellaneousDataList) {
+				final MiscellaneousData copy = this.miscellaneousDataService.copy(e.getId());
 				copy.setCurricula(result);
-				miscellaneousDataService.save(copy);
+				this.miscellaneousDataService.save(copy);
 			}
-		}
 
 		return result;
 	}
 
-	public Collection<Curricula> findByHackerId(int hackerId) {
+	public Collection<Curricula> findByHackerId(final int hackerId) {
 		Assert.notNull(hackerId);
-		return curriculaRepository.findByHackerId(hackerId);
+		return this.curriculaRepository.findByHackerId(hackerId);
+	}
+
+	public Collection<Curricula> findNoCopies(final int hackerId) {
+		Assert.notNull(hackerId);
+		return this.curriculaRepository.findNoCopies(hackerId);
 	}
 }

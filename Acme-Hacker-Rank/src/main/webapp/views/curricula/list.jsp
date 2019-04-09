@@ -15,7 +15,7 @@
 	
 		<security:authorize access="hasRole('HACKER')">
 		<display:column>
-			<a href="curricula/hacker/display.do?curriculaId=${row.id}"> <spring:message
+			<a href="curricula/hacker/show.do?curriculaId=${row.id}"> <spring:message
 					code="curricula.show" />
 			</a>
 		</display:column>

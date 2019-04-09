@@ -20,18 +20,6 @@
 		<put-attribute name="body" value="/views/curricula/listData.jsp" />
 	</definition>
 	
-	
-	<definition name="curricula/list2" extends="master.page">
-		<put-attribute name="title" value="Mis curriculaas" />
-		<put-attribute name="body" value="/views/curricula/list2.jsp" />
-	</definition>
-	
-	<definition name="curricula/chapter/list" extends="master.page">
-		<put-attribute name="title" value="Mis curriculaas" />
-		<put-attribute name="body" value="/views/curricula/listChapter.jsp" />
-	</definition>
-	
-	
 	<definition name="curricula/create" extends="master.page">
 		<put-attribute name="title" value="Crear curriculaa" />
 		<put-attribute name="body" value="/views/curricula/edit.jsp" />

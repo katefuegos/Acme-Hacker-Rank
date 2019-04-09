@@ -11,7 +11,7 @@
 <tiles-definitions>
 
 	<definition name="curricula/list" extends="master.page">
-		<put-attribute name="title" value="Problems list" />
+		<put-attribute name="title" value="Curricula's list" />
 		<put-attribute name="body" value="/views/curricula/list.jsp" />
 	</definition>
 	
@@ -20,14 +20,6 @@
 		<put-attribute name="body" value="/views/curricula/listData.jsp" />
 	</definition>
 	
-	<definition name="curricula/list2" extends="master.page">
-		<put-attribute name="title" value="My curriculas" />
-		<put-attribute name="body" value="/views/curricula/list2.jsp" />
-	</definition>
-	<definition name="curricula/chapter/list" extends="master.page">
-		<put-attribute name="title" value="My curriculas" />
-		<put-attribute name="body" value="/views/curricula/listChapter.jsp" />
-	</definition>
 	
 	<definition name="curricula/create" extends="master.page">
 		<put-attribute name="title" value="Create curricula" />

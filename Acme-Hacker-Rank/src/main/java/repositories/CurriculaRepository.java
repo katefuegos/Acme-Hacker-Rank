@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -13,4 +14,7 @@ public interface CurriculaRepository extends JpaRepository<Curricula, Integer> {
 
 	@Query("select c from Curricula c where c.hacker.id=?1")
 	Collection<Curricula> findByHackerId(int hackerId);
+
+	@Query("select c from Curricula c where c.hacker.id=?1 and c.copy = false")
+	Collection<Curricula> findNoCopies(int hackerId);
 }

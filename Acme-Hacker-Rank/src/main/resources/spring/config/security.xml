@@ -156,6 +156,8 @@
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/curricula/hacker/edit.do"
 			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/curricula/hacker/display.do"
+			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/curricula/hacker/show.do"
 			access="hasRole('HACKER')" />
 

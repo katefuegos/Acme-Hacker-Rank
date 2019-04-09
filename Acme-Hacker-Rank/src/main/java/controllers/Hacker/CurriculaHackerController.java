@@ -71,7 +71,7 @@ public class CurriculaHackerController extends AbstractController {
 
 		try {
 			Assert.notNull(this.hackerService.findOne(hackerId));
-			final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(hackerId);
+			final Collection<Curricula> curriculas = this.curriculaService.findNoCopies(hackerId);
 			result = new ModelAndView("curricula/list");
 			result.addObject("curriculas", curriculas);
 			result.addObject("requestURI", "curricula/list.do?hackerId=" + hackerId);
@@ -331,13 +331,14 @@ public class CurriculaHackerController extends AbstractController {
 	protected ModelAndView ShowModelAndView(final CurriculaForm curriculaForm, final String message) {
 		final ModelAndView result;
 
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		final Hacker hacker = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
 
 		result = new ModelAndView("curricula/show");
 		result.addObject("message", message);
 		result.addObject("requestURI", "curricula/hacker/show.do?curriculaId=" + curriculaForm.getId());
 		result.addObject("curriculaForm", curriculaForm);
 		result.addObject("id", curriculaForm.getId());
+		result.addObject("hacker", hacker);
 		result.addObject("isRead", true);
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
