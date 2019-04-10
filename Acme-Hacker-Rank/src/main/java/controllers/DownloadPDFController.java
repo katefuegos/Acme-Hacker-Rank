@@ -178,7 +178,7 @@ public class DownloadPDFController {
 				hackerService.save(h);
 				userAccountService.save(userAccount);
 				Collection<Curricula> curriculas = curriculaService
-						.findByHackerId(h.getId());
+						.findNoCopies(h.getId());
 				if (!curriculas.isEmpty()) {
 					for (Curricula c : curriculas) {
 						curriculaService.delete(c);
