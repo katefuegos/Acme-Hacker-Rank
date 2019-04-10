@@ -80,8 +80,6 @@ public class ProblemService {
 		final Company company = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
 		Assert.isTrue(problem.getPosition().getCompany().equals(company));
 		this.problemRepository.delete(problem);
-		Assert.isTrue(!(this.findAll().contains(problem)));
-
 	}
 
 	public void flush() {
