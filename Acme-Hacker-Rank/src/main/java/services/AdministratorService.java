@@ -8,6 +8,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -15,6 +17,7 @@ import repositories.AdministratorRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Administrator;
+import forms.QueryAuxForm;
 
 @Service
 @Transactional
@@ -24,6 +27,7 @@ public class AdministratorService {
 
 	@Autowired
 	private AdministratorRepository	administratorRepository;
+
 
 	//Services-------------------------------------------------
 
@@ -76,6 +80,76 @@ public class AdministratorService {
 
 	public Administrator findAdminByUsername(final String username) {
 		return this.administratorRepository.findAdminByUsername(username);
+	}
+
+	public Object[] queryC1() {
+		Object[] result = null;
+
+		result = this.administratorRepository.queryC1();
+
+		return result;
+	}
+
+	public Object[] queryC2() {
+		Object[] result = null;
+
+		result = this.administratorRepository.queryC2();
+
+		return result;
+	}
+
+	public Collection<forms.QueryAuxForm> queryC3() {
+		final Collection<forms.QueryAuxForm> result = new ArrayList<>();
+
+		Page<Object[]> p = null;
+
+		p = this.administratorRepository.queryC3(new PageRequest(0, 3));
+
+		if (p.getContent() != null)
+			for (final Object[] objects : p.getContent()) {
+				final forms.QueryAuxForm q = new QueryAuxForm();
+				q.setId((int) objects[0]);
+				q.setName((String) objects[1]);
+				q.setCount((Long) objects[2]);
+
+				result.add(q);
+			}
+
+		return result;
+	}
+
+	public Collection<forms.QueryAuxForm> queryC4() {
+		final Collection<forms.QueryAuxForm> result = new ArrayList<>();
+
+		Page<Object[]> p = null;
+
+		p = this.administratorRepository.queryC4(new PageRequest(0, 3));
+
+		if (p.getContent() != null)
+			for (final Object[] objects : p.getContent()) {
+				final forms.QueryAuxForm q = new QueryAuxForm();
+				q.setId((int) objects[0]);
+				q.setName((String) objects[1]);
+				q.setCount((Long) objects[2]);
+
+				result.add(q);
+			}
+
+		return result;
+	}
+
+	public Object[] queryC5() {
+		Object[] result = null;
+
+		result = this.administratorRepository.queryC5();
+		return result;
+	}
+
+	public Collection<domain.Position> queryC6() {
+		Collection<domain.Position> result = null;
+
+		result = this.administratorRepository.queryC6();
+		return result;
 	}
 
 }

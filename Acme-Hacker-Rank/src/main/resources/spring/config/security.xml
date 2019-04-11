@@ -200,7 +200,12 @@
 			access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/miscellaneousData/hacker/show.do"
 			access="hasRole('HACKER')" />
-
+	
+		
+		<!-- DASHBOARD -->
+		<security:intercept-url pattern="/dashboard/administrator/dashboard.do"
+			access="hasRole('ADMIN')" />
+		
 		<!-- CONFIGURATION -->
 		<security:intercept-url pattern="/configuration/administrator/list.do"
 			access="hasRole('ADMIN')" />
