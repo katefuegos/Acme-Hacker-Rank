@@ -109,7 +109,16 @@
 	<spring:message code="administrator.dashboard.B1" />
 </h3>
 
-
+<ul>
+	<li><spring:message code="administrator.avg" />: <jstl:out
+			value="${avgB1}" /></li>
+	<li><spring:message code="administrator.max" />: <jstl:out
+			value="${maxB1}" /></li>
+	<li><spring:message code="administrator.min" />: <jstl:out
+			value="${minB1}" /></li>
+	<li><spring:message code="administrator.stddev" />: <jstl:out
+			value="${stddevB1}" /></li>
+</ul>
 
 <br />
 <br />
@@ -118,7 +127,16 @@
 	<spring:message code="administrator.dashboard.B2" />
 </h3>
 
-
+<ul>
+	<li><spring:message code="administrator.avg" />: <jstl:out
+			value="${avgB2}" /></li>
+	<li><spring:message code="administrator.max" />: <jstl:out
+			value="${maxB2}" /></li>
+	<li><spring:message code="administrator.min" />: <jstl:out
+			value="${minB2}" /></li>
+	<li><spring:message code="administrator.stddev" />: <jstl:out
+			value="${stddevB2}" /></li>
+</ul>
 
 
 <br />
@@ -127,5 +145,10 @@
 <h3>
 	<spring:message code="administrator.dashboard.B3" />
 </h3>
-
+<ul>
+	<li><spring:message code="administrator.ratioNotEmpty" />: <jstl:out
+			value="${ratioNotEmpty}" /></li>
+	<li><spring:message code="administrator.ratioEmpty" />: <jstl:out
+			value="${ratioEmpty}" /></li>
+</ul>
 

@@ -137,6 +137,78 @@ public class DashboardAdministratorController extends AbstractController {
 		final Collection<domain.Position> queryC6 = this.administratorService.queryC6();
 		modelAndView.addObject("queryC6", queryC6);
 
+		// QueryB1
+		final Object[] resultB1 = this.administratorService.queryB1();
+
+		final Double avgB1 = (Double) resultB1[0];
+		final Double minB1 = (Double) resultB1[1];
+		final Double maxB1 = (Double) resultB1[2];
+		final Double stddevB1 = (Double) resultB1[3];
+
+		if (avgB1 != null)
+			modelAndView.addObject("avgB1", df.format(avgB1));
+		else
+			modelAndView.addObject("avgB1", nulo);
+
+		if (maxB1 != null)
+			modelAndView.addObject("maxB1", df.format(maxB1));
+		else
+			modelAndView.addObject("maxB1", nulo);
+
+		if (minB1 != null)
+			modelAndView.addObject("minB1", df.format(minB1));
+		else
+			modelAndView.addObject("minB1", nulo);
+
+		if (stddevB1 != null)
+			modelAndView.addObject("stddevB1", df.format(stddevB1));
+		else
+			modelAndView.addObject("stddevB1", nulo);
+
+		// QueryB1
+		final Object[] resultB2 = this.administratorService.queryB2();
+
+		final Double avgB2 = (Double) resultB2[0];
+		final Double minB2 = (Double) resultB2[1];
+		final Double maxB2 = (Double) resultB2[2];
+		final Double stddevB2 = (Double) resultB2[3];
+
+		if (avgB2 != null)
+			modelAndView.addObject("avgB2", df.format(avgB2));
+		else
+			modelAndView.addObject("avgB2", nulo);
+
+		if (maxB2 != null)
+			modelAndView.addObject("maxB2", df.format(maxB2));
+		else
+			modelAndView.addObject("maxB2", nulo);
+
+		if (minB2 != null)
+			modelAndView.addObject("minB2", df.format(minB2));
+		else
+			modelAndView.addObject("minB2", nulo);
+
+		if (stddevB2 != null)
+			modelAndView.addObject("stddevB2", df.format(stddevB2));
+		else
+			modelAndView.addObject("stddevB2", nulo);
+
+		// QueryB3
+		final Object[] resultB3 = this.administratorService.queryB3();
+
+		final Double ratioNotEmpty = (Double) resultB3[0];
+		final Double ratioEmpty = (Double) resultB3[1];
+
+		if (ratioNotEmpty != null)
+			modelAndView.addObject("ratioNotEmpty", df.format(ratioNotEmpty));
+		else
+			modelAndView.addObject("ratioNotEmpty", nulo);
+
+		if (ratioEmpty != null)
+			modelAndView.addObject("ratioEmpty", df.format(ratioEmpty));
+		else
+			modelAndView.addObject("ratioEmpty", nulo);
+
 		// --------------------------------
 		modelAndView.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		modelAndView.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());

@@ -46,9 +46,17 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	Collection<domain.Position> queryC6();
 
 	//	//DASHBOARD B
-	//C1 - avg,min,max,stddev of the number of curricula per hacker.
+	//B1 - avg,min,max,stddev of the number of curricula per hacker.
 	@Query("select avg(1.0 * (select count(e) from Curricula e where e.hacker.id = b.id and e.copy = false)),min(1.0 * (select count(e) from Curricula e where e.hacker.id = b.id and e.copy = false)),max(1.0 * (select count(e) from Curricula e where e.hacker.id = b.id and e.copy = false)),stddev(1.0 * (select count(e) from Curricula e where e.hacker.id = b.id and e.copy = false)) from Hacker b")
 	Object[] queryB1();
+
+	// B2 -
+	@Query("select avg(f.positions.size),min(f.positions.size)*1.0,max(f.positions.size)*1.0,stddev(f.positions.size) from Finder f")
+	Object[] queryB2();
+
+	// B3
+	@Query("select (select count(f1) from Finder f1 where f1.positions.size > 0)*1.0/count(f), (select count(f2) from Finder f2 where f2.positions.size = 0)*1.0/count(f) from Finder f")
+	Object[] queryB3();
 
 	//	//C2 - avg,min,max,stddev of the number of result per finder.
 	//	@Query("select avg(1.0 * (select count(e) from Application e where e.hacker.id = b.id)),min(1.0 * (select count(e) from Application e where e.hacker.id = b.id)),max(1.0 * (select count(e) from Application e where e.hacker.id = b.id)),stddev(1.0 * (select count(e) from Application e where e.hacker.id = b.id)) from Hacker b")

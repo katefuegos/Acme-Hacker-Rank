@@ -152,4 +152,25 @@ public class AdministratorService {
 		return result;
 	}
 
+	public Object[] queryB1() {
+		Object[] result = null;
+
+		result = this.administratorRepository.queryB1();
+		return result;
+	}
+
+	public Object[] queryB2() {
+		Object[] result = null;
+
+		result = this.administratorRepository.queryB2();
+		return result;
+	}
+
+	public Object[] queryB3() {
+		Object[] result = null;
+
+		result = this.administratorRepository.queryB3();
+		return result;
+	}
+
 }
