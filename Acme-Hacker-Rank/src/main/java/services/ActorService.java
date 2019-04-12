@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -26,24 +27,25 @@ public class ActorService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private ActorRepository actorRepository;
+	private ActorRepository			actorRepository;
 
 	// Services-------------------------------------------------
 
 	@Autowired
-	private HackerService hackerService;
+	private HackerService			hackerService;
 
 	@Autowired
-	private CompanyService companyService;
+	private CompanyService			companyService;
 
 	@Autowired
-	private AdministratorService administratorService;
+	private AdministratorService	administratorService;
 
 	@Autowired
-	private ServiceUtils serviceUtils;
+	private ServiceUtils			serviceUtils;
 
 	@Autowired
-	private CreditCardService creditCardService;
+	private CreditCardService		creditCardService;
+
 
 	// Constructor----------------------------------------------
 
@@ -109,8 +111,7 @@ public class ActorService {
 
 		Assert.notNull(actorform);
 
-		final Collection<Authority> authorities = actorform.getUserAccount()
-				.getAuthorities();
+		final Collection<Authority> authorities = actorform.getUserAccount().getAuthorities();
 		final Authority hacker = new Authority();
 		hacker.setAuthority(Authority.HACKER);
 		final Authority company = new Authority();
@@ -179,8 +180,7 @@ public class ActorService {
 			Assert.isTrue(this.serviceUtils.checkAuthorityBoolean("ADMIN"));
 
 			if (actorform.getId() != 0)
-				administrator = this.administratorService.findOne(actorform
-						.getId());
+				administrator = this.administratorService.findOne(actorform.getId());
 			else {
 				administrator = this.administratorService.create();
 				administrator.setUserAccount(actorform.getUserAccount());
@@ -223,5 +223,9 @@ public class ActorService {
 		final CreditCard result = this.creditCardService.save(creditCard);
 
 		return result;
+	}
+
+	public void flush() {
+		this.actorRepository.flush();
 	}
 }

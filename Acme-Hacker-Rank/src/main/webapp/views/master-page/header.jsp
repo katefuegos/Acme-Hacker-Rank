@@ -83,7 +83,8 @@
 			<li><a class="fNiv"><spring:message
 						code="master.page.administrator" /></a>
 				<ul>
-
+					<li><a href="dashboard/administrator/dashboard.do"><spring:message
+								code="master.page.administrator.dashboard" /></a> <br></li>
 					<li><a href="register/administrator/actor.do?authority=ADMIN"><spring:message
 								code="master.page.register.admin" /></a></li>
 					<li><a href="configuration/administrator/list.do"><spring:message
