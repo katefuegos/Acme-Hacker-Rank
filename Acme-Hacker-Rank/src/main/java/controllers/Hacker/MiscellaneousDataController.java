@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -75,18 +76,18 @@ public class MiscellaneousDataController extends AbstractController {
 
 	// CREATE
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
-		//Pasarlo como parametro @RequestParam("curriculaId") final Integer curriculaId
+	public ModelAndView create(@RequestParam("curriculaId") final Integer curriculaId) {
+		//Pasarlo como parametro 
 		ModelAndView result;
 		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
 		miscellaneousDataForm.setId(0);
 
 		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
 		System.out.println(b.getId());
-		//final Curricula curricula = this.curriculaService.findOne(curriculaId);
+		final Curricula curricula = this.curriculaService.findOne(curriculaId);
 
 		result = this.createModelAndView(miscellaneousDataForm);
-		//result.addObject("curricula", curricula);
+		result.addObject("curricula", curricula);
 		return result;
 	}
 
@@ -236,6 +237,7 @@ public class MiscellaneousDataController extends AbstractController {
 		result.addObject("miscellaneousDataForm", miscellaneousDataForm);
 		result.addObject("isRead", false);
 		result.addObject("id", 0);
+
 		//result.addObject("curriculaId", miscellaneousDataForm.getCurricula().getId());
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());

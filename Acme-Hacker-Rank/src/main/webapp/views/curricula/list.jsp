@@ -50,7 +50,7 @@
 			</a>
 		</display:column>
 		<display:column>
-			<a href="miscellaneousData/hacker/create.do"> <spring:message
+			<a href="miscellaneousData/hacker/create.do?curriculaId=${row.id}"> <spring:message
 					code="curricula.createMD" />
 			</a>
 		</display:column>
