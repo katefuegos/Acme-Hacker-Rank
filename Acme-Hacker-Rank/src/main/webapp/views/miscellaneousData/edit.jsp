@@ -13,11 +13,12 @@
 
 <form:form action="${requestURI}" id="row" modelAttribute="miscellaneousDataForm">
 	<form:hidden path="id" />
+	<form:hidden path="curricula" />
 	
 	
 	<acme:textbox code="miscellaneousData.text" path="text"/>
 	<acme:textbox code="miscellaneousData.attachments" path="attachments"/>
-	<acme:selectCollection items="${curriculas}" itemLabel="fullName" code="miscellaneousData.curricula" path="curricula"/>
+	<!--<acme:selectCollection items="${curriculas}" itemLabel="fullName" code="miscellaneousData.curricula" path="curricula"/> -->
 
 
 	<jstl:if test="${isRead == false}">
@@ -26,12 +27,12 @@
 			<acme:delete confirmDelete="miscellaneousData.confirmDelete" name="delete" code="miscellaneousData.delete"/>
 		
 		</jstl:if>
-		<acme:cancel url="curricula/hacker/listData.do?curriculaId=${curricula.id}" code="miscellaneousData.cancel"/>
+		<acme:cancel url="curricula/hacker/list.do" code="miscellaneousData.cancel"/>
 	</jstl:if>
 
 
 	<jstl:if test="${isRead == true}">
-		<acme:cancel url="curricula/hacker/listData.do?curriculaId=${curricula.id}" code="miscellaneousData.cancel"/>
+		<acme:cancel url="curricula/hacker/list.do" code="miscellaneousData.cancel"/>
 
 	</jstl:if>
 

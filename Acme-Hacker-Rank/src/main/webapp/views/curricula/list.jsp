@@ -43,13 +43,29 @@
 					code="curricula.listData" />
 			</a>
 		</display:column>
+		
+		<display:column>
+			<a href="positionData/hacker/create.do"> <spring:message
+					code="curricula.createPD" />
+			</a>
+		</display:column>
+		<display:column>
+			<a href="miscellaneousData/hacker/create.do"> <spring:message
+					code="curricula.createMD" />
+			</a>
+		</display:column>
+		<display:column>
+			<a href="educationData/hacker/create.do"> <spring:message
+					code="curricula.createED" />
+			</a>
+			
+		</display:column>
 	</security:authorize>
 
 </display:table>
 
 <security:authorize access="hasRole('HACKER')">
-			<a href="curricula/hacker/create.do"> <spring:message
-					code="curricula.create" />
+			<a href="curricula/hacker/create.do"> <spring:message code="curricula.create" />
 			</a>
 	</security:authorize>
 <br>

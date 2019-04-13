@@ -38,7 +38,7 @@
 </display:table>
 
 <security:authorize access="hasRole('HACKER')">
-	<a href="miscellaneousData/hacker/create.do"> <spring:message
+	<a href="miscellaneousData/hacker/create.do?curriculaId=${row.id}"> <spring:message
 					code="miscellaneousData.create" />
 			</a>
 </security:authorize>

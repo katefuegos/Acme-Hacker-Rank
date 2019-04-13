@@ -47,11 +47,7 @@
 	
 </display:table>
 
-<security:authorize access="hasRole('HACKER')">
-	<a href="positionData/hacker/create.do"> <spring:message
-					code="positionData.create" />
-			</a>
-</security:authorize>
+
 
 <!-- MISCELANEOUS DATA -->
 <p>Miscellaneous datas</p>
@@ -84,11 +80,7 @@
 	
 </display:table>
 
-<security:authorize access="hasRole('HACKER')">
-	<a href="miscellaneousData/hacker/create.do"> <spring:message
-					code="miscellaneousData.create" />
-			</a>
-</security:authorize>
+
 
 <p>Education datas</p>
 
@@ -125,8 +117,4 @@
 	
 </display:table>
 
-<security:authorize access="hasRole('HACKER')">
-	<a href="educationData/hacker/create.do"> <spring:message
-					code="educationData.create" />
-			</a>
-</security:authorize>
+

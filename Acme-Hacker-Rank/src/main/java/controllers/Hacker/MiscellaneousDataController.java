@@ -76,16 +76,17 @@ public class MiscellaneousDataController extends AbstractController {
 	// CREATE
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
+		//Pasarlo como parametro @RequestParam("curriculaId") final Integer curriculaId
 		ModelAndView result;
 		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
 		miscellaneousDataForm.setId(0);
 
 		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
 		System.out.println(b.getId());
-		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
+		//final Curricula curricula = this.curriculaService.findOne(curriculaId);
 
 		result = this.createModelAndView(miscellaneousDataForm);
-		result.addObject("curriculas", curriculas);
+		//result.addObject("curricula", curricula);
 		return result;
 	}
 
@@ -104,7 +105,7 @@ public class MiscellaneousDataController extends AbstractController {
 
 				this.miscellaneousDataService.save(miscellaneousData);
 
-				result = new ModelAndView("redirect:/curricula/hacker/listData.do?curriculaId=" + miscellaneousData.getCurricula().getId());
+				result = new ModelAndView("redirect:/curricula/hacker/listData.do");
 			} catch (final Throwable oops) {
 				result = this.createModelAndView(miscellaneousDataForm, "miscellaneousData.commit.error");
 			}
@@ -230,10 +231,12 @@ public class MiscellaneousDataController extends AbstractController {
 		result = new ModelAndView("miscellaneousData/create");
 
 		result.addObject("message1", message);
+		//result.addObject("requestURI", "miscellaneousData/hacker/create.do?curriculaId=" + miscellaneousDataForm.getCurricula().getId());
 		result.addObject("requestURI", "miscellaneousData/hacker/create.do");
 		result.addObject("miscellaneousDataForm", miscellaneousDataForm);
 		result.addObject("isRead", false);
 		result.addObject("id", 0);
+		//result.addObject("curriculaId", miscellaneousDataForm.getCurricula().getId());
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;
