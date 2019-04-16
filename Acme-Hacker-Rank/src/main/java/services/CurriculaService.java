@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CurriculaRepository;
+import security.LoginService;
 import domain.Curricula;
 import domain.EducationData;
+import domain.Hacker;
 import domain.MiscellaneousData;
 import domain.PositionData;
 
@@ -36,6 +38,9 @@ public class CurriculaService {
 	@Autowired
 	private MiscellaneousDataService	miscellaneousDataService;
 
+	@Autowired
+	private HackerService				hackerService;
+
 
 	// Constructor----------------------------------------------
 
@@ -47,6 +52,7 @@ public class CurriculaService {
 	// Simple CRUD----------------------------------------------
 
 	public Curricula create() {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
 		final Curricula curricula = new Curricula();
 
 		curricula.setCopy(false);
@@ -63,12 +69,18 @@ public class CurriculaService {
 
 	public Curricula save(final Curricula curricula) {
 		Assert.notNull(curricula);
-
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
+		final Hacker hacker = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		Assert.isTrue(curricula.getHacker().equals(hacker));
 		final Curricula saved = this.curriculaRepository.save(curricula);
 		return saved;
 	}
 
 	public void delete(final Curricula curricula) {
+		Assert.notNull(curricula);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
+		final Hacker hacker = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		Assert.isTrue(curricula.getHacker().equals(hacker));
 		if (curricula.isCopy() == false) {
 
 			final Collection<EducationData> educationdatas = this.educationDataService.findByCurriculaId(curricula.getId());
@@ -88,6 +100,10 @@ public class CurriculaService {
 					this.positionDataService.delete(p);
 			this.curriculaRepository.delete(curricula);
 		}
+	}
+
+	public void flush() {
+		this.curriculaRepository.flush();
 	}
 
 	// Other Methods--------------------------------------------
@@ -142,5 +158,9 @@ public class CurriculaService {
 	public Collection<Curricula> findNoCopies(final int hackerId) {
 		Assert.notNull(hackerId);
 		return this.curriculaRepository.findNoCopies(hackerId);
+	}
+	public Curricula findById(final int curriculaId) {
+		Assert.notNull(curriculaId);
+		return this.curriculaRepository.findById(curriculaId);
 	}
 }

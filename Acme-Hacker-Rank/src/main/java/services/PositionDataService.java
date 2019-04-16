@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -19,7 +20,8 @@ public class PositionDataService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private PositionDataRepository positionDataRepository;
+	private PositionDataRepository	positionDataRepository;
+
 
 	// Services-------------------------------------------------
 
@@ -49,8 +51,7 @@ public class PositionDataService {
 	public PositionData save(final PositionData positionData) {
 		Assert.notNull(positionData);
 
-		final PositionData saved = this.positionDataRepository
-				.save(positionData);
+		final PositionData saved = this.positionDataRepository.save(positionData);
 		return saved;
 	}
 
@@ -58,11 +59,15 @@ public class PositionDataService {
 		this.positionDataRepository.delete(positionData);
 	}
 
+	public void flush() {
+		this.positionDataRepository.flush();
+	}
+
 	// Other Methods--------------------------------------------
 
-	public PositionData copy(int positionDataId) {
+	public PositionData copy(final int positionDataId) {
 		Assert.notNull(positionDataId);
-		PositionData positionData = this.findOne(positionDataId);
+		final PositionData positionData = this.findOne(positionDataId);
 		Assert.notNull(positionData);
 
 		final PositionData positionDataCopy = new PositionData();
@@ -73,9 +78,9 @@ public class PositionDataService {
 
 		return positionDataCopy;
 	}
-	
-	public Collection<PositionData> findByCurriculaId(int curriculaId){
+
+	public Collection<PositionData> findByCurriculaId(final int curriculaId) {
 		Assert.notNull(curriculaId);
-		return positionDataRepository.findByCurriculaId(curriculaId);
+		return this.positionDataRepository.findByCurriculaId(curriculaId);
 	}
 }

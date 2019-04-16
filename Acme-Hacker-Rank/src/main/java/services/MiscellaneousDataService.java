@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.MiscellaneousDataRepository;
+import security.LoginService;
+import domain.Curricula;
 import domain.MiscellaneousData;
 
 @Service
@@ -19,9 +22,15 @@ public class MiscellaneousDataService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private MiscellaneousDataRepository miscellaneousDataRepository;
+	private MiscellaneousDataRepository	miscellaneousDataRepository;
 
 	// Services-------------------------------------------------
+	@Autowired
+	private CurriculaService			curriculaService;
+
+	@Autowired
+	private HackerService				hackerService;
+
 
 	// Constructor----------------------------------------------
 
@@ -33,6 +42,7 @@ public class MiscellaneousDataService {
 	// Simple CRUD----------------------------------------------
 
 	public MiscellaneousData create() {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
 		final MiscellaneousData miscellaneousData = new MiscellaneousData();
 
 		return miscellaneousData;
@@ -48,33 +58,43 @@ public class MiscellaneousDataService {
 
 	public MiscellaneousData save(final MiscellaneousData miscellaneousData) {
 		Assert.notNull(miscellaneousData);
-
-		final MiscellaneousData saved = this.miscellaneousDataRepository
-				.save(miscellaneousData);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
+		final int hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(hackerId);
+		Assert.isTrue(curriculas.contains(miscellaneousData.getCurricula()));
+		final MiscellaneousData saved = this.miscellaneousDataRepository.save(miscellaneousData);
 		return saved;
 	}
 
 	public void delete(final MiscellaneousData miscellaneousData) {
+		Assert.notNull(miscellaneousData);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
+		final int hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(hackerId);
+		Assert.isTrue(curriculas.contains(miscellaneousData.getCurricula()));
 		this.miscellaneousDataRepository.delete(miscellaneousData);
+	}
+
+	public void flush() {
+		this.miscellaneousDataRepository.flush();
 	}
 
 	// Other Methods--------------------------------------------
 
-	public MiscellaneousData copy(int miscellaneousDataId) {
+	public MiscellaneousData copy(final int miscellaneousDataId) {
 		Assert.notNull(miscellaneousDataId);
-		MiscellaneousData miscellaneousData = this.findOne(miscellaneousDataId);
+		final MiscellaneousData miscellaneousData = this.findOne(miscellaneousDataId);
 		Assert.notNull(miscellaneousData);
 
 		final MiscellaneousData miscellaneousDataCopy = new MiscellaneousData();
 		miscellaneousDataCopy.setText(miscellaneousData.getText());
-		miscellaneousDataCopy
-				.setAttachments(miscellaneousData.getAttachments());
+		miscellaneousDataCopy.setAttachments(miscellaneousData.getAttachments());
 
 		return miscellaneousDataCopy;
 	}
-	
-	public Collection<MiscellaneousData> findByCurriculaId(int curriculaId){
+
+	public Collection<MiscellaneousData> findByCurriculaId(final int curriculaId) {
 		Assert.notNull(curriculaId);
-		return miscellaneousDataRepository.findByCurriculaId(curriculaId);
+		return this.miscellaneousDataRepository.findByCurriculaId(curriculaId);
 	}
 }
