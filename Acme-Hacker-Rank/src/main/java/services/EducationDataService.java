@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.EducationDataRepository;
+import security.LoginService;
+import domain.Curricula;
 import domain.EducationData;
 
 @Service
@@ -22,8 +24,14 @@ public class EducationDataService {
 	@Autowired
 	private EducationDataRepository	educationDataRepository;
 
-
 	// Services-------------------------------------------------
+
+	@Autowired
+	private CurriculaService		curriculaService;
+
+	@Autowired
+	private HackerService			hackerService;
+
 
 	// Constructor----------------------------------------------
 
@@ -35,6 +43,7 @@ public class EducationDataService {
 	// Simple CRUD----------------------------------------------
 
 	public EducationData create() {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
 		final EducationData educationData = new EducationData();
 
 		return educationData;
@@ -50,12 +59,21 @@ public class EducationDataService {
 
 	public EducationData save(final EducationData educationData) {
 		Assert.notNull(educationData);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
+		final int hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(hackerId);
+		Assert.isTrue(curriculas.contains(educationData.getCurricula()));
 
 		final EducationData saved = this.educationDataRepository.save(educationData);
 		return saved;
 	}
 
 	public void delete(final EducationData educationData) {
+		Assert.notNull(educationData);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
+		final int hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(hackerId);
+		Assert.isTrue(curriculas.contains(educationData.getCurricula()));
 		this.educationDataRepository.delete(educationData);
 	}
 

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.PositionDataRepository;
+import security.LoginService;
+import domain.Curricula;
 import domain.PositionData;
 
 @Service
@@ -22,8 +24,14 @@ public class PositionDataService {
 	@Autowired
 	private PositionDataRepository	positionDataRepository;
 
-
 	// Services-------------------------------------------------
+
+	@Autowired
+	private CurriculaService		curriculaService;
+
+	@Autowired
+	private HackerService			hackerService;
+
 
 	// Constructor----------------------------------------------
 
@@ -35,6 +43,7 @@ public class PositionDataService {
 	// Simple CRUD----------------------------------------------
 
 	public PositionData create() {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
 		final PositionData positionData = new PositionData();
 
 		return positionData;
@@ -50,12 +59,20 @@ public class PositionDataService {
 
 	public PositionData save(final PositionData positionData) {
 		Assert.notNull(positionData);
-
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
+		final int hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(hackerId);
+		Assert.isTrue(curriculas.contains(positionData.getCurricula()));
 		final PositionData saved = this.positionDataRepository.save(positionData);
 		return saved;
 	}
 
 	public void delete(final PositionData positionData) {
+		Assert.notNull(positionData);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
+		final int hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
+		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(hackerId);
+		Assert.isTrue(curriculas.contains(positionData.getCurricula()));
 		this.positionDataRepository.delete(positionData);
 	}
 

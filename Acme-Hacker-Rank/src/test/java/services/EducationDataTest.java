@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -11,22 +13,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import utilities.AbstractTest;
 import domain.Curricula;
-import domain.MiscellaneousData;
+import domain.EducationData;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class MiscellaneousDataTest extends AbstractTest {
+public class EducationDataTest extends AbstractTest {
 
 	// System Under Test ------------------------------------------------------
 
 	@Autowired
-	private MiscellaneousDataService	miscellaneousDataService;
+	private EducationDataService	educationDataService;
 
 	@Autowired
-	private CurriculaService			curriculaService;
+	private CurriculaService		curriculaService;
 
 
 	// Tests ------------------------------------------------------------------
@@ -34,44 +36,44 @@ public class MiscellaneousDataTest extends AbstractTest {
 	public void driverCreate() {
 		final int curriculaIdMine = super.getEntityId("curricula1");
 		final int curriculaIdNotMine = super.getEntityId("curricula2");
-		final String text = "test";
+		final String degree = "test";
 
 		final Object testingData[][] = {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Create. b) Positive test c)
+			 * be able to manage their database of educationDatas. - Create. b) Positive test c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se crea miscellaneousData siendo company1.
+			 * - se crea educationData siendo company1.
 			 */
 			{
-				text, curriculaIdMine, "hacker1", null
+				degree, curriculaIdMine, "hacker1", null
 			},
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Create. b) Negative test -
+			 * be able to manage their database of educationDatas. - Create. b) Negative test -
 			 * Business rule: it can't be created by a not company user c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se intenta crear miscellaneousData siendo hacker1.
+			 * - se intenta crear educationData siendo hacker1.
 			 */
 			{
-				text, curriculaIdMine, "company1", java.lang.IllegalArgumentException.class
+				degree, curriculaIdMine, "company1", java.lang.IllegalArgumentException.class
 			},
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Create. b) Negative test -
+			 * be able to manage their database of educationDatas. - Create. b) Negative test -
 			 * Business rule: it can't be created for a foreign curricula c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se intenta crear miscellaneousData siendo company1 a una curricula ajena.
+			 * - se intenta crear educationData siendo company1 a una curricula ajena.
 			 */
 			{
-				text, curriculaIdNotMine, "company1", java.lang.IllegalArgumentException.class
+				degree, curriculaIdNotMine, "company1", java.lang.IllegalArgumentException.class
 			},
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Create. b) Negative test -
-			 * Business rule: it can't be created without a text c)
+			 * be able to manage their database of educationDatas. - Create. b) Negative test -
+			 * Business rule: it can't be created without a degree c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se intenta crear miscellaneousData siendo company1 sin atributo text.
+			 * - se intenta crear educationData siendo company1 sin atributo degree.
 			 */
 			{
 				null, curriculaIdMine, "hacker1", javax.validation.ConstraintViolationException.class
@@ -81,7 +83,7 @@ public class MiscellaneousDataTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.templateCreateMiscellaneousData((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
+				this.templateCreateEducationData((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -91,7 +93,7 @@ public class MiscellaneousDataTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
-	protected void templateCreateMiscellaneousData(final String text, final int curriculaId, final String username, final Class<?> expected) {
+	protected void templateCreateEducationData(final String degree, final int curriculaId, final String username, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
@@ -102,15 +104,20 @@ public class MiscellaneousDataTest extends AbstractTest {
 				super.unauthenticate();
 
 			final Curricula curricula = this.curriculaService.findOne(curriculaId);
+			final Date start = new Date();
+			final Date end = new Date();
 
-			final MiscellaneousData miscellaneousData = this.miscellaneousDataService.create();
-			miscellaneousData.setAttachments("http://www.test.com");
-			miscellaneousData.setCurricula(curricula);
-			miscellaneousData.setText(text);
+			final EducationData educationData = this.educationDataService.create();
+			educationData.setInstitution("test");
+			educationData.setCurricula(curricula);
+			educationData.setDegree(degree);
+			educationData.setMark(5);
+			educationData.setStartDate(start);
+			educationData.setEndDate(end);
 
-			this.miscellaneousDataService.save(miscellaneousData);
+			this.educationDataService.save(educationData);
 
-			this.miscellaneousDataService.flush();
+			this.educationDataService.flush();
 
 			super.flushTransaction();
 		} catch (final Throwable oops) {
@@ -122,56 +129,56 @@ public class MiscellaneousDataTest extends AbstractTest {
 
 	@Test
 	public void driverEdit() {
-		final int miscellaneousDataIdMine = super.getEntityId("miscellaneousData1");
-		final int miscellaneousDataIdNotMine = super.getEntityId("miscellaneousData5");
-		final String text = "test";
+		final int educationDataIdMine = super.getEntityId("educationData1");
+		final int educationDataIdNotMine = super.getEntityId("educationData5");
+		final String degree = "test";
 
 		final Object testingData[][] = {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Edit. b) Positive test c)
+			 * be able to manage their database of educationDatas. - Edit. b) Positive test c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se edita miscellaneousData siendo company1.
+			 * - se edita educationData siendo company1.
 			 */
 			{
-				text, miscellaneousDataIdMine, "hacker1", null
+				degree, educationDataIdMine, "hacker1", null
 			},
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Edit. b) Negative test -
+			 * be able to manage their database of educationDatas. - Edit. b) Negative test -
 			 * Business rule: it can't be edited by a not company user c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se intenta editar miscellaneousData siendo hacker1.
+			 * - se intenta editar educationData siendo hacker1.
 			 */
 			{
-				text, miscellaneousDataIdMine, "company1", java.lang.IllegalArgumentException.class
+				degree, educationDataIdMine, "company1", java.lang.IllegalArgumentException.class
 			},
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Edit. b) Negative test -
+			 * be able to manage their database of educationDatas. - Edit. b) Negative test -
 			 * Business rule: it can't be edited by a foreign company c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se intenta editar miscellaneousData ajeno siendo company1.
+			 * - se intenta editar educationData ajeno siendo company1.
 			 */
 			{
-				text, miscellaneousDataIdNotMine, "hacker1", java.lang.IllegalArgumentException.class
+				degree, educationDataIdNotMine, "hacker1", java.lang.IllegalArgumentException.class
 			},
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Edit. b) Negative test -
-			 * Business rule: it can't be edited without a text c)
+			 * be able to manage their database of educationDatas. - Edit. b) Negative test -
+			 * Business rule: it can't be edited without a degree c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se intenta editar miscellaneousData siendo company1 sin atributo text.
+			 * - se intenta editar educationData siendo company1 sin atributo degree.
 			 */
 			{
-				null, miscellaneousDataIdMine, "hacker1", javax.validation.ConstraintViolationException.class
+				null, educationDataIdMine, "hacker1", javax.validation.ConstraintViolationException.class
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.templateEditMiscellaneousData((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
+				this.templateEditEducationData((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -181,7 +188,7 @@ public class MiscellaneousDataTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
-	protected void templateEditMiscellaneousData(final String text, final int miscellaneousDataId, final String username, final Class<?> expected) {
+	protected void templateEditEducationData(final String degree, final int educationDataId, final String username, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
@@ -191,11 +198,11 @@ public class MiscellaneousDataTest extends AbstractTest {
 			else
 				super.unauthenticate();
 
-			final MiscellaneousData miscellaneousData = this.miscellaneousDataService.findOne(miscellaneousDataId);
-			miscellaneousData.setText(text);
-			this.miscellaneousDataService.save(miscellaneousData);
+			final EducationData educationData = this.educationDataService.findOne(educationDataId);
+			educationData.setDegree(degree);
+			this.educationDataService.save(educationData);
 
-			this.miscellaneousDataService.flush();
+			this.educationDataService.flush();
 
 			super.flushTransaction();
 		} catch (final Throwable oops) {
@@ -207,38 +214,38 @@ public class MiscellaneousDataTest extends AbstractTest {
 
 	@Test
 	public void driverDelete() {
-		final int miscellaneousDataIdMine = super.getEntityId("miscellaneousData1");
-		final int miscellaneousDataIdNotMine = super.getEntityId("miscellaneousData5");
+		final int educationDataIdMine = super.getEntityId("educationData1");
+		final int educationDataIdNotMine = super.getEntityId("educationData5");
 
 		final Object testingData[][] = {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Delete. b) Positive test c)
+			 * be able to manage their database of educationDatas. - Delete. b) Positive test c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se elimina miscellaneousData siendo company1.
+			 * - se elimina educationData siendo company1.
 			 */
 			{
-				miscellaneousDataIdMine, "hacker1", null
+				educationDataIdMine, "hacker1", null
 			},
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Eliminar. b) Negative test -
+			 * be able to manage their database of educationDatas. - Eliminar. b) Negative test -
 			 * Business rule: it can't be deleted by a not company user c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se intenta eliminar miscellaneousData siendo hacker1.
+			 * - se intenta eliminar educationData siendo hacker1.
 			 */
 			{
-				miscellaneousDataIdMine, "company1", java.lang.IllegalArgumentException.class
+				educationDataIdMine, "company1", java.lang.IllegalArgumentException.class
 			},
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
-			 * be able to manage their database of miscellaneousDatas. - Delete. b) Negative test -
+			 * be able to manage their database of educationDatas. - Delete. b) Negative test -
 			 * Business rule: it can't be deleted by a foreign company c)
 			 * analysis of sentence coverage: % d) analysis of data coverage
-			 * - se intenta eliminar miscellaneousData ajeno siendo company1.
+			 * - se intenta eliminar educationData ajeno siendo company1.
 			 */
 			{
-				miscellaneousDataIdNotMine, "hacker1", java.lang.IllegalArgumentException.class
+				educationDataIdNotMine, "hacker1", java.lang.IllegalArgumentException.class
 			}
 
 		};
@@ -246,7 +253,7 @@ public class MiscellaneousDataTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.templateDeleteMiscellaneousData((int) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+				this.templateDeleteEducationData((int) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -256,7 +263,7 @@ public class MiscellaneousDataTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
-	protected void templateDeleteMiscellaneousData(final int miscellaneousDataId, final String username, final Class<?> expected) {
+	protected void templateDeleteEducationData(final int educationDataId, final String username, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
@@ -266,10 +273,10 @@ public class MiscellaneousDataTest extends AbstractTest {
 			else
 				super.unauthenticate();
 
-			final MiscellaneousData miscellaneousData = this.miscellaneousDataService.findOne(miscellaneousDataId);
-			this.miscellaneousDataService.delete(miscellaneousData);
+			final EducationData educationData = this.educationDataService.findOne(educationDataId);
+			this.educationDataService.delete(educationData);
 
-			this.miscellaneousDataService.flush();
+			this.educationDataService.flush();
 
 			super.flushTransaction();
 		} catch (final Throwable oops) {
