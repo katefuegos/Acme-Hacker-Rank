@@ -13,6 +13,7 @@
 
 <form:form action="${requestURI}" modelAttribute="curriculaForm">
 	<form:hidden path="id" />
+	<form:hidden path="hacker" />
 
 
 	<acme:textbox code="curricula.fullName" path="fullName" />
@@ -20,10 +21,6 @@
 	<acme:textbox code="curricula.phoneNumber" path="phoneNumber" />
 	<acme:textbox code="curricula.githubProfile" path="githubProfile" />
 	<acme:textbox code="curricula.linkedInProfile" path="linkedInProfile" />
-	
-		<acme:selectCollection items="${hackers}" itemLabel="name"
-			code="curricula.hacker" path="hacker" />
-
 
 	<jstl:if test="${isRead == false}">
 		<acme:submit name="save" code="curricula.save" />
@@ -32,13 +29,8 @@
 				code="curricula.delete" />
 
 		</jstl:if>
-		<acme:cancel url="curricula/hacker/list.do" code="curricula.cancel" />
 	</jstl:if>
 
-
-	<jstl:if test="${isRead == true}">
-		<acme:cancel url="curricula/hacker/list.do" code="curricula.cancel" />
-
-	</jstl:if>
+	<acme:cancel url="curricula/hacker/list.do" code="curricula.cancel" />
 
 </form:form>

@@ -1,4 +1,3 @@
-
 package forms;
 
 import javax.persistence.Access;
@@ -13,16 +12,13 @@ public class CurriculaForm {
 
 	// Attributes------------------------------------------------------------------
 
-	private int		id;
-	private String	fullName;
-	private String	statement;
-	private String	phoneNumber;
-	private String	githubProfile;
-	private String	linkedInProfile;
-	//private boolean	isCopy;
-
-	private Hacker	hacker;
-
+	private int id;
+	private String fullName;
+	private String statement;
+	private String phoneNumber;
+	private String githubProfile;
+	private String linkedInProfile;
+	private Hacker hacker;
 
 	// Constructor------------------------------------------------------------------
 
@@ -78,18 +74,10 @@ public class CurriculaForm {
 		this.statement = statement;
 	}
 
-	//	@NotNull
-	//	public boolean isCopy() {
-	//		return this.isCopy;
-	//	}
-	//
-	//	public void setCopy(final boolean isCopy) {
-	//		this.isCopy = isCopy;
-	//	}
-
 	public Hacker getHacker() {
 		return this.hacker;
 	}
+
 	public void setHacker(final Hacker hacker) {
 		this.hacker = hacker;
 

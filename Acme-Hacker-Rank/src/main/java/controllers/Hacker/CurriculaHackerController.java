@@ -1,7 +1,5 @@
-
 package controllers.Hacker;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -37,23 +35,22 @@ public class CurriculaHackerController extends AbstractController {
 
 	// Services-----------------------------------------------------------
 	@Autowired
-	private CurriculaService			curriculaService;
+	private CurriculaService curriculaService;
 
 	@Autowired
-	private HackerService				hackerService;
+	private HackerService hackerService;
 
 	@Autowired
-	private ConfigurationService		configurationService;
+	private ConfigurationService configurationService;
 
 	@Autowired
-	private PositionDataService			positionDataService;
+	private PositionDataService positionDataService;
 
 	@Autowired
-	private EducationDataService		educationDataService;
+	private EducationDataService educationDataService;
 
 	@Autowired
-	private MiscellaneousDataService	miscellaneousDataService;
-
+	private MiscellaneousDataService miscellaneousDataService;
 
 	// Constructor---------------------------------------------------------
 
@@ -65,49 +62,79 @@ public class CurriculaHackerController extends AbstractController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
-
-		final UserAccount uA = LoginService.getPrincipal();
-		final int hackerId = this.hackerService.findHackerByUseraccount(uA).getId();
-
+		Integer hackerId = null;
 		try {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hackerId = this.hackerService.findHackerByUseraccount(userAccount)
+					.getId();
 			Assert.notNull(this.hackerService.findOne(hackerId));
-			final Collection<Curricula> curriculas = this.curriculaService.findNoCopies(hackerId);
+			final Collection<Curricula> curriculas = this.curriculaService
+					.findNoCopies(hackerId);
+
 			result = new ModelAndView("curricula/list");
 			result.addObject("curriculas", curriculas);
-			result.addObject("requestURI", "curricula/list.do?hackerId=" + hackerId);
-			result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-			result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+			result.addObject("requestURI", "curricula/list.do?hackerId="
+					+ hackerId);
+			result.addObject("banner", this.configurationService.findAll()
+					.iterator().next().getBanner());
+			result.addObject("systemName", this.configurationService.findAll()
+					.iterator().next().getSystemName());
+
 		} catch (final Throwable e) {
-			result = new ModelAndView("redirect:/hacker/list.do");
-			if (this.hackerService.findOne(hackerId) == null)
-				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
+			result = new ModelAndView("redirect:/curricula/hacker/list.do");
 		}
 
 		return result;
 	}
 
 	@RequestMapping(value = "/listData", method = RequestMethod.GET)
-	public ModelAndView listData(final int curriculaId, final RedirectAttributes redirectAttrs) {
+	public ModelAndView listData(final int curriculaId,
+			final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
-		final UserAccount uA = LoginService.getPrincipal();
-		final int hackerId = this.hackerService.findHackerByUseraccount(uA).getId();
+		Hacker hacker = null;
+		Curricula curricula = null;
 
 		try {
-			Assert.notNull(this.hackerService.findOne(hackerId));
-			final Collection<PositionData> positiondatas = this.positionDataService.findByCurriculaId(curriculaId);
-			final Collection<EducationData> educationdatas = this.educationDataService.findByCurriculaId(curriculaId);
-			final Collection<MiscellaneousData> miscellaneousdatas = this.miscellaneousDataService.findByCurriculaId(curriculaId);
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
+			curricula = curriculaService.findOne(curriculaId);
+			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
+
+			final Collection<PositionData> positiondatas = this.positionDataService
+					.findByCurriculaId(curriculaId);
+			final Collection<EducationData> educationdatas = this.educationDataService
+					.findByCurriculaId(curriculaId);
+			final Collection<MiscellaneousData> miscellaneousdatas = this.miscellaneousDataService
+					.findByCurriculaId(curriculaId);
+
 			result = new ModelAndView("curricula/listData");
 			result.addObject("positiondatas", positiondatas);
 			result.addObject("educationdatas", educationdatas);
 			result.addObject("miscellaneousdatas", miscellaneousdatas);
-			result.addObject("requestURI", "curricula/hacker/listData.do?curriculaId=" + curriculaId);
-			result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-			result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+			result.addObject("requestURI",
+					"curricula/hacker/listData.do?curriculaId=" + curriculaId);
+			result.addObject("banner", this.configurationService.findAll()
+					.iterator().next().getBanner());
+			result.addObject("systemName", this.configurationService.findAll()
+					.iterator().next().getSystemName());
+
 		} catch (final Throwable e) {
-			result = new ModelAndView("redirect:/hacker/list.do");
-			if (this.hackerService.findOne(hackerId) == null)
-				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
+			result = new ModelAndView("redirect:/curricula/hacker/list.do");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.commit.error");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.notFromHacker");
 		}
 		return result;
 	}
@@ -116,28 +143,35 @@ public class CurriculaHackerController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(final RedirectAttributes redirectAttrs) {
 		ModelAndView result = null;
-		final Collection<Hacker> hackers = new ArrayList<Hacker>();
+		Hacker hacker = null;
+
 		try {
-			final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
 			final CurriculaForm curriculaForm = new CurriculaForm();
 			curriculaForm.setId(0);
+			curriculaForm.setHacker(hacker);
 
 			result = this.createModelAndView(curriculaForm);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/curricula/hacker/list.do");
-			if (hackers.isEmpty())
-				redirectAttrs.addFlashAttribute("message", "curricula.error.noPositions");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.commit.error");
 		}
 
 		return result;
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final CurriculaForm curriculaForm, final BindingResult binding) {
+	public ModelAndView save(@Valid final CurriculaForm curriculaForm,
+			final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createModelAndView(curriculaForm, "curricula.commit.error");
+			result = this.createModelAndView(curriculaForm,
+					"curricula.commit.error");
 		else
 			try {
 				final Curricula curricula = this.curriculaService.create();
@@ -145,31 +179,39 @@ public class CurriculaHackerController extends AbstractController {
 				curricula.setStatement(curriculaForm.getStatement());
 				curricula.setPhoneNumber(curriculaForm.getPhoneNumber());
 				curricula.setGithubProfile(curriculaForm.getGithubProfile());
-				curricula.setLinkedinprofile(curriculaForm.getLinkedInProfile());
+				curricula
+						.setLinkedinprofile(curriculaForm.getLinkedInProfile());
 				curricula.setHacker(curriculaForm.getHacker());
 
 				this.curriculaService.save(curricula);
 
 				result = new ModelAndView("redirect:/curricula/hacker/list.do");
 			} catch (final Throwable oops) {
-				result = this.createModelAndView(curriculaForm, "curricula.commit.error");
+				result = this.createModelAndView(curriculaForm,
+						"curricula.commit.error");
 			}
+
 		return result;
 	}
 
 	// EDIT
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(final int curriculaId, final RedirectAttributes redirectAttrs) {
+	public ModelAndView edit(final int curriculaId,
+			final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
-		Curricula curricula;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
-		final Collection<Hacker> hackers = new ArrayList<Hacker>();
+		Curricula curricula = null;
+		Hacker hacker = null;
+
 		try {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
 			curricula = this.curriculaService.findOne(curriculaId);
 			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
 
 			final CurriculaForm curriculaForm = new CurriculaForm();
-
 			curriculaForm.setId(curricula.getId());
 			curriculaForm.setFullName(curricula.getFullName());
 			curriculaForm.setStatement(curricula.getStatement());
@@ -183,72 +225,112 @@ public class CurriculaHackerController extends AbstractController {
 		} catch (final Throwable e) {
 
 			result = new ModelAndView("redirect:/curricula/hacker/list.do");
-			if (this.curriculaService.findOne(curriculaId) == null)
-				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
-			else if (!this.curriculaService.findOne(curriculaId).getHacker().equals(b))
-				redirectAttrs.addFlashAttribute("message", "curricula.error.notFromActor");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.commit.error");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.notFromHacker");
 		}
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save2(@Valid final CurriculaForm curriculaForm, final BindingResult binding) {
+	public ModelAndView save2(@Valid final CurriculaForm curriculaForm,
+			final BindingResult binding) {
 		ModelAndView result;
-		//final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		Hacker hacker = null;
+		Curricula curricula = null;
+
 		if (binding.hasErrors())
-			result = this.editModelAndView(curriculaForm, "curricula.commit.error");
+			result = this.editModelAndView(curriculaForm,
+					"curricula.commit.error");
 		else
 			try {
-				Assert.notNull(curriculaForm);
-				final Curricula curricula = this.curriculaService.findOne(curriculaForm.getId());
+				final UserAccount userAccount = LoginService.getPrincipal();
+				hacker = this.hackerService
+						.findHackerByUseraccount(userAccount);
+				Assert.notNull(hacker);
+				curricula = this.curriculaService
+						.findOne(curriculaForm.getId());
+				Assert.notNull(curricula);
+				Assert.isTrue(curricula.isCopy() == false);
+				Assert.isTrue(curricula.getHacker().equals(hacker));
+
 				curricula.setFullName(curriculaForm.getFullName());
 				curricula.setStatement(curriculaForm.getStatement());
 				curricula.setPhoneNumber(curriculaForm.getPhoneNumber());
 				curricula.setGithubProfile(curriculaForm.getGithubProfile());
-				curricula.setLinkedinprofile(curriculaForm.getLinkedInProfile());
+				curricula
+						.setLinkedinprofile(curriculaForm.getLinkedInProfile());
 				curricula.setHacker(curriculaForm.getHacker());
-				System.out.println(curricula.getHacker() + "," + curriculaForm.getHacker());
 
 				this.curriculaService.save(curricula);
 
 				result = new ModelAndView("redirect:/curricula/hacker/list.do");
 			} catch (final Throwable oops) {
-				result = this.editModelAndView(curriculaForm, "curricula.commit.error");
+				result = this.editModelAndView(curriculaForm,
+						"curricula.commit.error");
 			}
+
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid final CurriculaForm curriculaForm, final BindingResult binding) {
+	public ModelAndView delete(@Valid final CurriculaForm curriculaForm,
+			final BindingResult binding) {
 		ModelAndView result;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+		Hacker hacker = null;
+		Curricula curricula = null;
+
 		if (binding.hasErrors())
-			result = this.editModelAndView(curriculaForm, "curricula.commit.error");
+			result = this.editModelAndView(curriculaForm,
+					"curricula.commit.error");
 		else
 			try {
-				Assert.notNull(curriculaForm);
-				final Curricula curricula = this.curriculaService.findOne(curriculaForm.getId());
-				Assert.isTrue(curricula.getHacker().equals(b));
+				final UserAccount userAccount = LoginService.getPrincipal();
+				hacker = this.hackerService
+						.findHackerByUseraccount(userAccount);
+				Assert.notNull(hacker);
+				curricula = this.curriculaService
+						.findOne(curriculaForm.getId());
+				Assert.notNull(curricula);
+				Assert.isTrue(curricula.isCopy() == false);
+				Assert.isTrue(curricula.getHacker().equals(hacker));
 
-				this.curriculaService.delete(this.curriculaService.findOne(curriculaForm.getId()));
+				this.curriculaService.delete(curricula);
 
 				result = new ModelAndView("redirect:/curricula/hacker/list.do");
 			} catch (final Throwable oops) {
-
-				result = this.editModelAndView(curriculaForm, "curricula.commit.error");
+				result = this.editModelAndView(curriculaForm,
+						"curricula.commit.error");
 			}
+
 		return result;
 	}
 
 	// SHOW
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public ModelAndView show(final int curriculaId, final RedirectAttributes redirectAttrs) {
+	public ModelAndView show(final int curriculaId,
+			final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
+		Hacker hacker = null;
 		Curricula curricula = null;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+
 		try {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
 			curricula = this.curriculaService.findOne(curriculaId);
 			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
 
 			final CurriculaForm curriculaForm = new CurriculaForm();
 			curriculaForm.setId(curricula.getId());
@@ -264,11 +346,20 @@ public class CurriculaHackerController extends AbstractController {
 		} catch (final Throwable e) {
 
 			result = new ModelAndView("redirect:/curricula/hacker/list.do");
-			if (this.curriculaService.findOne(curriculaId) == null)
-				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
-			else if (!this.curriculaService.findOne(curriculaId).getHacker().equals(b))
-				redirectAttrs.addFlashAttribute("message", "curricula.error.notFromActor");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.commit.error");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message",
+						"curricula.error.notFromHacker");
 		}
+
 		return result;
 	}
 
@@ -279,21 +370,21 @@ public class CurriculaHackerController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createModelAndView(final CurriculaForm curriculaForm, final String message) {
+	protected ModelAndView createModelAndView(
+			final CurriculaForm curriculaForm, final String message) {
 		final ModelAndView result;
 
 		result = new ModelAndView("curricula/create");
-
-		final Collection<Hacker> hackers = this.hackerService.findAll();
 
 		result.addObject("message", message);
 		result.addObject("requestURI", "curricula/hacker/create.do");
 		result.addObject("curriculaForm", curriculaForm);
 		result.addObject("isRead", false);
-		result.addObject("id", 0);
-		result.addObject("hackers", hackers);
-		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+		result.addObject("id", curriculaForm.getId());
+		result.addObject("banner", this.configurationService.findAll()
+				.iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll()
+				.iterator().next().getSystemName());
 		return result;
 	}
 
@@ -303,22 +394,21 @@ public class CurriculaHackerController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(final CurriculaForm curriculaForm, final String message) {
+	protected ModelAndView editModelAndView(final CurriculaForm curriculaForm,
+			final String message) {
 		final ModelAndView result;
 
 		result = new ModelAndView("curricula/edit");
-
-		//final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
-		final Collection<Hacker> hackers = this.hackerService.findAll();
-
 		result.addObject("message", message);
-		result.addObject("requestURI", "curricula/hacker/edit.do?curriculaId=" + curriculaForm.getId());
+		result.addObject("requestURI", "curricula/hacker/edit.do?curriculaId="
+				+ curriculaForm.getId());
 		result.addObject("curriculaForm", curriculaForm);
-		result.addObject("hackers", hackers);
 		result.addObject("id", curriculaForm.getId());
 		result.addObject("isRead", false);
-		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+		result.addObject("banner", this.configurationService.findAll()
+				.iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll()
+				.iterator().next().getSystemName());
 		return result;
 	}
 
@@ -328,20 +418,21 @@ public class CurriculaHackerController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView ShowModelAndView(final CurriculaForm curriculaForm, final String message) {
+	protected ModelAndView ShowModelAndView(final CurriculaForm curriculaForm,
+			final String message) {
 		final ModelAndView result;
-
-		final Hacker hacker = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
 
 		result = new ModelAndView("curricula/show");
 		result.addObject("message", message);
-		result.addObject("requestURI", "curricula/hacker/show.do?curriculaId=" + curriculaForm.getId());
+		result.addObject("requestURI", "curricula/hacker/show.do?curriculaId="
+				+ curriculaForm.getId());
 		result.addObject("curriculaForm", curriculaForm);
 		result.addObject("id", curriculaForm.getId());
-		result.addObject("hacker", hacker);
 		result.addObject("isRead", true);
-		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+		result.addObject("banner", this.configurationService.findAll()
+				.iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll()
+				.iterator().next().getSystemName());
 		return result;
 	}
 }
