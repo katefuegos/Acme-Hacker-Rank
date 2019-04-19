@@ -1,8 +1,6 @@
 
 package controllers.Hacker;
 
-import java.util.Collection;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import security.LoginService;
+import security.UserAccount;
 import services.ConfigurationService;
 import services.CurriculaService;
 import services.EducationDataService;
@@ -49,54 +48,57 @@ public class EducationDataController extends AbstractController {
 		super();
 	}
 
-	// List ---------------------------------------------------------------
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(final RedirectAttributes redirectAttrs, final int curriculaId) {
-		ModelAndView result;
-
-		try {
-
-			final Integer hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
-			Assert.notNull(this.hackerService.findOne(hackerId));
-
-			result = new ModelAndView("educationData/list");
-			final Collection<EducationData> educationDatas = this.educationDataService.findByCurriculaId(curriculaId);
-
-			result.addObject("educationDatas", educationDatas);
-			result.addObject("requestURI", "educationData/hacker/list.do?hackerId=" + hackerId);
-			result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-			result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
-
-		} catch (final Throwable e) {
-			result = new ModelAndView("redirect:/");
-		}
-		return result;
-	}
-
 	// CREATE
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(final int curriculaId, final RedirectAttributes redirectAttrs) {
+
 		ModelAndView result;
-		final EducationDataForm educationDataForm = new EducationDataForm();
-		educationDataForm.setId(0);
+		Hacker hacker = null;
+		Curricula curricula = null;
 
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
-		System.out.println(b.getId());
-		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
+		try {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
+			curricula = this.curriculaService.findOne(curriculaId);
+			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
 
-		result = this.createModelAndView(educationDataForm);
-		result.addObject("curriculas", curriculas);
+			final EducationDataForm educationDataForm = new EducationDataForm();
+			educationDataForm.setId(0);
+			educationDataForm.setCurricula(curricula);
+
+			result = this.createModelAndView(educationDataForm);
+
+		} catch (final Throwable e) {
+
+			result = new ModelAndView("redirect:/curricula/hacker/list.do");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.commit.error");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message", "curricula.error.notFromHacker");
+		}
 		return result;
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final EducationDataForm educationDataForm, final BindingResult binding) {
 		ModelAndView result;
+		Hacker hacker = null;
 
 		if (binding.hasErrors())
 			result = this.createModelAndView(educationDataForm, "educationData.commit.error");
 		else
 			try {
+				final UserAccount userAccount = LoginService.getPrincipal();
+				hacker = this.hackerService.findHackerByUseraccount(userAccount);
+				Assert.notNull(hacker);
+
 				final EducationData educationData = this.educationDataService.create();
 				educationData.setDegree(educationDataForm.getDegree());
 				educationData.setMark(educationDataForm.getMark());
@@ -113,17 +115,24 @@ public class EducationDataController extends AbstractController {
 			}
 		return result;
 	}
+
 	// EDIT
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(final int educationDataId, final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
-		EducationData educationData;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
-		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
+		EducationData educationData = null;
+		Hacker hacker = null;
+		Curricula curricula = null;
 		try {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
 			educationData = this.educationDataService.findOne(educationDataId);
 			Assert.notNull(educationData);
-			Assert.isTrue(this.educationDataService.findOne(educationDataId).getCurricula().getHacker().equals(b));
+			curricula = educationData.getCurricula();
+			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
 
 			final EducationDataForm educationDataForm = new EducationDataForm();
 			educationDataForm.setId(educationData.getId());
@@ -135,30 +144,35 @@ public class EducationDataController extends AbstractController {
 			educationDataForm.setCurricula(educationData.getCurricula());
 
 			result = this.editModelAndView(educationDataForm);
-			result.addObject("curriculas", curriculas);
 
 		} catch (final Throwable e) {
 
-			result = new ModelAndView("redirect:/educationData/hacker/list.do");
-			if (this.educationDataService.findOne(educationDataId) == null)
+			result = new ModelAndView("redirect:/curricula/hacker/list.do");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.commit.error");
+			else if (educationData == null)
 				redirectAttrs.addFlashAttribute("message", "educationData.error.unexist");
-			else if (!this.educationDataService.findOne(educationDataId).getCurricula().getHacker().equals(b))
-				redirectAttrs.addFlashAttribute("message", "educationData.error.notFromActor");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message", "curricula.error.notFromHacker");
 		}
+
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save2(@Valid final EducationDataForm educationDataForm, final BindingResult binding) {
 		ModelAndView result;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+
 		if (binding.hasErrors())
 			result = this.editModelAndView(educationDataForm, "educationData.commit.error");
 		else
 			try {
-				Assert.notNull(educationDataForm);
 				final EducationData educationData = this.educationDataService.findOne(educationDataForm.getId());
-				Assert.isTrue(educationData.getCurricula().getHacker().equals(b));
+				Assert.notNull(educationData);
 				educationData.setDegree(educationDataForm.getDegree());
 				educationData.setInstitution(educationDataForm.getInstitution());
 				educationData.setMark(educationDataForm.getMark());
@@ -176,14 +190,13 @@ public class EducationDataController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(@Valid final EducationDataForm educationDataForm, final BindingResult binding) {
 		ModelAndView result;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+
 		if (binding.hasErrors())
 			result = this.editModelAndView(educationDataForm, "educationData.commit.error");
 		else
 			try {
-				Assert.notNull(educationDataForm);
 				final EducationData educationData = this.educationDataService.findOne(educationDataForm.getId());
-				Assert.isTrue(educationData.getCurricula().getHacker().equals(b));
+				Assert.notNull(educationData);
 
 				this.educationDataService.delete(this.educationDataService.findOne(educationDataForm.getId()));
 
@@ -200,12 +213,19 @@ public class EducationDataController extends AbstractController {
 	public ModelAndView show(final int educationDataId, final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
 		EducationData educationData = null;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
-		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
+		Hacker hacker = null;
+		Curricula curricula = null;
+
 		try {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
 			educationData = this.educationDataService.findOne(educationDataId);
 			Assert.notNull(educationData);
-			Assert.isTrue(educationData.getCurricula().getHacker().getId() == b.getId());
+			curricula = educationData.getCurricula();
+			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
 
 			final EducationDataForm educationDataForm = new EducationDataForm();
 			educationDataForm.setId(educationData.getId());
@@ -216,16 +236,22 @@ public class EducationDataController extends AbstractController {
 			educationDataForm.setEndDate(educationData.getEndDate());
 
 			result = this.ShowModelAndView(educationDataForm);
-			result.addObject("curriculas", curriculas);
 
 		} catch (final Throwable e) {
 
-			result = new ModelAndView("redirect:/educationData/hacker/list.do");
-			if (this.educationDataService.findOne(educationDataId) == null)
+			result = new ModelAndView("redirect:/curricula/hacker/list.do");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.commit.error");
+			else if (educationData == null)
 				redirectAttrs.addFlashAttribute("message", "educationData.error.unexist");
-			else if (!this.educationDataService.findOne(educationDataId).getCurricula().getHacker().equals(b))
-				redirectAttrs.addFlashAttribute("message", "educationData.error.notFromActor");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message", "curricula.error.notFromHacker");
 		}
+
 		return result;
 	}
 
@@ -245,7 +271,7 @@ public class EducationDataController extends AbstractController {
 		result.addObject("requestURI", "educationData/hacker/create.do");
 		result.addObject("educationDataForm", educationDataForm);
 		result.addObject("isRead", false);
-		result.addObject("id", 0);
+		result.addObject("id", educationDataForm.getId());
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;
@@ -266,6 +292,7 @@ public class EducationDataController extends AbstractController {
 		result.addObject("requestURI", "educationData/hacker/edit.do?educationDataId=" + educationDataForm.getId());
 		result.addObject("educationDataForm", educationDataForm);
 		result.addObject("isRead", false);
+		result.addObject("id", educationDataForm.getId());
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;
@@ -285,6 +312,7 @@ public class EducationDataController extends AbstractController {
 		result.addObject("requestURI", "educationData/hacker/show.do?educationDataId=" + educationDataForm.getId());
 		result.addObject("educationDataForm", educationDataForm);
 		result.addObject("isRead", true);
+		result.addObject("id", educationDataForm.getId());
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;

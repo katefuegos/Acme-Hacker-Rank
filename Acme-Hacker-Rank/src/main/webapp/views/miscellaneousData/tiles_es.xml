@@ -11,17 +11,17 @@
 <tiles-definitions>
 
 	<definition name="miscellaneousData/list" extends="master.page">
-		<put-attribute name="title" value="Lista de miscellaneousDataas" />
+		<put-attribute name="title" value="Lista de datos variados" />
 		<put-attribute name="body" value="/views/miscellaneousData/list.jsp" />
 	</definition>
 	
 	<definition name="miscellaneousData/create" extends="master.page">
-		<put-attribute name="title" value="Crear datos de miscelaneo" />
+		<put-attribute name="title" value="Crear datos variados" />
 		<put-attribute name="body" value="/views/miscellaneousData/edit.jsp" />
 	</definition>
 	
 	<definition name="miscellaneousData/show" extends="master.page">
-		<put-attribute name="title" value="Ver datos de miscelanea" />
+		<put-attribute name="title" value="Ver datos variados" />
 		<put-attribute name="body" value="/views/miscellaneousData/edit.jsp" />
 	</definition>
 	

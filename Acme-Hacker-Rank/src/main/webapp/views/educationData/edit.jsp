@@ -13,6 +13,7 @@
 
 <form:form action="${requestURI}" modelAttribute="educationDataForm">
 	<form:hidden path="id" />
+	<form:hidden path="curricula" />
 	
 	
 	<acme:textbox code="educationData.degree" path="degree"/>
@@ -20,7 +21,7 @@
 	<acme:textbox code="educationData.mark" path="mark"/>
 	<acme:textbox code="educationData.startDate" path="startDate"/>
 	<acme:textbox code="educationData.endDate" path="endDate"/>
-	<acme:selectCollection items="${curriculas}" itemLabel="fullName" code="educationData.curricula" path="curricula"/>
+	
 
 
 	<jstl:if test="${isRead == false}">

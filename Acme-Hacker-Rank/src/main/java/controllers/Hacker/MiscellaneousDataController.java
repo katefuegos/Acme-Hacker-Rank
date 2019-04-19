@@ -1,8 +1,6 @@
 
 package controllers.Hacker;
 
-import java.util.Collection;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import security.LoginService;
+import security.UserAccount;
 import services.ConfigurationService;
 import services.CurriculaService;
 import services.HackerService;
@@ -50,55 +49,55 @@ public class MiscellaneousDataController extends AbstractController {
 		super();
 	}
 
-	// List ---------------------------------------------------------------
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(final RedirectAttributes redirectAttrs, final int curriculaId) {
+	// CREATE
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create(@RequestParam("curriculaId") final Integer curriculaId, final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
+		Hacker hacker = null;
+		Curricula curricula = null;
 
 		try {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
+			curricula = this.curriculaService.findOne(curriculaId);
+			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
 
-			final Integer hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
-			Assert.notNull(this.hackerService.findOne(hackerId));
+			final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
+			miscellaneousDataForm.setId(0);
+			miscellaneousDataForm.setCurricula(curricula);
 
-			result = new ModelAndView("miscellaneousData/list");
-			final Collection<MiscellaneousData> miscellaneousDatas = this.miscellaneousDataService.findByCurriculaId(curriculaId);
-
-			result.addObject("miscellaneousDatas", miscellaneousDatas);
-			result.addObject("requestURI", "miscellaneousData/hacker/list.do?hackerId=" + hackerId);
-			result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-			result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+			result = this.createModelAndView(miscellaneousDataForm);
 
 		} catch (final Throwable e) {
-			result = new ModelAndView("redirect:/");
+
+			result = new ModelAndView("redirect:/curricula/hacker/list.do");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.commit.error");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message", "curricula.error.notFromHacker");
 		}
 		return result;
 	}
-
-	// CREATE
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam("curriculaId") final Integer curriculaId) {
-		//Pasarlo como parametro 
-		ModelAndView result;
-		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
-		miscellaneousDataForm.setId(0);
-
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
-		System.out.println(b.getId());
-		final Curricula curricula = this.curriculaService.findOne(curriculaId);
-
-		result = this.createModelAndView(miscellaneousDataForm);
-		result.addObject("curricula", curricula);
-		return result;
-	}
-
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final MiscellaneousDataForm miscellaneousDataForm, final BindingResult binding) {
 		ModelAndView result;
+		Hacker hacker = null;
 
 		if (binding.hasErrors())
 			result = this.createModelAndView(miscellaneousDataForm, "miscellaneousData.commit.error");
 		else
 			try {
+				final UserAccount userAccount = LoginService.getPrincipal();
+				hacker = this.hackerService.findHackerByUseraccount(userAccount);
+				Assert.notNull(hacker);
+
 				final MiscellaneousData miscellaneousData = this.miscellaneousDataService.create();
 				miscellaneousData.setText(miscellaneousDataForm.getText());
 				miscellaneousData.setAttachments(miscellaneousDataForm.getAttachments());
@@ -106,7 +105,8 @@ public class MiscellaneousDataController extends AbstractController {
 
 				this.miscellaneousDataService.save(miscellaneousData);
 
-				result = new ModelAndView("redirect:/curricula/hacker/listData.do");
+				result = new ModelAndView("redirect:/curricula/hacker/listData.do?curriculaId=" + miscellaneousData.getCurricula().getId());
+
 			} catch (final Throwable oops) {
 				result = this.createModelAndView(miscellaneousDataForm, "miscellaneousData.commit.error");
 			}
@@ -116,13 +116,21 @@ public class MiscellaneousDataController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(final int miscellaneousDataId, final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
-		MiscellaneousData miscellaneousData;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
-		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
+		MiscellaneousData miscellaneousData = null;
+		Hacker hacker = null;
+		Curricula curricula = null;
+
 		try {
+
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
 			miscellaneousData = this.miscellaneousDataService.findOne(miscellaneousDataId);
 			Assert.notNull(miscellaneousData);
-			Assert.isTrue(this.miscellaneousDataService.findOne(miscellaneousDataId).getCurricula().getHacker().equals(b));
+			curricula = miscellaneousData.getCurricula();
+			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
 
 			final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
 			miscellaneousDataForm.setId(miscellaneousData.getId());
@@ -131,30 +139,36 @@ public class MiscellaneousDataController extends AbstractController {
 			miscellaneousDataForm.setCurricula(miscellaneousData.getCurricula());
 
 			result = this.editModelAndView(miscellaneousDataForm);
-			result.addObject("curriculas", curriculas);
 
 		} catch (final Throwable e) {
 
-			result = new ModelAndView("redirect:/miscellaneousData/hacker/list.do");
-			if (this.miscellaneousDataService.findOne(miscellaneousDataId) == null)
+			result = new ModelAndView("redirect:/curricula/hacker/list.do");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.commit.error");
+			else if (miscellaneousData == null)
 				redirectAttrs.addFlashAttribute("message", "miscellaneousData.error.unexist");
-			else if (!this.miscellaneousDataService.findOne(miscellaneousDataId).getCurricula().getHacker().equals(b))
-				redirectAttrs.addFlashAttribute("message", "miscellaneousData.error.notFromActor");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message", "curricula.error.notFromHacker");
 		}
+
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save2(@Valid final MiscellaneousDataForm miscellaneousDataForm, final BindingResult binding) {
 		ModelAndView result;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+
 		if (binding.hasErrors())
 			result = this.editModelAndView(miscellaneousDataForm, "miscellaneousData.commit.error");
 		else
 			try {
-				Assert.notNull(miscellaneousDataForm);
+
 				final MiscellaneousData miscellaneousData = this.miscellaneousDataService.findOne(miscellaneousDataForm.getId());
-				Assert.isTrue(miscellaneousData.getCurricula().getHacker().equals(b));
+				Assert.notNull(miscellaneousData);
 				miscellaneousData.setText(miscellaneousDataForm.getText());
 				miscellaneousData.setAttachments(miscellaneousDataForm.getAttachments());
 
@@ -169,14 +183,13 @@ public class MiscellaneousDataController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(@Valid final MiscellaneousDataForm miscellaneousDataForm, final BindingResult binding) {
 		ModelAndView result;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
+
 		if (binding.hasErrors())
 			result = this.editModelAndView(miscellaneousDataForm, "miscellaneousData.commit.error");
 		else
 			try {
-				Assert.notNull(miscellaneousDataForm);
 				final MiscellaneousData miscellaneousData = this.miscellaneousDataService.findOne(miscellaneousDataForm.getId());
-				Assert.isTrue(miscellaneousData.getCurricula().getHacker().equals(b));
+				Assert.notNull(miscellaneousData);
 
 				this.miscellaneousDataService.delete(this.miscellaneousDataService.findOne(miscellaneousDataForm.getId()));
 
@@ -193,12 +206,19 @@ public class MiscellaneousDataController extends AbstractController {
 	public ModelAndView show(final int miscellaneousDataId, final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
 		MiscellaneousData miscellaneousData = null;
-		final Hacker b = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
-		final Collection<Curricula> curriculas = this.curriculaService.findByHackerId(b.getId());
+		Hacker hacker = null;
+		Curricula curricula = null;
+
 		try {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			hacker = this.hackerService.findHackerByUseraccount(userAccount);
+			Assert.notNull(hacker);
 			miscellaneousData = this.miscellaneousDataService.findOne(miscellaneousDataId);
 			Assert.notNull(miscellaneousData);
-			Assert.isTrue(miscellaneousData.getCurricula().getHacker().getId() == b.getId());
+			curricula = miscellaneousData.getCurricula();
+			Assert.notNull(curricula);
+			Assert.isTrue(curricula.isCopy() == false);
+			Assert.isTrue(curricula.getHacker().equals(hacker));
 
 			final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
 			miscellaneousDataForm.setId(miscellaneousData.getId());
@@ -206,16 +226,21 @@ public class MiscellaneousDataController extends AbstractController {
 			miscellaneousDataForm.setAttachments(miscellaneousData.getAttachments());
 
 			result = this.ShowModelAndView(miscellaneousDataForm);
-			result.addObject("curriculas", curriculas);
 
 		} catch (final Throwable e) {
-
-			result = new ModelAndView("redirect:/miscellaneousData/hacker/list.do");
-			if (this.miscellaneousDataService.findOne(miscellaneousDataId) == null)
+			result = new ModelAndView("redirect:/curricula/hacker/list.do");
+			if (hacker == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.commit.error");
+			else if (miscellaneousData == null)
 				redirectAttrs.addFlashAttribute("message", "miscellaneousData.error.unexist");
-			else if (!this.miscellaneousDataService.findOne(miscellaneousDataId).getCurricula().getHacker().equals(b))
-				redirectAttrs.addFlashAttribute("message", "miscellaneousData.error.notFromActor");
+			else if (curricula == null)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.unexist");
+			else if (curricula.isCopy() == true)
+				redirectAttrs.addFlashAttribute("message", "curricula.error.isCopy");
+			else if (!curricula.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message", "curricula.error.notFromHacker");
 		}
+
 		return result;
 	}
 
@@ -231,14 +256,11 @@ public class MiscellaneousDataController extends AbstractController {
 
 		result = new ModelAndView("miscellaneousData/create");
 
-		result.addObject("message1", message);
-		//result.addObject("requestURI", "miscellaneousData/hacker/create.do?curriculaId=" + miscellaneousDataForm.getCurricula().getId());
+		result.addObject("message", message);
 		result.addObject("requestURI", "miscellaneousData/hacker/create.do");
 		result.addObject("miscellaneousDataForm", miscellaneousDataForm);
 		result.addObject("isRead", false);
-		result.addObject("id", 0);
-
-		//result.addObject("curriculaId", miscellaneousDataForm.getCurricula().getId());
+		result.addObject("id", miscellaneousDataForm.getId());
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;
@@ -257,6 +279,7 @@ public class MiscellaneousDataController extends AbstractController {
 
 		result.addObject("message", message);
 		result.addObject("requestURI", "miscellaneousData/hacker/edit.do?miscellaneousDataId=" + miscellaneousDataForm.getId());
+		result.addObject("id", miscellaneousDataForm.getId());
 		result.addObject("miscellaneousDataForm", miscellaneousDataForm);
 		result.addObject("isRead", false);
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
@@ -277,6 +300,7 @@ public class MiscellaneousDataController extends AbstractController {
 		result.addObject("message", message);
 		result.addObject("requestURI", "miscellaneousData/hacker/show.do?miscellaneousDataId=" + miscellaneousDataForm.getId());
 		result.addObject("miscellaneousDataForm", miscellaneousDataForm);
+		result.addObject("id", miscellaneousDataForm.getId());
 		result.addObject("isRead", true);
 		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
