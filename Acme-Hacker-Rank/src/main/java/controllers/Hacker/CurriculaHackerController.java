@@ -149,6 +149,7 @@ public class CurriculaHackerController extends AbstractController {
 			final UserAccount userAccount = LoginService.getPrincipal();
 			hacker = this.hackerService.findHackerByUseraccount(userAccount);
 			Assert.notNull(hacker);
+			
 			final CurriculaForm curriculaForm = new CurriculaForm();
 			curriculaForm.setId(0);
 			curriculaForm.setHacker(hacker);

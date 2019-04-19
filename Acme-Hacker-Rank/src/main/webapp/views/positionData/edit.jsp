@@ -13,28 +13,22 @@
 
 <form:form action="${requestURI}" modelAttribute="positionDataForm">
 	<form:hidden path="id" />
-	
-	
-	<acme:textbox code="positionData.title" path="title"/>
-	<acme:textbox code="positionData.description" path="description"/>
-	<acme:textbox code="positionData.startDate" path="startDate"/>
-	<acme:textbox code="positionData.endDate" path="endDate"/>
-	<acme:selectCollection items="${curriculas}" itemLabel="fullName" code="positionData.curricula" path="curricula"/>
+	<form:hidden path="curricula" />
 
+
+	<acme:textbox code="positionData.title" path="title" />
+	<acme:textbox code="positionData.description" path="description" />
+	<acme:textbox code="positionData.startDate" path="startDate" />
+	<acme:textbox code="positionData.endDate" path="endDate" />
 
 	<jstl:if test="${isRead == false}">
-			<acme:submit name="save" code="positionData.save"/>
+		<acme:submit name="save" code="positionData.save" />
 		<jstl:if test="${id != 0}">
-			<acme:delete confirmDelete="positionData.confirmDelete" name="delete" code="positionData.delete"/>
-		
+			<acme:delete confirmDelete="positionData.confirmDelete" name="delete"
+				code="positionData.delete" />
 		</jstl:if>
-		<acme:cancel url="curricula/hacker/list.do" code="positionData.cancel"/>
 	</jstl:if>
 
-
-	<jstl:if test="${isRead == true}">
-		<acme:cancel url="curricula/hacker/list.do" code="positionData.cancel"/>
-
-	</jstl:if>
+	<acme:cancel url="curricula/hacker/list.do" code="positionData.cancel" />
 
 </form:form>

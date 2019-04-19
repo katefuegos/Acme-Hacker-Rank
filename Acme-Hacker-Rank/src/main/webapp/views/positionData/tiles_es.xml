@@ -9,24 +9,19 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-
-	<definition name="positionData/list" extends="master.page">
-		<put-attribute name="title" value="Lista de posicion" />
-		<put-attribute name="body" value="/views/positionData/list.jsp" />
-	</definition>
 	
 	<definition name="positionData/create" extends="master.page">
-		<put-attribute name="title" value="Crear datos de posicion" />
+		<put-attribute name="title" value="Crear datos de posición" />
 		<put-attribute name="body" value="/views/positionData/edit.jsp" />
 	</definition>
 	
 	<definition name="positionData/edit" extends="master.page">
-		<put-attribute name="title" value="Editar datos de posicion" />
+		<put-attribute name="title" value="Editar datos de posición" />
 		<put-attribute name="body" value="/views/positionData/edit.jsp" />
 	</definition>
 	
 	<definition name="positionData/show" extends="master.page">
-		<put-attribute name="title" value="Ver datos de posision" />
+		<put-attribute name="title" value="Ver datos de posición" />
 		<put-attribute name="body" value="/views/positionData/edit.jsp" />
 	</definition>
 	

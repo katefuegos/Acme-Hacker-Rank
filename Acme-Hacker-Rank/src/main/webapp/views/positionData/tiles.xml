@@ -9,11 +9,6 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-
-	<definition name="positionData/list" extends="master.page">
-		<put-attribute name="title" value="Position data list" />
-		<put-attribute name="body" value="/views/positionData/list.jsp" />
-	</definition>
 	
 	<definition name="positionData/create" extends="master.page">
 		<put-attribute name="title" value="Create position data" />
@@ -29,4 +24,5 @@
 		<put-attribute name="title" value="Show position data" />
 		<put-attribute name="body" value="/views/positionData/edit.jsp" />
 	</definition>
+	
 </tiles-definitions>

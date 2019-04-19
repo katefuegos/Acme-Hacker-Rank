@@ -45,7 +45,7 @@
 		</display:column>
 		
 		<display:column>
-			<a href="positionData/hacker/create.do"> <spring:message
+			<a href="positionData/hacker/create.do?curriculaId=${row.id}"> <spring:message
 					code="curricula.createPD" />
 			</a>
 		</display:column>
@@ -55,7 +55,7 @@
 			</a>
 		</display:column>
 		<display:column>
-			<a href="educationData/hacker/create.do"> <spring:message
+			<a href="educationData/hacker/create.do?curriculaId=${row.id}"> <spring:message
 					code="curricula.createED" />
 			</a>
 			
