@@ -63,7 +63,8 @@
 	</security:authorize>
 
 </display:table>
-
+<br>
+<br>
 <security:authorize access="hasRole('HACKER')">
 			<a href="curricula/hacker/create.do"> <spring:message code="curricula.create" />
 			</a>

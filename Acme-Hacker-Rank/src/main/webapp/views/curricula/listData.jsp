@@ -14,6 +14,7 @@
 
 <spring:message code="curricula.positionDatas" />
 <br>
+
 <display:table name="positiondatas" id="row" requestURI="${requestURI}"
 	pagesize="5" class="displaytag">
 
@@ -48,6 +49,7 @@
 
 
 <!-- MISCELANEOUS DATA -->
+<br>
 <spring:message code="curricula.miscellaneousDatas" />
 <br>
 
@@ -79,8 +81,8 @@
 	
 </display:table>
 
-
-
+<br>
+<br>
 <spring:message code="curricula.educationDatas" />
 <br>
 <display:table name="educationdatas" id="row" requestURI="${requestURI}"

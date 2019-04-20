@@ -54,7 +54,7 @@ public class CurriculaService {
 	public Curricula create() {
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
 		final Curricula curricula = new Curricula();
-
+		curricula.setHacker(hackerService.findHackerByUseraccount(LoginService.getPrincipal()));
 		curricula.setCopy(false);
 		return curricula;
 	}

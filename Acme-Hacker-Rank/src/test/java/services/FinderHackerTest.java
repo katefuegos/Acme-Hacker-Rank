@@ -25,7 +25,7 @@ import utilities.AbstractTest;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class FinderTest extends AbstractTest {
+public class FinderHackerTest extends AbstractTest {
 
 	// System Under Test ------------------------------------------------------
 
