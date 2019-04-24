@@ -35,7 +35,7 @@
 		<display:column property="cancelled" titleKey="position.cancel"
 			class="GREY" />
 	</jstl:if>
-	<jstl:if test="${row.cancelled==false }">
+	<jstl:if test="${row.cancelled==false || row.cancelled == null}">
 		<display:column property="ticker" titleKey="position.ticker" />
 		<display:column property="title" titleKey="position.title" />
 		<display:column property="skills" titleKey="position.skills" />
@@ -53,7 +53,7 @@
 	</display:column>
 
 	<display:column>
-		<jstl:if test="${row.cancelled==false }">
+		<jstl:if test="${row.cancelled==false  || row.cancelled == null}">
 			<a href="position/company/cancel.do?positionId=${row.id}"><spring:message
 					code="position.cancel" /> </a>
 		</jstl:if>

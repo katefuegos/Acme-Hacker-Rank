@@ -53,11 +53,11 @@ public class AbstractController {
 			result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 			result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		} else {
-
-			result = new ModelAndView("welcome/index");
+			final String local = LocaleContextHolder.getLocale().toString().toUpperCase();
+			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("message", "org.hibernate.validator.constraints.URL.message");
 			result.addObject("moment", moment);
-			result.addObject("welomeMessage", this.configurationService.findAll().iterator().next().getWelcomeMessage().get(LocaleContextHolder.getLocale().toString().toUpperCase()));
+			result.addObject("welomeMessage", this.configurationService.findAll().iterator().next().getWelcomeMessage().get(local));
 			result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
 			result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		}
