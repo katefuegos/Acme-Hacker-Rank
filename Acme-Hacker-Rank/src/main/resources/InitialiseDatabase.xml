@@ -32,4 +32,34 @@
 	
 	<!-- Other domain beans come here -->	
 	
+	<!-- CONFIGURATION -->
+	<bean id="configuration1" class="domain.Configuration">
+		<property name="countryCode" value="+34" />
+		<property name="banner" value="https://i.imgur.com/7b8lu4b.png" />
+		<property name="welcomeMessage">
+			<map>
+				<entry>
+					<key>
+						<value>EN</value>
+					</key>
+					<value>Welcome to Acme hacker Rank! We're IT hacker's favourite job
+						marketplace!
+					</value>
+				</entry>
+				<entry>
+					<key>
+						<value>ES</value>
+					</key>
+					<value>¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de
+						trabajo favorito de los
+						profesionales de las TICs!
+					</value>
+				</entry>
+			</map>
+		</property>
+		<property name="finderCacheTime" value="1" />
+		<property name="finderMaxResults" value="10" />
+		<property name="systemName" value="Acme-Hacker-Rank" />
+	</bean>
+	
 </beans>
