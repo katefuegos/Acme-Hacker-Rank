@@ -306,6 +306,21 @@
 		<property name="company" ref="company2" />
 	</bean>
 
+<bean id="position4" class="domain.Position">
+		<property name="ticker" value="C3V3-4444" />
+		<property name="title" value="title4" />
+		<property name="description" value="description4" />
+		<property name="deadline" value="2019/05/12 10:00" />
+		<property name="skills" value="skills4" />
+		<property name="profile" value="profile4" />
+		<property name="tecnologies" value="tecnologies4" />
+		<property name="salary" value="4450.0" />
+		<property name="draftmode" value="true" />
+		<property name="cancelled" value="false" />
+
+		<property name="company" ref="company1" />
+	</bean>
+
 	<!-- PROBLEM -->
 	<bean id="problem1" class="domain.Problem">
 		<property name="title" value="title1" />
@@ -360,6 +375,26 @@
 		<property name="draftmode" value="false" />
 		<property name="position" ref="position3" />
 	</bean>
+	
+	<bean id="problem7" class="domain.Problem">
+		<property name="title" value="title7" />
+		<property name="statement" value="statement7" />
+		<property name="hint" value="hint6" />
+		<property name="attachments" value="http://www.attachment7.com" />
+		<property name="draftmode" value="false" />
+		<property name="position" ref="position4" />
+	</bean>
+	
+	
+	<bean id="problem8" class="domain.Problem">
+		<property name="title" value="title8" />
+		<property name="statement" value="statement8" />
+		<property name="hint" value="hint8" />
+		<property name="attachments" value="http://www.attachment8.com" />
+		<property name="draftmode" value="false" />
+		<property name="position" ref="position4" />
+	</bean>
+	
 
 	<!-- CURRICULA -->
 

@@ -40,7 +40,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Create. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se crea problem siendo company1.
 			 */
 			{
@@ -50,7 +50,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Create. b) Negative test -
 			 * Business rule: it can't be created by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta crear problem siendo hacker1.
 			 */
 			{
@@ -60,7 +60,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Create. b) Negative test -
 			 * Business rule: it can't be created for a foreign position c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta crear problem siendo company1 a una position ajena.
 			 */
 			{
@@ -70,7 +70,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Create. b) Negative test -
 			 * Business rule: it can't be created without a title c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta crear problem siendo company1 sin atributo title.
 			 */
 			{
@@ -133,7 +133,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Edit. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se edita problem siendo company1.
 			 */
 			{
@@ -143,7 +143,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Edit. b) Negative test -
 			 * Business rule: it can't be edited by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta editar problem siendo hacker1.
 			 */
 			{
@@ -153,7 +153,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Edit. b) Negative test -
 			 * Business rule: it can't be edited by a foreign company c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta editar problem ajeno siendo company1.
 			 */
 			{
@@ -163,7 +163,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Edit. b) Negative test -
 			 * Business rule: it can't be edited without a title c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta editar problem siendo company1 sin atributo title.
 			 */
 			{
@@ -217,7 +217,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Delete. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se elimina problem siendo company1.
 			 */
 			{
@@ -227,7 +227,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Eliminar. b) Negative test -
 			 * Business rule: it can't be deleted by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se intenta eliminar problem siendo hacker1.
 			 */
 			{
@@ -237,7 +237,7 @@ public class ProblemCompanyTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of problems. - Delete. b) Negative test -
 			 * Business rule: it can't be deleted by a foreign company c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se intenta eliminar problem ajeno siendo company1.
 			 */
 			{

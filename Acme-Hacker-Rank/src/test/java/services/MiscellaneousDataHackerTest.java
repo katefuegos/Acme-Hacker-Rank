@@ -40,7 +40,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Create. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se crea miscellaneousData siendo company1.
 			 */
 			{
@@ -50,7 +50,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Create. b) Negative test -
 			 * Business rule: it can't be created by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta crear miscellaneousData siendo hacker1.
 			 */
 			{
@@ -60,7 +60,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Create. b) Negative test -
 			 * Business rule: it can't be created for a foreign curricula c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta crear miscellaneousData siendo company1 a una curricula ajena.
 			 */
 			{
@@ -70,7 +70,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Create. b) Negative test -
 			 * Business rule: it can't be created without a text c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta crear miscellaneousData siendo company1 sin atributo text.
 			 */
 			{
@@ -130,7 +130,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Edit. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se edita miscellaneousData siendo hacker1.
 			 */
 			{
@@ -140,7 +140,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Edit. b) Negative test -
 			 * Business rule: it can't be edited by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta editar miscellaneousData siendo company1.
 			 */
 			{
@@ -150,7 +150,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Edit. b) Negative test -
 			 * Business rule: it can't be edited by a foreign company c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta editar miscellaneousData ajeno siendo hacker1.
 			 */
 			{
@@ -160,7 +160,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Edit. b) Negative test -
 			 * Business rule: it can't be edited without a text c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta editar miscellaneousData siendo company1 sin atributo text.
 			 */
 			{
@@ -214,7 +214,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Delete. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se elimina miscellaneousData siendo hacker1.
 			 */
 			{
@@ -224,7 +224,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Eliminar. b) Negative test -
 			 * Business rule: it can't be deleted by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se intenta eliminar miscellaneousData siendo company1.
 			 */
 			{
@@ -234,7 +234,7 @@ public class MiscellaneousDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of miscellaneousDatas. - Delete. b) Negative test -
 			 * Business rule: it can't be deleted by a foreign company c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se intenta eliminar miscellaneousData ajeno siendo hacker1.
 			 */
 			{

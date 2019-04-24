@@ -42,7 +42,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Create. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4 % d) analysis of data coverage
 			 * - se crea positionData siendo hacker1.
 			 */
 			{
@@ -52,7 +52,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Create. b) Negative test -
 			 * Business rule: it can't be created by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4 % d) analysis of data coverage
 			 * - se intenta crear positionData siendo company1.
 			 */
 			{
@@ -62,7 +62,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Create. b) Negative test -
 			 * Business rule: it can't be created for a foreign curricula c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4 % d) analysis of data coverage
 			 * - se intenta crear positionData siendo hacker1 a una curricula ajena.
 			 */
 			{
@@ -72,7 +72,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Create. b) Negative test -
 			 * Business rule: it can't be created without a title c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4 % d) analysis of data coverage
 			 * - se intenta crear positionData siendo hacker1 sin atributo title.
 			 */
 			{
@@ -136,7 +136,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Edit. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se edita positionData siendo hacker1.
 			 */
 			{
@@ -146,7 +146,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Edit. b) Negative test -
 			 * Business rule: it can't be edited by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se intenta editar positionData siendo company1.
 			 */
 			{
@@ -156,7 +156,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Edit. b) Negative test -
 			 * Business rule: it can't be edited by a foreign company c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se intenta editar positionData ajeno siendo hacker1.
 			 */
 			{
@@ -166,7 +166,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Edit. b) Negative test -
 			 * Business rule: it can't be edited without a title c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 89.7% d) analysis of data coverage
 			 * - se intenta editar positionData siendo hacker1 sin atributo title.
 			 */
 			{
@@ -220,7 +220,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Delete. b) Positive test c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se elimina positionData siendo hacker1.
 			 */
 			{
@@ -230,7 +230,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Eliminar. b) Negative test -
 			 * Business rule: it can't be deleted by a not company user c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta eliminar positionData siendo company1.
 			 */
 			{
@@ -240,7 +240,7 @@ public class PositionDataHackerTest extends AbstractTest {
 			 * a) Functional requirements - 9.2. An actor who is authenticated as a company must
 			 * be able to manage their database of positionDatas. - Delete. b) Negative test -
 			 * Business rule: it can't be deleted by a foreign company c)
-			 * analysis of sentence coverage: % d) analysis of data coverage
+			 * analysis of sentence coverage: 92.4% d) analysis of data coverage
 			 * - se intenta eliminar positionData ajeno siendo hacker1.
 			 */
 			{

@@ -39,7 +39,6 @@ public class PositionCompanyTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 	@Test
 	public void driverCreatePosition() {
-		this.authenticate("company1");
 
 		final String title = "Network Administrator";
 		final String description = "Create a new network tokenring";
@@ -58,7 +57,7 @@ public class PositionCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.1 - Create a new Position by company
 			 * b) Positive tests -
-			 * c) analysis of sentence coverage: 89.2%
+			 * c) analysis of sentence coverage: 96.2%
 			 * d) analysis of data coverage. The position is being modified with the
 			 * following data: status = "ACCEPTED", draft mode = "false" The actor
 			 * in charge is: company1
@@ -70,7 +69,7 @@ public class PositionCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.1 - Create a new Position by company
 			 * b) Negative tests - Business rule: You can not create a new position in final mode without assigning two problems.
-			 * c) analysis of sentence coverage: 89.2%
+			 * c) analysis of sentence coverage: 96.2%
 			 * d) analysis of data coverage. The position is being modified with the following
 			 * data: status = "ACCEPTED", draft mode = "false" The actor in charge
 			 * is: company2
@@ -81,7 +80,7 @@ public class PositionCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.1 - Edit a Position by company
 			 * b) Positive tests -
-			 * c) analysis of sentence coverage: 89.2%
+			 * c) analysis of sentence coverage: 96.2%
 			 * d) analysis of data coverage. The position position2 is being modified with the
 			 * following data: status = "ACCEPTED", draft mode = "false" The actor
 			 * in charge is: company1
@@ -93,7 +92,7 @@ public class PositionCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.1 - Edit a Position by company
 			 * b) Negative tests - Business rule: You can not edit a position that has a past deadline.
-			 * c) analysis of sentence coverage: 89.2%
+			 * c) analysis of sentence coverage: 96.2%
 			 * d) analysis of data coverage. The position position2 is being modified with the following
 			 * data: status = "ACCEPTED", draft mode = "false" The actor in charge
 			 * is: company1
@@ -105,18 +104,18 @@ public class PositionCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.1 - Delete a Position by company
 			 * b) Positive tests -
-			 * c) analysis of sentence coverage: 89.2%
-			 * d) analysis of data coverage. The position position2 is being deleted
+			 * c) analysis of sentence coverage: 96.2%
+			 * d) analysis of data coverage. The position position4 is being deleted
 			 * The actor in charge is: company1
 			 */
 			{
-				title, description, deadline, skills, profile, tecnologies, salary, draftmode1, "position2", "company1", "DELETE", null
+				title, description, deadline, skills, profile, tecnologies, salary, draftmode1, "position4", "company1", "DELETE", null
 			},
 
 			/*
 			 * a) Functional requirements - 9.1 - Delete a Position by company
 			 * b) Negative tests - Business rule: You can not delete a position that is the final mode.
-			 * c) analysis of sentence coverage: 89.2%
+			 * c) analysis of sentence coverage: 96.2%
 			 * d) analysis of data coverage. The position position1 is being deleted
 			 * The actor in charge is: company1
 			 */
@@ -127,8 +126,8 @@ public class PositionCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.1 - Cancel a Position by company
 			 * b) Positive tests -
-			 * c) analysis of sentence coverage: 89.2%
-			 * d) analysis of data coverage. The position position2 is being canceled
+			 * c) analysis of sentence coverage: 96.2%
+			 * d) analysis of data coverage. The position position1 is being canceled
 			 * in charge is: company1
 			 */
 			{
@@ -138,12 +137,34 @@ public class PositionCompanyTest extends AbstractTest {
 			/*
 			 * a) Functional requirements - 9.1 - Cancel a Position by company
 			 * b) Negative tests - Business rule: You can not cancel a position that is not yours.
-			 * c) analysis of sentence coverage: 89.2%
-			 * d) analysis of data coverage. The position position2 is being canceled
+			 * c) analysis of sentence coverage: 96.2%
+			 * d) analysis of data coverage. The position position1 is being canceled
 			 * The actor in charge is: company2
 			 */
 			{
 				title, description, deadline, skills, profile, tecnologies, salary, draftmode1, "position1", "company2", "CANCEL", IllegalArgumentException.class
+			},
+
+			/*
+			 * a) Functional requirements - 9.1 - Accept a Position by company
+			 * b) Positive tests -
+			 * c) analysis of sentence coverage: 96.2%
+			 * d) analysis of data coverage. The position position2 is being accepted
+			 * in charge is: company1
+			 */
+			{
+				title, description, deadline, skills, profile, tecnologies, salary, draftmode1, "position4", "company1", "ACCEPT", null
+			},
+
+			/*
+			 * a) Functional requirements - 9.1 - Accept a Position by company
+			 * b) Negative tests - Business rule: You can not Accept a position that is not yours.
+			 * c) analysis of sentence coverage: 96.2%
+			 * d) analysis of data coverage. The position position2 is being accepted
+			 * The actor in charge is: company2
+			 */
+			{
+				title, description, deadline, skills, profile, tecnologies, salary, draftmode1, "position4", "company2", "ACCEPT", IllegalArgumentException.class
 			},
 
 		};
@@ -155,7 +176,7 @@ public class PositionCompanyTest extends AbstractTest {
 				this.templateManage((String) testingData[i][0], (String) testingData[i][1], (Date) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Double) testingData[i][6],
 					(boolean) testingData[i][7], (String) testingData[i][8], (String) testingData[i][9], (String) testingData[i][10], (Class<?>) testingData[i][11]);
 			} catch (final Throwable oops) {
-				System.out.println("-------  i  --------");
+				System.out.println("-------  " + i + "  --------");
 				System.out.println(oops.getMessage());
 				throw new RuntimeException(oops);
 			} finally {
@@ -187,7 +208,11 @@ public class PositionCompanyTest extends AbstractTest {
 				this.positionService.delete(position);
 			else if (action == "CANCEL")
 				this.positionService.cancel(position);
-			else {
+			else if (action == "ACCEPT") {
+
+				position.setDraftmode(false);
+				this.positionService.save(position);
+			} else {
 				position.setTitle(title);
 				position.setDescription(description);
 				position.setDeadline(deadline);
