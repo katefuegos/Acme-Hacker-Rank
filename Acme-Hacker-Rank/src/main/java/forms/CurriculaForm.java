@@ -1,9 +1,11 @@
+
 package forms;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import domain.Hacker;
 
@@ -12,13 +14,14 @@ public class CurriculaForm {
 
 	// Attributes------------------------------------------------------------------
 
-	private int id;
-	private String fullName;
-	private String statement;
-	private String phoneNumber;
-	private String githubProfile;
-	private String linkedInProfile;
-	private Hacker hacker;
+	private int		id;
+	private String	fullName;
+	private String	statement;
+	private String	phoneNumber;
+	private String	githubProfile;
+	private String	linkedInProfile;
+	private Hacker	hacker;
+
 
 	// Constructor------------------------------------------------------------------
 
@@ -48,6 +51,7 @@ public class CurriculaForm {
 	}
 
 	@NotBlank
+	@URL
 	public String getGithubProfile() {
 		return this.githubProfile;
 	}
@@ -57,6 +61,7 @@ public class CurriculaForm {
 	}
 
 	@NotBlank
+	@URL
 	public String getLinkedInProfile() {
 		return this.linkedInProfile;
 	}

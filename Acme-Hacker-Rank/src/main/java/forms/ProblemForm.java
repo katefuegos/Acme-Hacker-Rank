@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import domain.Position;
 
@@ -52,6 +53,7 @@ public class ProblemForm {
 	}
 
 	@NotBlank
+	@URL
 	public String getAttachments() {
 		return this.attachments;
 	}

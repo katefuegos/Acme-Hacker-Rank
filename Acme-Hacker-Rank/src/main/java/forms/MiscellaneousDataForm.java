@@ -5,6 +5,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import domain.Curricula;
 
@@ -39,6 +40,7 @@ public class MiscellaneousDataForm {
 	}
 
 	@NotBlank
+	@URL
 	public String getAttachments() {
 		return this.attachments;
 	}
