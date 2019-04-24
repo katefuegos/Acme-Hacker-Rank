@@ -1,4 +1,6 @@
 #./src/main/resources/Entities.map
-#Wed Apr 24 20:41:07 CEST 2019
-configuration1=4
-userAccount1=3
+#Wed Apr 24 21:28:18 CEST 2019
+admin=6
+configuration1=8
+creditCard1=7
+userAccount1=5
