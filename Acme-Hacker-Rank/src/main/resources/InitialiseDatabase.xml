@@ -30,7 +30,32 @@
 		</property>
 	</bean>
 	
-	<!-- Other domain beans come here -->	
+	<!-- Administrators -->
+
+
+	<bean id="admin" class="domain.Administrator">
+		<property name="name" value="Admin" />
+		<property name="surnames" value="admin" />
+		<property name="VATNumber" value="ES99999999R" />
+		<property name="photo"
+			value="https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg" />
+		<property name="email" value="elena@gmail.com" />
+		<property name="phone" value="+34(456)123456789" />
+		<property name="address" value="C/Calle, 54" />
+		<property name="creditCard" ref="creditCard1" />
+		<property name="userAccount" ref="userAccount1" />
+	</bean>
+	
+	<!-- CREDIT CARD -->
+
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="holderName1" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4172711227177926" />
+		<property name="expirationMonth" value="9" />
+		<property name="expirationYear" value="2021" />
+		<property name="CVVCode" value="110" />
+	</bean>
 	
 	<!-- CONFIGURATION -->
 	<bean id="configuration1" class="domain.Configuration">
