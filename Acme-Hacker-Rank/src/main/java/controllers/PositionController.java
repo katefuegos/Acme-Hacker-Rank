@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import security.LoginService;
 import services.CompanyService;
 import services.ConfigurationService;
 import services.PositionService;
+import domain.Company;
 import domain.Position;
 import forms.PositionForm;
 import forms.SearchForm;
@@ -124,7 +126,10 @@ public class PositionController extends AbstractController {
 		try {
 			position = this.positionService.findOne(positionId);
 			Assert.isTrue(position != null);
-			Assert.isTrue(!position.isDraftmode(), "position.error.draftmode");
+
+			final Company company = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
+			if (position.getCompany() != company)
+				Assert.isTrue(!position.isDraftmode(), "position.error.draftmode");
 
 			positionForm.setTicker(position.getTicker());
 			positionForm.setId(position.getId());
