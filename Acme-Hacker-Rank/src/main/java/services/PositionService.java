@@ -75,11 +75,17 @@ public class PositionService {
 	}
 
 	public void delete(final Position position) {
+		Assert.notNull(position);
+		final Company company = this.companyService.findCompanyByUseraccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(company);
+		Assert.isTrue(position.getCompany().getId() == company.getId());
+		Assert.isTrue(position.isDraftmode(), "position.error.draftmode");
 
 		final Collection<Problem> collection = this.problemService.findByPositionId(position.getId());
 
-		for (final Problem problem : collection)
-			this.problemService.delete(problem);
+		if (!collection.isEmpty())
+			for (final Problem problem : collection)
+				this.problemService.delete(problem);
 
 		this.positionRepository.delete(position);
 	}
