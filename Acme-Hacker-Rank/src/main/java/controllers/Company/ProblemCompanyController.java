@@ -87,7 +87,7 @@ public class ProblemCompanyController extends AbstractController {
 			final Company b = this.companyService
 					.findCompanyByUseraccount(LoginService.getPrincipal());
 			positions = this.positionService
-					.findByCompanyIdSingle(b.getId());
+					.findDraftByCompany(b);
 			Assert.isTrue(!positions.isEmpty());
 			final ProblemForm problemForm = new ProblemForm();
 			problemForm.setId(0);
@@ -290,7 +290,7 @@ public class ProblemCompanyController extends AbstractController {
 		final Company b = this.companyService
 				.findCompanyByUseraccount(LoginService.getPrincipal());
 		final Collection<Position> positions = this.positionService
-				.findByCompanyIdSingle(b.getId());
+				.findDraftByCompany(b);
 
 		result.addObject("message", message);
 		result.addObject("requestURI", "problem/company/create.do");

@@ -114,7 +114,7 @@ public class ApplicationHackerController extends AbstractController {
 			hacker = hackerService.findHackerByUseraccount(LoginService
 					.getPrincipal());
 			Assert.notNull(hacker);
-			curriculas = curriculaService.findByHackerId(hacker.getId());
+			curriculas = curriculaService.findNoCopies(hacker.getId());
 			Assert.isTrue(!curriculas.isEmpty());
 			applicationForm.setId(0);
 
@@ -283,7 +283,7 @@ public class ApplicationHackerController extends AbstractController {
 		final ModelAndView result;
 
 		Collection<Curricula> curriculas = curriculaService
-				.findByHackerId(hackerService.findHackerByUseraccount(
+				.findNoCopies(hackerService.findHackerByUseraccount(
 						LoginService.getPrincipal()).getId());
 		Collection<Position> positions = positionService.findFinalMode();
 
