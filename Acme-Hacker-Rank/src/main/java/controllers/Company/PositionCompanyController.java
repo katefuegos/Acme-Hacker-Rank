@@ -1,4 +1,3 @@
-
 package controllers.Company;
 
 import java.util.Collection;
@@ -18,6 +17,7 @@ import security.LoginService;
 import services.CompanyService;
 import services.ConfigurationService;
 import services.PositionService;
+import services.ProblemService;
 import controllers.AbstractController;
 import domain.Company;
 import domain.Position;
@@ -30,14 +30,16 @@ public class PositionCompanyController extends AbstractController {
 	// Services-----------------------------------------------------------
 
 	@Autowired
-	private PositionService			positionService;
+	private PositionService positionService;
 
 	@Autowired
-	private CompanyService			companyService;
+	private CompanyService companyService;
 
 	@Autowired
-	private ConfigurationService	configurationService;
+	private ProblemService problemService;
 
+	@Autowired
+	private ConfigurationService configurationService;
 
 	// Constructor---------------------------------------------------------
 
@@ -50,10 +52,13 @@ public class PositionCompanyController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 
-		final Company company = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
+		final Company company = this.companyService
+				.findCompanyByUseraccount(LoginService.getPrincipal());
 
-		final Collection<domain.Position> positionsDraft = this.positionService.findDraftByCompany(company);
-		final Collection<domain.Position> positionsFinal = this.positionService.findFinalByCompany(company);
+		final Collection<domain.Position> positionsDraft = this.positionService
+				.findDraftByCompany(company);
+		final Collection<domain.Position> positionsFinal = this.positionService
+				.findFinalByCompany(company);
 
 		result = new ModelAndView("position/company/list");
 
@@ -61,8 +66,10 @@ public class PositionCompanyController extends AbstractController {
 		result.addObject("positionsFinal", positionsFinal);
 		result.addObject("requestURI", "position/company/list.do");
 
-		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+		result.addObject("banner", this.configurationService.findAll()
+				.iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll()
+				.iterator().next().getSystemName());
 		return result;
 	}
 
@@ -79,7 +86,8 @@ public class PositionCompanyController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final PositionForm positionForm, final BindingResult binding) {
+	public ModelAndView save(@Valid final PositionForm positionForm,
+			final BindingResult binding) {
 		ModelAndView result;
 		if (binding.hasErrors())
 			result = this.createModelAndView(positionForm, "commit.error");
@@ -87,16 +95,19 @@ public class PositionCompanyController extends AbstractController {
 			try {
 				Position position = this.positionService.create();
 
-				position = this.positionService.reconstruct(position, positionForm);
+				position = this.positionService.reconstruct(position,
+						positionForm);
 
 				this.positionService.save(position);
 				result = new ModelAndView("redirect:/position/company/list.do");
 
 			} catch (final Throwable oops) {
 				if (oops.getMessage() == "position.error.deadline")
-					result = this.createModelAndView(positionForm, oops.getMessage());
+					result = this.createModelAndView(positionForm,
+							oops.getMessage());
 				else
-					result = this.createModelAndView(positionForm, "commit.error");
+					result = this.createModelAndView(positionForm,
+							"commit.error");
 			}
 		return result;
 	}
@@ -104,7 +115,8 @@ public class PositionCompanyController extends AbstractController {
 	// EDIT
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(final int positionId, final RedirectAttributes redirectAttrs) {
+	public ModelAndView edit(final int positionId,
+			final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
 		Position position = null;
 		final PositionForm positionForm = new PositionForm();
@@ -113,7 +125,8 @@ public class PositionCompanyController extends AbstractController {
 			position = this.positionService.findOne(positionId);
 			Assert.isTrue(position != null);
 
-			company = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
+			company = this.companyService.findCompanyByUseraccount(LoginService
+					.getPrincipal());
 			Assert.notNull(company);
 			Assert.isTrue(position.getCompany().getId() == company.getId());
 			Assert.isTrue(position.isDraftmode());
@@ -131,19 +144,24 @@ public class PositionCompanyController extends AbstractController {
 			result = new ModelAndView("position/edit");
 			result.addObject("positionForm", positionForm);
 
-			result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-			result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+			result.addObject("banner", this.configurationService.findAll()
+					.iterator().next().getBanner());
+			result.addObject("systemName", this.configurationService.findAll()
+					.iterator().next().getSystemName());
 
 		} catch (final Throwable e) {
 
 			result = new ModelAndView("redirect:/position/company/list.do");
 			if (position == null)
-				redirectAttrs.addFlashAttribute("message", "position.error.unexist");
+				redirectAttrs.addFlashAttribute("message",
+						"position.error.unexist");
 
 			else if (!(position.getCompany().getId() == company.getId()))
-				redirectAttrs.addFlashAttribute("message", "position.error.notYours");
+				redirectAttrs.addFlashAttribute("message",
+						"position.error.notYours");
 			else if (position.isDraftmode())
-				redirectAttrs.addFlashAttribute("message", "position.error.finalmode");
+				redirectAttrs.addFlashAttribute("message",
+						"position.error.finalmode");
 			else
 				redirectAttrs.addFlashAttribute("message", "commit.error");
 		}
@@ -151,42 +169,56 @@ public class PositionCompanyController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(@Valid final PositionForm positionForm, final BindingResult binding) {
+	public ModelAndView saveEdit(@Valid final PositionForm positionForm,
+			final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
 			result = this.editModelAndView(positionForm);
 		else
 			try {
-				Position position = this.positionService.findOne(positionForm.getId());
+				Position position = this.positionService.findOne(positionForm
+						.getId());
 
-				final Company company = this.companyService.findCompanyByUseraccount(LoginService.getPrincipal());
+				final Company company = this.companyService
+						.findCompanyByUseraccount(LoginService.getPrincipal());
 				Assert.notNull(company);
 				Assert.isTrue(position.getCompany().getId() == company.getId());
-
-				position = this.positionService.reconstruct(position, positionForm);
+				if (positionForm.isDraftmode() == false)
+					Assert.isTrue(
+							this.problemService.findByPositionId(
+									positionForm.getId()).size() >= 2,
+							"position.error.noProblem");
+				position = this.positionService.reconstruct(position,
+						positionForm);
 
 				this.positionService.save(position);
 				result = new ModelAndView("redirect:/position/company/list.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage() == "position.error.used")
-					result = this.editModelAndView(positionForm, oops.getMessage());
+					result = this.editModelAndView(positionForm,
+							oops.getMessage());
 				else if (oops.getMessage() == "position.error.noProblem")
-					result = this.editModelAndView(positionForm, oops.getMessage());
+					result = this.editModelAndView(positionForm,
+							oops.getMessage());
 				else if (oops.getMessage() == "position.error.deadline")
-					result = this.editModelAndView(positionForm, oops.getMessage());
+					result = this.editModelAndView(positionForm,
+							oops.getMessage());
 				else
-					result = this.editModelAndView(positionForm, "commit.error");
+					result = this
+							.editModelAndView(positionForm, "commit.error");
 			}
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView deleteEdit(final PositionForm positionForm, final BindingResult binding) {
+	public ModelAndView deleteEdit(final PositionForm positionForm,
+			final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			final Position position = this.positionService.findOne(positionForm.getId());
+			final Position position = this.positionService.findOne(positionForm
+					.getId());
 			this.positionService.delete(position);
 
 			result = new ModelAndView("redirect:/position/company/list.do");
@@ -200,11 +232,13 @@ public class PositionCompanyController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
-	public ModelAndView cancel(final int positionId, final RedirectAttributes redirectAttrs) {
+	public ModelAndView cancel(final int positionId,
+			final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
 
 		try {
-			final domain.Position position = this.positionService.findOne(positionId);
+			final domain.Position position = this.positionService
+					.findOne(positionId);
 			this.positionService.cancel(position);
 
 			result = new ModelAndView("redirect:/position/company/list.do");
@@ -213,7 +247,8 @@ public class PositionCompanyController extends AbstractController {
 
 			result = new ModelAndView("redirect:/position/list.do");
 			if (e.getMessage() == "position.error.draftmode")
-				redirectAttrs.addFlashAttribute("message", "position.error.draftmode");
+				redirectAttrs.addFlashAttribute("message",
+						"position.error.draftmode");
 			else
 				redirectAttrs.addFlashAttribute("message", "commit.error");
 		}
@@ -228,7 +263,8 @@ public class PositionCompanyController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createModelAndView(final PositionForm positionForm, final String message) {
+	protected ModelAndView createModelAndView(final PositionForm positionForm,
+			final String message) {
 		ModelAndView result;
 
 		result = new ModelAndView("position/create");
@@ -236,8 +272,10 @@ public class PositionCompanyController extends AbstractController {
 		result.addObject("requestURI", "position/company/create.do");
 		result.addObject("positionForm", positionForm);
 		result.addObject("idPosition", positionForm.getId());
-		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+		result.addObject("banner", this.configurationService.findAll()
+				.iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll()
+				.iterator().next().getSystemName());
 
 		return result;
 	}
@@ -248,7 +286,8 @@ public class PositionCompanyController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(final PositionForm positionForm, final String message) {
+	protected ModelAndView editModelAndView(final PositionForm positionForm,
+			final String message) {
 		ModelAndView result;
 
 		result = new ModelAndView("position/edit");
@@ -256,8 +295,10 @@ public class PositionCompanyController extends AbstractController {
 		result.addObject("requestURI", "position/company/edit.do");
 		result.addObject("positionForm", positionForm);
 
-		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
+		result.addObject("banner", this.configurationService.findAll()
+				.iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll()
+				.iterator().next().getSystemName());
 
 		return result;
 	}
