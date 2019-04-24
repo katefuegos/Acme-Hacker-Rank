@@ -13,8 +13,9 @@
 
 <form:form action="${requestURI}" modelAttribute="positionForm">
 	<form:hidden path="id" />
-	<form:hidden path="draftmode" />
-
+	<jstl:if test="${idPosition==0 }">
+		<form:hidden path="draftmode" />
+	</jstl:if>
 	<jstl:if test="${readonly==true }">
 		<acme:textbox code="position.ticker" path="ticker"
 			readonly="${readonly}" />
