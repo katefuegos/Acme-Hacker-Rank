@@ -83,8 +83,9 @@ public class PositionService {
 
 		final Collection<Problem> collection = this.problemService.findByPositionId(position.getId());
 
-		for (final Problem problem : collection)
-			this.problemService.delete(problem);
+		if (!collection.isEmpty())
+			for (final Problem problem : collection)
+				this.problemService.delete(problem);
 
 		this.positionRepository.delete(position);
 	}
