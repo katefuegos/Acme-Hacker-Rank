@@ -1,20 +1,3 @@
-﻿start transaction;
-
-drop database if exists `Acme-Hacker-Rank`;
-
-create database `Acme-Hacker-Rank`;
-
-use `Acme-Hacker-Rank`;
-
-grant select, insert, update, delete 
-	on `Acme-Hacker-Rank`.* to 'acme-user'@'%';
-
-grant select, insert, update, delete, create, drop, references, index, alter, 
-        create temporary tables, lock tables, create view, create routine, 
-        alter routine, execute, trigger, show view
-    on `Acme-Hacker-Rank`.* to 'acme-manager'@'%';
-
-
 -- MySQL dump 10.13  Distrib 5.5.29, for Win64 (x86)
 --
 -- Host: localhost    Database: Acme-Hacker-Rank
@@ -101,7 +84,7 @@ CREATE TABLE `administrator` (
 
 LOCK TABLES `administrator` WRITE;
 /*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
-INSERT INTO `administrator` VALUES (54,0,'ES99999999R','C/Calle, 54','elena@gmail.com','Admin','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','admin',55,49);
+INSERT INTO `administrator` VALUES (57,0,'ES99999999R','C/Calle, 54','elena@gmail.com','Admin','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','admin',58,52);
 /*!40000 ALTER TABLE `administrator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,6 +108,7 @@ CREATE TABLE `application` (
   `position` int(11) NOT NULL,
   `problem` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `ID1` (`status`),
   KEY `FK_hsw5exxa4qe3jxi8xdhnn0dl5` (`curricula`),
   KEY `FK_3hgwemcpn15ns7bi2upsq613y` (`hacker`),
   KEY `FK_cqpb54jon3yjef814oj6g6o4n` (`position`),
@@ -142,7 +126,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
-INSERT INTO `application` VALUES (90,0,NULL,'2018-03-23 12:00:00','PENDING',NULL,NULL,78,56,67,70),(91,0,'http://www.linkAnswer2.com','2018-05-11 12:00:00','SUBMITTED','2019-02-12 12:00:00','text2',78,56,67,71);
+INSERT INTO `application` VALUES (96,0,NULL,'2018-03-23 12:00:00','PENDING',NULL,NULL,84,59,70,74),(97,0,'http://www.linkAnswer2.com','2018-05-11 12:00:00','SUBMITTED','2019-02-12 12:00:00','text2',84,59,70,75);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +164,7 @@ CREATE TABLE `company` (
 
 LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
-INSERT INTO `company` VALUES (62,0,'ES99999999R','C/Calle, 54','francisco@gmail.com','Francisco','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','Benedicto',63,52,'C3V3RYs SL'),(64,0,'ES99999999R','C/Calle, 54','maria@gmail.com','Maria','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','Del olmo',65,53,'Hoolie');
+INSERT INTO `company` VALUES (65,0,'ES99999999R','C/Calle, 54','francisco@gmail.com','Francisco','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','Benedicto',66,55,'C3V3RYs SL'),(67,0,'ES99999999R','C/Calle, 54','maria@gmail.com','Maria','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','Del olmo',68,56,'Hoolie');
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +193,7 @@ CREATE TABLE `configuration` (
 
 LOCK TABLES `configuration` WRITE;
 /*!40000 ALTER TABLE `configuration` DISABLE KEYS */;
-INSERT INTO `configuration` VALUES (66,0,'https://i.imgur.com/7b8lu4b.png',34,1,10,'Acme-Hacker-Rank');
+INSERT INTO `configuration` VALUES (69,0,'https://i.imgur.com/7b8lu4b.png',34,1,10,'Acme-Hacker-Rank');
 /*!40000 ALTER TABLE `configuration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,7 +219,7 @@ CREATE TABLE `configuration_welcome_message` (
 
 LOCK TABLES `configuration_welcome_message` WRITE;
 /*!40000 ALTER TABLE `configuration_welcome_message` DISABLE KEYS */;
-INSERT INTO `configuration_welcome_message` VALUES (66,'Welcome to Acme hacker Rank! We\'re IT hacker\'s favourite job\n						marketplace!\n					','EN'),(66,'¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de\n						trabajo favorito de los\n						profesionales de las TICs!\n					','ES');
+INSERT INTO `configuration_welcome_message` VALUES (69,'Welcome to Acme hacker Rank! We\'re IT hacker\'s favourite job\n						marketplace!\n					','EN'),(69,'¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de\n						trabajo favorito de los\n						profesionales de las TICs!\n					','ES');
 /*!40000 ALTER TABLE `configuration_welcome_message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,7 +249,7 @@ CREATE TABLE `credit_card` (
 
 LOCK TABLES `credit_card` WRITE;
 /*!40000 ALTER TABLE `credit_card` DISABLE KEYS */;
-INSERT INTO `credit_card` VALUES (55,0,110,'VISA',9,2021,'holderName1','4172711227177926'),(57,0,308,'VISA',4,2019,'holderName2','4950731573628957'),(59,0,561,'VISA',6,2019,'holderName2','4521808304130881'),(63,0,760,'VISA',10,2019,'holderName4','4994669620632598'),(65,0,316,'VISA',9,2019,'holderName5','4835411050700741');
+INSERT INTO `credit_card` VALUES (58,0,110,'VISA',9,2021,'holderName1','4172711227177926'),(60,0,308,'VISA',4,2019,'holderName2','4950731573628957'),(62,0,561,'VISA',6,2019,'holderName2','4521808304130881'),(66,0,760,'VISA',10,2019,'holderName4','4994669620632598'),(68,0,316,'VISA',9,2019,'holderName5','4835411050700741');
 /*!40000 ALTER TABLE `credit_card` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,7 +282,7 @@ CREATE TABLE `curricula` (
 
 LOCK TABLES `curricula` WRITE;
 /*!40000 ALTER TABLE `curricula` DISABLE KEYS */;
-INSERT INTO `curricula` VALUES (76,0,'\0','fullname1','http://www.github1.com','http://www.linkedin1.com','666666666','statement1',56),(77,0,'\0','fullname2','http://www.github2.com','http://www.linkedin2.com','655555555','statement2',58),(78,0,'','fullname1','http://www.github1.com','http://www.linkedin1.com','666666666','statement1',56);
+INSERT INTO `curricula` VALUES (82,0,'\0','fullname1','http://www.github1.com','http://www.linkedin1.com','666666666','statement1',59),(83,0,'\0','fullname2','http://www.github2.com','http://www.linkedin2.com','655555555','statement2',61),(84,0,'','fullname1','http://www.github1.com','http://www.linkedin1.com','666666666','statement1',59);
 /*!40000 ALTER TABLE `curricula` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,7 +314,7 @@ CREATE TABLE `education_data` (
 
 LOCK TABLES `education_data` WRITE;
 /*!40000 ALTER TABLE `education_data` DISABLE KEYS */;
-INSERT INTO `education_data` VALUES (87,0,'degree1','2019-03-23 12:00:00','institution1',23,'2018-03-23 12:00:00',76),(88,0,'degree2','2019-03-21 12:00:00','institution2',32,'2018-05-22 12:00:00',77),(89,0,'degree1','2019-03-23 12:00:00','institution1',23,'2018-03-23 12:00:00',78);
+INSERT INTO `education_data` VALUES (93,0,'degree1','2019-03-23 12:00:00','institution1',23,'2018-03-23 12:00:00',82),(94,0,'degree2','2019-03-21 12:00:00','institution2',32,'2018-05-22 12:00:00',83),(95,0,'degree1','2019-03-23 12:00:00','institution1',23,'2018-03-23 12:00:00',84);
 /*!40000 ALTER TABLE `education_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -359,7 +343,7 @@ CREATE TABLE `finder` (
 
 LOCK TABLES `finder` WRITE;
 /*!40000 ALTER TABLE `finder` DISABLE KEYS */;
-INSERT INTO `finder` VALUES (60,0,'2029-09-09 09:13:00','2018-09-09 09:13:00','','2019-04-04 09:13:00',100),(61,0,'2029-09-09 09:13:00','2018-09-09 09:13:00','','2019-04-04 09:13:00',100);
+INSERT INTO `finder` VALUES (63,0,'2029-09-09 09:13:00','2018-09-09 09:13:00','','2019-04-04 09:13:00',100),(64,0,'2029-09-09 09:13:00','2018-09-09 09:13:00','','2019-04-04 09:13:00',100);
 /*!40000 ALTER TABLE `finder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,7 +370,7 @@ CREATE TABLE `finder_positions` (
 
 LOCK TABLES `finder_positions` WRITE;
 /*!40000 ALTER TABLE `finder_positions` DISABLE KEYS */;
-INSERT INTO `finder_positions` VALUES (60,67),(60,68),(60,69),(61,67);
+INSERT INTO `finder_positions` VALUES (63,70),(63,71),(63,72),(64,70);
 /*!40000 ALTER TABLE `finder_positions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -426,7 +410,7 @@ CREATE TABLE `hacker` (
 
 LOCK TABLES `hacker` WRITE;
 /*!40000 ALTER TABLE `hacker` DISABLE KEYS */;
-INSERT INTO `hacker` VALUES (56,1,'ES99999999R','C/Calle, 52','h4ck3r2000@gmail.com','7H3 H4CH3R M4N','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','Joseda',57,50,61),(58,1,'ES99999999R','C/Calle, 53','adam@gmail.com','Adam','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','Cienfuegos',59,51,60);
+INSERT INTO `hacker` VALUES (59,1,'ES99999999R','C/Calle, 52','h4ck3r2000@gmail.com','7H3 H4CH3R M4N','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','Joseda',60,53,64),(61,1,'ES99999999R','C/Calle, 53','adam@gmail.com','Adam','+34(456)123456789','https://cdn.pixabay.com/photo/2017/06/26/02/47/people-2442565_960_720.jpg','Cienfuegos',62,54,63);
 /*!40000 ALTER TABLE `hacker` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,7 +433,7 @@ CREATE TABLE `hibernate_sequences` (
 
 LOCK TABLES `hibernate_sequences` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequences` DISABLE KEYS */;
-INSERT INTO `hibernate_sequences` VALUES ('domain_entity',2);
+INSERT INTO `hibernate_sequences` VALUES ('domain_entity',1);
 /*!40000 ALTER TABLE `hibernate_sequences` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -478,7 +462,7 @@ CREATE TABLE `miscellaneous_data` (
 
 LOCK TABLES `miscellaneous_data` WRITE;
 /*!40000 ALTER TABLE `miscellaneous_data` DISABLE KEYS */;
-INSERT INTO `miscellaneous_data` VALUES (82,0,'http://www.attachment1.com','text1',76),(83,0,'http://www.attachment2.com','text2',76),(84,0,'http://www.attachment3.com','text3',77),(85,0,'http://www.attachment1.com','text1',78),(86,0,'http://www.attachment2.com','text2',78);
+INSERT INTO `miscellaneous_data` VALUES (88,0,'http://www.attachment1.com','text1',82),(89,0,'http://www.attachment2.com','text2',82),(90,0,'http://www.attachment3.com','text3',83),(91,0,'http://www.attachment1.com','text1',84),(92,0,'http://www.attachment2.com','text2',84);
 /*!40000 ALTER TABLE `miscellaneous_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -506,7 +490,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (92,0,'Se ha detectado una brecha de seguridad que afecta a los hackers / We have detected a security breach who affects hackers','2019-01-23 12:00:00','Brecha de seguridad hackers / Security breach hackers',56),(93,0,'Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users','2019-01-24 13:00:00','Brecha de seguridad / Security breach',56),(94,0,'Se ha detectado una brecha de seguridad que afecta a las empresas / We have detected a security breach who affects companies','2019-01-23 12:00:00','Brecha de seguridad empresas / Security breach companies',62),(95,0,'Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users','2019-01-24 13:00:00','Brecha de seguridad / Security breach',62),(96,0,'Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users','2019-01-24 13:00:00','Brecha de seguridad / Security breach',54);
+INSERT INTO `notification` VALUES (98,0,'Se ha detectado una brecha de seguridad que afecta a los hackers / We have detected a security breach who affects hackers','2019-01-23 12:00:00','Brecha de seguridad hackers / Security breach hackers',59),(99,0,'Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users','2019-01-24 13:00:00','Brecha de seguridad / Security breach',59),(100,0,'Se ha detectado una brecha de seguridad que afecta a las empresas / We have detected a security breach who affects companies','2019-01-23 12:00:00','Brecha de seguridad empresas / Security breach companies',65),(101,0,'Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users','2019-01-24 13:00:00','Brecha de seguridad / Security breach',65),(102,0,'Se ha detectado una brecha de seguridad que afecta a todos los usuarios / We have detected a security breach who affects all users','2019-01-24 13:00:00','Brecha de seguridad / Security breach',57);
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -533,6 +517,8 @@ CREATE TABLE `position` (
   `company` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_15390c4j2aeju6ha0iwvi6mc5` (`ticker`),
+  KEY `ID1` (`draftmode`),
+  KEY `ID2` (`cancelled`),
   KEY `FK_7qlfn4nye234rrm4w83nms1g8` (`company`),
   CONSTRAINT `FK_7qlfn4nye234rrm4w83nms1g8` FOREIGN KEY (`company`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -544,7 +530,7 @@ CREATE TABLE `position` (
 
 LOCK TABLES `position` WRITE;
 /*!40000 ALTER TABLE `position` DISABLE KEYS */;
-INSERT INTO `position` VALUES (67,0,'\0','2019-09-09 09:13:00','description1','\0','profile1',1230,'skills1','tecnologies1','C3V3-8547','title1',62),(68,0,'\0','2019-05-12 10:00:00','description2','','profile2',1450,'skills2','tecnologies2','C3V3-8987','title2',62),(69,0,'\0','2019-01-23 12:00:00','description3','\0','profile3',2587.5,'skills3','tecnologies3','HOOL-5245','title3',64);
+INSERT INTO `position` VALUES (70,0,'\0','2019-09-09 09:13:00','description1','\0','profile1',1230,'skills1','tecnologies1','C3V3-8547','title1',65),(71,0,'\0','2019-05-12 10:00:00','description2','','profile2',1450,'skills2','tecnologies2','C3V3-8987','title2',65),(72,0,'\0','2019-01-23 12:00:00','description3','\0','profile3',2587.5,'skills3','tecnologies3','HOOL-5245','title3',67),(73,0,'\0','2019-05-12 10:00:00','description4','','profile4',4450,'skills4','tecnologies4','C3V3-4444','title4',65);
 /*!40000 ALTER TABLE `position` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -575,7 +561,7 @@ CREATE TABLE `position_data` (
 
 LOCK TABLES `position_data` WRITE;
 /*!40000 ALTER TABLE `position_data` DISABLE KEYS */;
-INSERT INTO `position_data` VALUES (79,0,'description1','2019-10-23 12:00:00','2018-01-23 12:00:00','title1',76),(80,0,'description2','2019-10-25 12:00:00','2018-03-23 12:00:00','title2',77),(81,0,'description1','2019-10-23 12:00:00','2018-01-23 12:00:00','title1',78);
+INSERT INTO `position_data` VALUES (85,0,'description1','2019-10-23 12:00:00','2018-01-23 12:00:00','title1',82),(86,0,'description2','2019-10-25 12:00:00','2018-03-23 12:00:00','title2',83),(87,0,'description1','2019-10-23 12:00:00','2018-01-23 12:00:00','title1',84);
 /*!40000 ALTER TABLE `position_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -596,6 +582,7 @@ CREATE TABLE `problem` (
   `title` varchar(255) DEFAULT NULL,
   `position` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `ID1` (`draftmode`),
   KEY `FK_ehy58i7iq25u9d829b76s1891` (`position`),
   CONSTRAINT `FK_ehy58i7iq25u9d829b76s1891` FOREIGN KEY (`position`) REFERENCES `position` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -607,7 +594,7 @@ CREATE TABLE `problem` (
 
 LOCK TABLES `problem` WRITE;
 /*!40000 ALTER TABLE `problem` DISABLE KEYS */;
-INSERT INTO `problem` VALUES (70,0,'http://www.attachment1.com','\0','hint1','statement1','title1',67),(71,0,'http://www.attachment2.com','\0','hint2','statement2','title2',67),(72,0,'http://www.attachment3.com','','hint3','statement3','title3',67),(73,0,'http://www.attachment4.com','','hint4','statement4','title4',68),(74,0,'http://www.attachment5.com','\0','hint5','statement5','title5',69),(75,0,'http://www.attachment6.com','\0','hint6','statement6','title6',69);
+INSERT INTO `problem` VALUES (74,0,'http://www.attachment1.com','\0','hint1','statement1','title1',70),(75,0,'http://www.attachment2.com','\0','hint2','statement2','title2',70),(76,0,'http://www.attachment3.com','','hint3','statement3','title3',70),(77,0,'http://www.attachment4.com','','hint4','statement4','title4',71),(78,0,'http://www.attachment5.com','\0','hint5','statement5','title5',72),(79,0,'http://www.attachment6.com','\0','hint6','statement6','title6',72),(80,0,'http://www.attachment7.com','\0','hint6','statement7','title7',73),(81,0,'http://www.attachment8.com','\0','hint8','statement8','title8',73);
 /*!40000 ALTER TABLE `problem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -625,7 +612,8 @@ CREATE TABLE `user_account` (
   `password` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_castjbvpeeus0r8lbpehiu0e4` (`username`)
+  UNIQUE KEY `UK_castjbvpeeus0r8lbpehiu0e4` (`username`),
+  KEY `ID1` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -635,7 +623,7 @@ CREATE TABLE `user_account` (
 
 LOCK TABLES `user_account` WRITE;
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
-INSERT INTO `user_account` VALUES (49,0,'','21232f297a57a5a743894a0e4a801fc3','admin'),(50,0,'','2ba2a8ac968a7a2b0a7baa7f2fef18d2','hacker1'),(51,0,'','91af68b69a50a98dbc0800942540342c','hacker2'),(52,0,'','df655f976f7c9d3263815bd981225cd9','company1'),(53,0,'','d196a28097115067fefd73d25b0c0be8','company2');
+INSERT INTO `user_account` VALUES (52,0,'','21232f297a57a5a743894a0e4a801fc3','admin'),(53,0,'','2ba2a8ac968a7a2b0a7baa7f2fef18d2','hacker1'),(54,0,'','91af68b69a50a98dbc0800942540342c','hacker2'),(55,0,'','df655f976f7c9d3263815bd981225cd9','company1'),(56,0,'','d196a28097115067fefd73d25b0c0be8','company2');
 /*!40000 ALTER TABLE `user_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -660,7 +648,7 @@ CREATE TABLE `user_account_authorities` (
 
 LOCK TABLES `user_account_authorities` WRITE;
 /*!40000 ALTER TABLE `user_account_authorities` DISABLE KEYS */;
-INSERT INTO `user_account_authorities` VALUES (49,'ADMIN'),(50,'HACKER'),(51,'HACKER'),(52,'COMPANY'),(53,'COMPANY');
+INSERT INTO `user_account_authorities` VALUES (52,'ADMIN'),(53,'HACKER'),(54,'HACKER'),(55,'COMPANY'),(56,'COMPANY');
 /*!40000 ALTER TABLE `user_account_authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -673,8 +661,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-23 17:08:46
-
-
-commit;
-
+-- Dump completed on 2019-04-25 18:59:14
