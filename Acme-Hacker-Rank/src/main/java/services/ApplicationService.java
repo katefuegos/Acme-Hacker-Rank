@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -26,24 +27,25 @@ public class ApplicationService {
 	// Repository-----------------------------------------------
 
 	@Autowired
-	private ApplicationRepository applicationRepository;
+	private ApplicationRepository	applicationRepository;
 
 	// Services-------------------------------------------------
 
 	@Autowired
-	private PositionService positionService;
+	private PositionService			positionService;
 
 	@Autowired
-	private ProblemService problemService;
+	private ProblemService			problemService;
 
 	@Autowired
-	private HackerService hackerService;
+	private HackerService			hackerService;
 
 	@Autowired
-	private CurriculaService curriculaService;
+	private CurriculaService		curriculaService;
 
 	@Autowired
-	private CompanyService companyService;
+	private CompanyService			companyService;
+
 
 	// Constructor----------------------------------------------
 
@@ -54,31 +56,28 @@ public class ApplicationService {
 
 	// Simple CRUD----------------------------------------------
 
-	public Application create(int positionId, int curriculaId) {
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
-				.contains("HACKER"));
+	public Application create(final int positionId, final int curriculaId) {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("HACKER"));
 		Assert.notNull(positionId);
 		Assert.notNull(curriculaId);
 		final Application application = new Application();
-		Position position = positionService.findOne(positionId);
+		final Position position = this.positionService.findOne(positionId);
 		Assert.notNull(position);
 		Assert.isTrue(position.isDraftmode() == false);
 
 		application.setPosition(position);
 
-		Collection<Problem> problems = problemService
-				.findByPositionIdAndFinal(position.getId());
-		Problem problem = (Problem) getRandomObject(problems);
+		final Collection<Problem> problems = this.problemService.findByPositionIdAndFinal(position.getId());
+		final Problem problem = (Problem) this.getRandomObject(problems);
 		application.setProblem(problem);
 
-		Curricula curricula = curriculaService.findOne(curriculaId);
+		final Curricula curricula = this.curriculaService.findOne(curriculaId);
 		Assert.notNull(curricula);
 		application.setCurricula(curricula);
 
 		application.setStatus("PENDING");
 
-		application.setHacker(hackerService
-				.findHackerByUseraccount(LoginService.getPrincipal()));
+		application.setHacker(this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()));
 
 		return application;
 	}
@@ -93,43 +92,25 @@ public class ApplicationService {
 
 	public Application save(final Application application) {
 		Assert.notNull(application);
-		if (LoginService.getPrincipal().getAuthorities().toString()
-				.contains("HACKER")) {
-			Assert.isTrue(application.getHacker().equals(
-					hackerService.findHackerByUseraccount(LoginService
-							.getPrincipal())));
+		if (LoginService.getPrincipal().getAuthorities().toString().contains("HACKER")) {
+			Assert.isTrue(application.getHacker().equals(this.hackerService.findHackerByUseraccount(LoginService.getPrincipal())));
 			Assert.isTrue(application.getPosition().isDraftmode() == false);
 		} else {
-			Assert.isTrue(LoginService.getPrincipal().getAuthorities()
-					.toString().contains("COMPANY"));
-			Assert.isTrue(application
-					.getPosition()
-					.getCompany()
-					.equals(companyService
-							.findCompanyByUseraccount(LoginService
-									.getPrincipal())));
+			Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("COMPANY"));
+			Assert.isTrue(application.getPosition().getCompany().equals(this.companyService.findCompanyByUseraccount(LoginService.getPrincipal())));
 		}
 
 		if (application.getId() == 0) {
-			application.setPublicationMoment(new Date(System
-					.currentTimeMillis() - 1000));
-			Curricula copy = curriculaService.copy(application.getCurricula()
-					.getId());
+			application.setPublicationMoment(new Date(System.currentTimeMillis() - 1000));
+			final Curricula copy = this.curriculaService.copy(application.getCurricula().getId());
 			application.setCurricula(copy);
 		}
 
-		if ((application.getStatus().equals("PENDING"))
-				&& (application.getTextAnswer() != null)
-				&& (application.getLinkAnswer() != null)
-				&& (application.getTextAnswer().trim().length() > 0)
-				&& (application.getLinkAnswer().trim().length() > 0)) {
+		if ((application.getStatus().equals("PENDING")) && (application.getTextAnswer() != null) && (application.getLinkAnswer() != null) && (application.getTextAnswer().trim().length() > 0) && (application.getLinkAnswer().trim().length() > 0))
 			application.setStatus("SUBMITTED");
-		}
 
-		if (application.getStatus() == "SUBMITTED") {
-			application.setSubmissionMoment(new Date(
-					System.currentTimeMillis() - 1000));
-		}
+		if (application.getStatus() == "SUBMITTED")
+			application.setSubmissionMoment(new Date(System.currentTimeMillis() - 1000));
 
 		Assert.isTrue(application.getCurricula().isCopy() == true);
 
@@ -147,25 +128,44 @@ public class ApplicationService {
 
 	// Other Methods--------------------------------------------
 
-	private Object getRandomObject(Collection<Problem> problems) {
-		Random rnd = new Random();
-		int i = rnd.nextInt(problems.size());
+	private Object getRandomObject(final Collection<Problem> problems) {
+		final Random rnd = new Random();
+		final int i = rnd.nextInt(problems.size());
 		return problems.toArray()[i];
 	}
 
-	public Collection<Application> findByCompanyId(int companyId) {
+	public Collection<Application> findByCompanyId(final int companyId) {
 		Assert.notNull(companyId);
-		return applicationRepository.findByCompanyId(companyId);
+		return this.applicationRepository.findByCompanyId(companyId);
 	}
 
-	public Collection<Application> findByHackerId(int hackerId) {
+	public Collection<Application> findByHackerId(final int hackerId) {
 		Assert.notNull(hackerId);
-		return applicationRepository.findByHackerId(hackerId);
+		return this.applicationRepository.findByHackerId(hackerId);
 	}
 
-	public void reject(Application application, Company company) {
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
-				.contains("COMPANY"));
+	public Collection<Application> findPendingByHackerId(final int hackerId) {
+		Assert.notNull(hackerId);
+		return this.applicationRepository.findPendingByHackerId(hackerId);
+	}
+
+	public Collection<Application> findRejectedByHackerId(final int hackerId) {
+		Assert.notNull(hackerId);
+		return this.applicationRepository.findRejectedByHackerId(hackerId);
+	}
+
+	public Collection<Application> findAcceptedByHackerId(final int hackerId) {
+		Assert.notNull(hackerId);
+		return this.applicationRepository.findAcceptedByHackerId(hackerId);
+	}
+
+	public Collection<Application> findSubmittedByHackerId(final int hackerId) {
+		Assert.notNull(hackerId);
+		return this.applicationRepository.findSubmittedByHackerId(hackerId);
+	}
+
+	public void reject(final Application application, final Company company) {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("COMPANY"));
 		Assert.notNull(company);
 		Assert.notNull(application);
 		Assert.isTrue(application.getPosition().getCompany().equals(company));
@@ -174,9 +174,8 @@ public class ApplicationService {
 		this.save(application);
 	}
 
-	public void accept(Application application, Company company) {
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString()
-				.contains("COMPANY"));
+	public void accept(final Application application, final Company company) {
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().toString().contains("COMPANY"));
 		Assert.notNull(company);
 		Assert.notNull(application);
 		Assert.isTrue(application.getPosition().getCompany().equals(company));

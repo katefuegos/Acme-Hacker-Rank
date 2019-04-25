@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Date;
@@ -5,7 +6,9 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -18,78 +21,85 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(name = "ID1", columnList = "status")
+
+})
 public class Application extends DomainEntity {
 
 	// Identification ---------------------------------------------------------
 	// ATRIBUTOS
-	private Date publicationMoment;
-	private Date submissionMoment;
-	private String status;
-	private String textAnswer;
-	private String linkAnswer;
+	private Date	publicationMoment;
+	private Date	submissionMoment;
+	private String	status;
+	private String	textAnswer;
+	private String	linkAnswer;
+
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	public Date getPublicationMoment() {
-		return publicationMoment;
+		return this.publicationMoment;
 	}
 
-	public void setPublicationMoment(Date publicationMoment) {
+	public void setPublicationMoment(final Date publicationMoment) {
 		this.publicationMoment = publicationMoment;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	public Date getSubmissionMoment() {
-		return submissionMoment;
+		return this.submissionMoment;
 	}
 
-	public void setSubmissionMoment(Date submissionMoment) {
+	public void setSubmissionMoment(final Date submissionMoment) {
 		this.submissionMoment = submissionMoment;
 	}
 
 	@NotBlank
 	@Pattern(regexp = "^((PENDING)|(SUBMITTED)|(ACCEPTED)|(REJECTED))$")
 	public String getStatus() {
-		return status;
+		return this.status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 
 	public String getTextAnswer() {
-		return textAnswer;
+		return this.textAnswer;
 	}
 
-	public void setTextAnswer(String textAnswer) {
+	public void setTextAnswer(final String textAnswer) {
 		this.textAnswer = textAnswer;
 	}
 
 	@URL
 	public String getLinkAnswer() {
-		return linkAnswer;
+		return this.linkAnswer;
 	}
 
-	public void setLinkAnswer(String linkAnswer) {
+	public void setLinkAnswer(final String linkAnswer) {
 		this.linkAnswer = linkAnswer;
 	}
 
+
 	// Relationships ---------------------------------------------------------
-	private Problem problem;
-	private Position position;
-	private Curricula curricula;
-	private Hacker hacker;
+	private Problem		problem;
+	private Position	position;
+	private Curricula	curricula;
+	private Hacker		hacker;
+
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public Problem getProblem() {
-		return problem;
+		return this.problem;
 	}
 
-	public void setProblem(Problem problem) {
+	public void setProblem(final Problem problem) {
 		this.problem = problem;
 	}
 
@@ -97,10 +107,10 @@ public class Application extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Position getPosition() {
-		return position;
+		return this.position;
 	}
 
-	public void setPosition(Position position) {
+	public void setPosition(final Position position) {
 		this.position = position;
 	}
 
@@ -108,10 +118,10 @@ public class Application extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Curricula getCurricula() {
-		return curricula;
+		return this.curricula;
 	}
 
-	public void setCurricula(Curricula curricula) {
+	public void setCurricula(final Curricula curricula) {
 		this.curricula = curricula;
 	}
 
@@ -119,10 +129,10 @@ public class Application extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Hacker getHacker() {
-		return hacker;
+		return this.hacker;
 	}
 
-	public void setHacker(Hacker hacker) {
+	public void setHacker(final Hacker hacker) {
 		this.hacker = hacker;
 	}
 
