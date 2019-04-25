@@ -43,7 +43,7 @@ public class FinderHackerTest extends AbstractTest {
 			 * his or her finder b) Positive tests c) analysis of sentence
 			 * coverage: 93.9% d) analysis of data coverage. The finder1 is
 			 * being modified with the following data:
-			 * keyword="",nameArea="area1" The actor in charge is: hacker2
+			 * keyword="" The actor in charge is: hacker2
 			 */
 
 			{
@@ -55,7 +55,7 @@ public class FinderHackerTest extends AbstractTest {
 			 * can not edit finder that belongs to another actor. c)
 			 * analysis of sentence coverage: 93.9% d) analysis of data
 			 * coverage. The finder1 is being modified with the following
-			 * data: keyword="",nameArea="area1" The actor in charge is:
+			 * data: keyword="" The actor in charge is:
 			 * hacker2
 			 */
 			{

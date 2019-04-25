@@ -1,3 +1,4 @@
+
 package controllers.Hacker;
 
 import java.util.ArrayList;
@@ -35,19 +36,20 @@ public class ApplicationHackerController extends AbstractController {
 	// Services-----------------------------------------------------------
 
 	@Autowired
-	private ApplicationService applicationService;
+	private ApplicationService		applicationService;
 
 	@Autowired
-	private HackerService hackerService;
+	private HackerService			hackerService;
 
 	@Autowired
-	private CurriculaService curriculaService;
+	private CurriculaService		curriculaService;
 
 	@Autowired
-	private PositionService positionService;
+	private PositionService			positionService;
 
 	@Autowired
-	private ConfigurationService configurationService;
+	private ConfigurationService	configurationService;
+
 
 	// Constructor---------------------------------------------------------
 
@@ -61,29 +63,32 @@ public class ApplicationHackerController extends AbstractController {
 		ModelAndView result;
 
 		try {
-			int hackerId = hackerService.findHackerByUseraccount(
-					LoginService.getPrincipal()).getId();
-			Assert.notNull(hackerService.findOne(hackerId));
+			final int hackerId = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId();
+			Assert.notNull(this.hackerService.findOne(hackerId));
 
-			Collection<Application> applications = applicationService
-					.findByHackerId(hackerId);
+			final Collection<Application> applicationsPending = this.applicationService.findPendingByHackerId(hackerId);
+			final Collection<Application> applicationsRejected = this.applicationService.findRejectedByHackerId(hackerId);
+			final Collection<Application> applicationsAccepted = this.applicationService.findAcceptedByHackerId(hackerId);
+			final Collection<Application> applicationsSubmitted = this.applicationService.findSubmittedByHackerId(hackerId);
 
-			Collection<Application> applicationsPending = new ArrayList<Application>();
-			Collection<Application> applicationsRejected = new ArrayList<Application>();
-			Collection<Application> applicationsAccepted = new ArrayList<Application>();
-			Collection<Application> applicationsSubmitted = new ArrayList<Application>();
-
-			for (Application a : applications) {
-				if (a.getStatus().equals("PENDING")) {
-					applicationsPending.add(a);
-				} else if (a.getStatus().equals("ACCEPTED")) {
-					applicationsAccepted.add(a);
-				} else if (a.getStatus().equals("REJECTED")) {
-					applicationsRejected.add(a);
-				} else if (a.getStatus().equals("SUBMITTED")) {
-					applicationsSubmitted.add(a);
-				}
-			}
+			//			final Collection<Application> applications = this.applicationService.findByHackerId(hackerId);
+			//
+			//			Collection<Application> applicationsPending = new ArrayList<Application>();
+			//			Collection<Application> applicationsRejected = new ArrayList<Application>();
+			//			Collection<Application> applicationsAccepted = new ArrayList<Application>();
+			//			Collection<Application> applicationsSubmitted = new ArrayList<Application>();
+			//
+			//			for (Application a : applications) {
+			//				if (a.getStatus().equals("PENDING")) {
+			//					applicationsPending.add(a);
+			//				} else if (a.getStatus().equals("ACCEPTED")) {
+			//					applicationsAccepted.add(a);
+			//				} else if (a.getStatus().equals("REJECTED")) {
+			//					applicationsRejected.add(a);
+			//				} else if (a.getStatus().equals("SUBMITTED")) {
+			//					applicationsSubmitted.add(a);
+			//				}
+			//			}
 
 			result = new ModelAndView("application/listHacker");
 			result.addObject("applicationsPending", applicationsPending);
@@ -91,10 +96,8 @@ public class ApplicationHackerController extends AbstractController {
 			result.addObject("applicationsAccepted", applicationsAccepted);
 			result.addObject("applicationsSubmitted", applicationsSubmitted);
 			result.addObject("requestURI", "application/hacker/list.do");
-			result.addObject("banner", this.configurationService.findAll()
-					.iterator().next().getBanner());
-			result.addObject("systemName", this.configurationService.findAll()
-					.iterator().next().getSystemName());
+			result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
+			result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		} catch (final Throwable e) {
 			result = new ModelAndView("redirect:/");
 		}
@@ -107,72 +110,61 @@ public class ApplicationHackerController extends AbstractController {
 		ModelAndView result;
 		final ApplicationForm applicationForm = new ApplicationForm();
 		Collection<Curricula> curriculas = new ArrayList<Curricula>();
-		Collection<Position> positions = positionService.findFinalMode();
+		final Collection<Position> positions = this.positionService.findFinalMode();
 		Hacker hacker = null;
 		try {
 			Assert.isTrue(!positions.isEmpty());
-			hacker = hackerService.findHackerByUseraccount(LoginService
-					.getPrincipal());
+			hacker = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
 			Assert.notNull(hacker);
-			curriculas = curriculaService.findNoCopies(hacker.getId());
+			curriculas = this.curriculaService.findNoCopies(hacker.getId());
 			Assert.isTrue(!curriculas.isEmpty());
 			applicationForm.setId(0);
 
 			result = this.createModelAndView(applicationForm);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/application/hacker/list.do");
-			if (hacker == null) {
+			if (hacker == null)
 				redirectAttrs.addFlashAttribute("message", "commit.error");
-			} else if (positions.isEmpty()) {
-				redirectAttrs.addFlashAttribute("message",
-						"application.error.NoPositions");
-			} else if (curriculas.isEmpty()) {
-				redirectAttrs.addFlashAttribute("message",
-						"application.error.NoCurricula");
-			}
+			else if (positions.isEmpty())
+				redirectAttrs.addFlashAttribute("message", "application.error.NoPositions");
+			else if (curriculas.isEmpty())
+				redirectAttrs.addFlashAttribute("message", "application.error.NoCurricula");
 		}
 		return result;
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final ApplicationForm applicationForm,
-			final BindingResult binding) {
+	public ModelAndView save(@Valid final ApplicationForm applicationForm, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
 			result = this.createModelAndView(applicationForm, "commit.error");
 		else
 			try {
-				Application application = this.applicationService.create(
-						applicationForm.getPosition().getId(), applicationForm
-								.getCurricula().getId());
+				Application application = this.applicationService.create(applicationForm.getPosition().getId(), applicationForm.getCurricula().getId());
 				application.setLinkAnswer(applicationForm.getLinkAnswer());
 				application.setTextAnswer(applicationForm.getTextAnswer());
 
 				application = this.applicationService.save(application);
 
-				result = new ModelAndView(
-						"redirect:/application/hacker/list.do");
+				result = new ModelAndView("redirect:/application/hacker/list.do");
 			} catch (final Throwable oops) {
-				result = this.createModelAndView(applicationForm,
-						"commit.error");
+				result = this.createModelAndView(applicationForm, "commit.error");
 			}
 		return result;
 	}
 
 	// EDIT
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(final int applicationId,
-			final RedirectAttributes redirectAttrs) {
+	public ModelAndView edit(final int applicationId, final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
 		final ApplicationForm applicationForm = new ApplicationForm();
 		Hacker hacker = null;
 		Application application = null;
 		try {
-			hacker = hackerService.findHackerByUseraccount(LoginService
-					.getPrincipal());
+			hacker = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
 			Assert.notNull(hacker);
-			application = applicationService.findOne(applicationId);
+			application = this.applicationService.findOne(applicationId);
 			Assert.notNull(application);
 			Assert.isTrue(application.getHacker().equals(hacker));
 			Assert.isTrue(application.getStatus().equals("PENDING"));
@@ -185,40 +177,33 @@ public class ApplicationHackerController extends AbstractController {
 			result = this.editModelAndView(applicationForm);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/application/hacker/list.do");
-			if (hacker == null) {
+			if (hacker == null)
 				redirectAttrs.addFlashAttribute("message", "commit.error");
-			} else if (application == null) {
-				redirectAttrs.addFlashAttribute("message",
-						"application.error.unexists");
-			} else if (!application.getHacker().equals(hacker)) {
-				redirectAttrs.addFlashAttribute("message",
-						"application.error.notYours");
-			} else if (!application.getStatus().equals("PENDING")) {
-				redirectAttrs.addFlashAttribute("message",
-						"application.error.notPending");
-			}
+			else if (application == null)
+				redirectAttrs.addFlashAttribute("message", "application.error.unexists");
+			else if (!application.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message", "application.error.notYours");
+			else if (!application.getStatus().equals("PENDING"))
+				redirectAttrs.addFlashAttribute("message", "application.error.notPending");
 		}
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save2(@Valid final ApplicationForm applicationForm,
-			final BindingResult binding) {
+	public ModelAndView save2(@Valid final ApplicationForm applicationForm, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
 			result = this.editModelAndView(applicationForm, "commit.error");
 		else
 			try {
-				Application application = this.applicationService
-						.findOne(applicationForm.getId());
+				Application application = this.applicationService.findOne(applicationForm.getId());
 				application.setLinkAnswer(applicationForm.getLinkAnswer());
 				application.setTextAnswer(applicationForm.getTextAnswer());
 
 				application = this.applicationService.save(application);
 
-				result = new ModelAndView(
-						"redirect:/application/hacker/list.do");
+				result = new ModelAndView("redirect:/application/hacker/list.do");
 			} catch (final Throwable oops) {
 				result = this.editModelAndView(applicationForm, "commit.error");
 			}
@@ -227,17 +212,15 @@ public class ApplicationHackerController extends AbstractController {
 
 	// DISPLAY
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(final int applicationId,
-			final RedirectAttributes redirectAttrs) {
+	public ModelAndView display(final int applicationId, final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
 		final ApplicationForm2 applicationForm = new ApplicationForm2();
 		Hacker hacker = null;
 		Application application = null;
 		try {
-			hacker = hackerService.findHackerByUseraccount(LoginService
-					.getPrincipal());
+			hacker = this.hackerService.findHackerByUseraccount(LoginService.getPrincipal());
 			Assert.notNull(hacker);
-			application = applicationService.findOne(applicationId);
+			application = this.applicationService.findOne(applicationId);
 			Assert.notNull(application);
 			Assert.isTrue(application.getHacker().equals(hacker));
 			applicationForm.setId(application.getId());
@@ -248,44 +231,35 @@ public class ApplicationHackerController extends AbstractController {
 			applicationForm.setCompany(application.getPosition().getCompany());
 			applicationForm.setHacker(application.getHacker());
 			applicationForm.setProblem(application.getProblem());
-			applicationForm.setPublicationMoment(application
-					.getPublicationMoment());
+			applicationForm.setPublicationMoment(application.getPublicationMoment());
 			applicationForm.setStatus(application.getStatus());
-			applicationForm.setSubmissionMoment(application
-					.getSubmissionMoment());
+			applicationForm.setSubmissionMoment(application.getSubmissionMoment());
 
 			result = this.displayModelAndView(applicationForm);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/application/hacker/list.do");
-			if (hacker == null) {
+			if (hacker == null)
 				redirectAttrs.addFlashAttribute("message", "commit.error");
-			} else if (application == null) {
-				redirectAttrs.addFlashAttribute("message",
-						"application.error.unexists");
-			} else if (!application.getHacker().equals(hacker)) {
-				redirectAttrs.addFlashAttribute("message",
-						"application.error.notYours");
-			}
+			else if (application == null)
+				redirectAttrs.addFlashAttribute("message", "application.error.unexists");
+			else if (!application.getHacker().equals(hacker))
+				redirectAttrs.addFlashAttribute("message", "application.error.notYours");
 		}
 		return result;
 	}
 
 	// MODEL
-	protected ModelAndView createModelAndView(
-			final ApplicationForm applicationForm) {
+	protected ModelAndView createModelAndView(final ApplicationForm applicationForm) {
 		ModelAndView result;
 		result = this.createModelAndView(applicationForm, null);
 		return result;
 	}
 
-	protected ModelAndView createModelAndView(
-			final ApplicationForm applicationForm, final String message) {
+	protected ModelAndView createModelAndView(final ApplicationForm applicationForm, final String message) {
 		final ModelAndView result;
 
-		Collection<Curricula> curriculas = curriculaService
-				.findNoCopies(hackerService.findHackerByUseraccount(
-						LoginService.getPrincipal()).getId());
-		Collection<Position> positions = positionService.findFinalMode();
+		final Collection<Curricula> curriculas = this.curriculaService.findNoCopies(this.hackerService.findHackerByUseraccount(LoginService.getPrincipal()).getId());
+		final Collection<Position> positions = this.positionService.findFinalMode();
 
 		result = new ModelAndView("application/create");
 
@@ -295,63 +269,48 @@ public class ApplicationHackerController extends AbstractController {
 		result.addObject("isRead", false);
 		result.addObject("curriculas", curriculas);
 		result.addObject("positions", positions);
-		result.addObject("banner", this.configurationService.findAll()
-				.iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll()
-				.iterator().next().getSystemName());
+		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(
-			final ApplicationForm applicationForm) {
+	protected ModelAndView editModelAndView(final ApplicationForm applicationForm) {
 		ModelAndView result;
 		result = this.editModelAndView(applicationForm, null);
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(
-			final ApplicationForm applicationForm, final String message) {
+	protected ModelAndView editModelAndView(final ApplicationForm applicationForm, final String message) {
 		final ModelAndView result;
 
 		result = new ModelAndView("application/edit");
 
 		result.addObject("message", message);
-		result.addObject(
-				"requestURI",
-				"application/hacker/edit.do?applicationId="
-						+ applicationForm.getId());
+		result.addObject("requestURI", "application/hacker/edit.do?applicationId=" + applicationForm.getId());
 		result.addObject("applicationForm", applicationForm);
 		result.addObject("isRead", false);
-		result.addObject("banner", this.configurationService.findAll()
-				.iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll()
-				.iterator().next().getSystemName());
+		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;
 	}
 
-	protected ModelAndView displayModelAndView(
-			final ApplicationForm2 applicationForm) {
+	protected ModelAndView displayModelAndView(final ApplicationForm2 applicationForm) {
 		ModelAndView result;
 		result = this.displayModelAndView(applicationForm, null);
 		return result;
 	}
 
-	protected ModelAndView displayModelAndView(
-			final ApplicationForm2 applicationForm, final String message) {
+	protected ModelAndView displayModelAndView(final ApplicationForm2 applicationForm, final String message) {
 		final ModelAndView result;
 
 		result = new ModelAndView("application/display");
 
 		result.addObject("message", message);
-		result.addObject("requestURI",
-				"application/hacker/display.do?applicationId="
-						+ applicationForm.getId());
+		result.addObject("requestURI", "application/hacker/display.do?applicationId=" + applicationForm.getId());
 		result.addObject("applicationForm", applicationForm);
 		result.addObject("isRead", true);
-		result.addObject("banner", this.configurationService.findAll()
-				.iterator().next().getBanner());
-		result.addObject("systemName", this.configurationService.findAll()
-				.iterator().next().getSystemName());
+		result.addObject("banner", this.configurationService.findAll().iterator().next().getBanner());
+		result.addObject("systemName", this.configurationService.findAll().iterator().next().getSystemName());
 		return result;
 	}
 }
